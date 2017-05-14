@@ -69,5 +69,10 @@ target/
 # temp folder
 temp
 
+# temp file
+#*#
+*~
+
 # NetEase music account info
 userInfo
+
