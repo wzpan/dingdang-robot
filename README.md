@@ -26,7 +26,7 @@ coming soon
 
 ## 插件
 
-完整的插件列表可以在 [这里](https://github.com/wzpan/dingdang/wiki) 找到。
+完整的插件列表可以在 [这里](https://github.com/wzpan/dingdang/wiki/plugins) 找到。
 
 ## 配置
 
