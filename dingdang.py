@@ -141,7 +141,8 @@ if __name__ == "__main__":
 
     print("*******************************************************")
     print("*             叮当 - 中文语音对话机器人               *")
-    print("*          (c) 2017 潘伟洲 <m@hahack.com>             *")    
+    print("*          (c) 2017 潘伟洲 <m@hahack.com>             *")
+    print("*   https://github.com/wzpan/dingdang-robot.git       *")    
     print("*******************************************************")
 
     logging.basicConfig()

@@ -33,11 +33,11 @@ class Brain(object):
         """
 
         logger = logging.getLogger(__name__)
-        locations = [dingdangpath.PLUGIN_PATH]
+        locations = [dingdangpath.PLUGIN_PATH, dingdangpath.CONTRIB_PATH]
         logger.debug("Looking for modules in: %s",
                      ', '.join(["'%s'" % location for location in locations]))
         modules = []
-        for finder, name, ispkg in pkgutil.iter_modules(locations):
+        for finder, name, ispkg in pkgutil.walk_packages(locations):
             try:
                 loader = finder.find_module(name)
                 mod = loader.load_module(name)
