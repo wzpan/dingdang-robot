@@ -27,7 +27,7 @@ coming soon
 ## 插件
 
 * [官方插件列表](https://github.com/wzpan/dingdang-robot/wiki/plugins)
-* [第三方插件列表](https://github.com/wzpan/dingdang-robot/wiki/user-contrib-plugins)
+* [第三方插件](https://github.com/wzpan/dingdang-contrib)
 
 ## 配置
 
