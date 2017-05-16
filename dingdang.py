@@ -46,8 +46,8 @@ class WechatBot(WXBot):
         # ignore the msg when handling modules
         if self.brain.handling:
             return
-        if msg['msg_type_id'] == 1:  # reply to self
-            if msg['content']['type'] == 0:  
+        if msg['msg_type_id'] == 1 and msg['to_user_id'] == self.my_account['UserName']:  # reply to self
+            if msg['content']['type'] == 0:
                 msg_data = msg['content']['data']
                 self.brain.query([msg_data], self)
             elif msg['content']['type'] == 4: # echo voice

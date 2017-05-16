@@ -56,7 +56,7 @@ class Brain(object):
                      else 0, reverse=True)
         return modules
 
-    def query(self, texts, wxBot=None):
+    def query(self, texts, wxbot=None):
         """
         Passes user input to the appropriate module, testing it against
         each candidate module's isValid function.
@@ -72,7 +72,7 @@ class Brain(object):
                                        "'%s'", text, module.__name__)
                     try:
                         handling = True
-                        module.handle(text, self.mic, self.profile)
+                        module.handle(text, self.mic, self.profile, wxbot)
                         handling = False
                     except Exception:
                         self._logger.error('Failed to execute module',

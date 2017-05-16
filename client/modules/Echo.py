@@ -3,13 +3,14 @@
 WORDS = [u"ECHO", u"CHUANHUA"]
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, wxbot=None):
     """
         Reports the current time based on the user's timezone.
 
         Arguments:
         text -- user-input, typically transcribed speech
         mic -- used to interact with the user (for both input and output)
+        wxBot -- wechat robot
         profile -- contains information related to the user (e.g., phone
                    number)
     """

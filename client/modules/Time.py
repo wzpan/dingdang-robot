@@ -7,7 +7,7 @@ from semantic.dates import DateService
 WORDS = [u"TIME", u"SHIJIAN", u"JIDIAN"]
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, wxbot=None):
     """
         Reports the current time based on the user's timezone.
 

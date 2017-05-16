@@ -15,7 +15,7 @@ def need_robot(profile):
     return False
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, wxbot=None):
     """
     Reports that the user has unclear or unusable input.
 
@@ -27,7 +27,7 @@ def handle(text, mic, profile):
     """
     if need_robot(profile):
         robot = get_robot_by_slug("tuling")
-        robot.get_instance(mic, profile).chat(text)
+        robot.get_instance(mic, profile, wxbot).chat(text)
     else:
         messages = [u"抱歉，您能再说一遍吗？",
                     u"听不清楚呢，可以再为我说一次吗？",

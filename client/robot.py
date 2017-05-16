@@ -3,7 +3,7 @@ import requests
 import json
 import logging
 from uuid import getnode as get_mac
-from app_utils import emailUser
+from app_utils import sendToUser
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -15,9 +15,10 @@ class AbstractRobot(object):
     __metaclass__ = ABCMeta
 
     @classmethod
-    def get_instance(cls, mic, profile):
-        instance = cls(mic, profile)
+    def get_instance(cls, mic, profile, wxbot=None):
+        instance = cls(mic, profile, wxbot)
         cls.mic = mic
+        cls.wxbot = wxbot
         return instance
 
     def __init__(self, **kwargs):
@@ -32,13 +33,14 @@ class TulingRobot(AbstractRobot):
 
     SLUG = "tuling"
 
-    def __init__(self, mic, profile):
+    def __init__(self, mic, profile, wxbot=None):
         """
         图灵机器人
         """
         super(self.__class__, self).__init__()        
         self.mic = mic
         self.profile = profile
+        self.wxbot = wxbot
         self.tuling_key = self.get_key()
 
     def get_key(self):
@@ -77,13 +79,18 @@ class TulingRobot(AbstractRobot):
             else:
                 result = respond['text'].replace('<br>', '  ')
                 result = result.replace(u'\xa0', u' ')
-            if len(result) > 100 and self.profile['read_long_content'] != None \
+            if len(result) > 200 and self.profile['read_long_content'] != None \
                and not self.profile['read_long_content']:
-                self.mic.say(u'一言难尽啊，我给您发邮件吧')
-                if emailUser(self.profile, u'回答%s' % msg, result):
-                    self.mic.say(u'邮件发送成功！')
+                send_type = 0  # 邮件
+                target = '邮件'
+                if self.wxbot != None and self.wxbot.my_account != {} and not self.profile['prefers_email']:
+                    send_type = 1  # 微信
+                    target = '微信'
+                self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
+                if sendToUser(self.profile, self.wxbot, send_type, u'回答%s' % msg, result):
+                    self.mic.say(u'%s发送成功！' % target)
                 else:
-                    self.mic.say(u'抱歉，邮件发送失败了！')
+                    self.mic.say(u'抱歉，%s发送失败了！' % target)
             else:
                 self.mic.say(result)
         except Exception:

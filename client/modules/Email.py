@@ -86,7 +86,7 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
     return msgs
 
 
-def handle(text, mic, profile):
+def handle(text, mic, profile, wxbot=None):
     """
         Responds to user-input, typically speech text, with a summary of
         the user's email inbox, reporting on the number of unread emails
