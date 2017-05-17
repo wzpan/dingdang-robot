@@ -79,7 +79,10 @@ class TulingRobot(AbstractRobot):
             else:
                 result = respond['text'].replace('<br>', '  ')
                 result = result.replace(u'\xa0', u' ')
-            if len(result) > 200 and self.profile['read_long_content'] != None \
+            max_length = 200
+            if 'max_length' in self.profile:
+                max_length = self.profile['max_length']
+            if len(result) > max_length and self.profile['read_long_content'] != None \
                and not self.profile['read_long_content']:
                 target = '邮件'
                 if self.wxbot != None and self.wxbot.my_account != {} and not self.profile['prefers_email']:

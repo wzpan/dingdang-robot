@@ -64,7 +64,11 @@ def handle(text, mic, profile, wxbot=None):
         if sound and count_down > 0:
             mic.say(u"收到，%d秒后启动拍照" % count_down)
         process = subprocess.Popen(command)
-        process.wait()
+        res = process.wait()
+        if res != 0:
+            if sound:
+                mic.say(u"拍照失败，请检查相机是否连接正确")
+            return
         if sound:
             mic.play(mic.dingdangpath.data('audio', 'camera.wav'))
         # send to user
@@ -73,7 +77,7 @@ def handle(text, mic, profile, wxbot=None):
             if wxbot != None and wxbot.my_account != {} and ('prefers_email' not in profile or not profile['prefers_email']):
                 target = '微信'
             if sound:
-                mic.say(u'正在发送照片到您的%s' % target)
+                mic.say(u'拍照成功！正在发送照片到您的%s' % target)
             if sendToUser(profile, wxbot, u"这是刚刚为您拍摄的照片", "", [], [dest_file]):
                 if sound:
                     mic.say(u'发送成功')
