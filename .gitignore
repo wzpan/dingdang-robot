@@ -70,9 +70,11 @@ target/
 temp
 
 # temp file
+#*.*#
 #*#
+\#*#
 *~
+.#*.*
 
 # NetEase music account info
 userInfo
-

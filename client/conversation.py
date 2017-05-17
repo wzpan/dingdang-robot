@@ -13,6 +13,7 @@ class Conversation(object):
         self.profile = profile
         self.brain = Brain(mic, profile)        
         self.notifier = Notifier(profile)
+        self.wxbot = None
 
     def handleForever(self):
         """
@@ -25,6 +26,7 @@ class Conversation(object):
             notifications = self.notifier.getAllNotifications()
             for notif in notifications:
                 self._logger.info("Received notification: '%s'", str(notif))
+                self.mic.say(str(notif))
 
             self._logger.debug("Started listening for keyword '%s'",
                                self.persona)
@@ -44,6 +46,6 @@ class Conversation(object):
                                threshold)
 
             if input:
-                self.brain.query(input)
+                self.brain.query(input, self.wxbot)
             else:
                 self.mic.say("什么?")

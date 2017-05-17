@@ -81,13 +81,11 @@ class TulingRobot(AbstractRobot):
                 result = result.replace(u'\xa0', u' ')
             if len(result) > 200 and self.profile['read_long_content'] != None \
                and not self.profile['read_long_content']:
-                send_type = 0  # 邮件
                 target = '邮件'
                 if self.wxbot != None and self.wxbot.my_account != {} and not self.profile['prefers_email']:
-                    send_type = 1  # 微信
                     target = '微信'
                 self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
-                if sendToUser(self.profile, self.wxbot, send_type, u'回答%s' % msg, result):
+                if sendToUser(self.profile, self.wxbot, u'回答%s' % msg, result):
                     self.mic.say(u'%s发送成功！' % target)
                 else:
                     self.mic.say(u'抱歉，%s发送失败了！' % target)

@@ -2,9 +2,7 @@
 import smtplib
 from email.MIMEText import MIMEText
 from email.MIMEMultipart import MIMEMultipart  
-import urllib2
 import logging
-import re
 import os
 from pytz import timezone
 
@@ -82,25 +80,32 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
         return False
 
 
-def wechatUser(profile, wxbot, SUBJECT="", BODY="", ATTACH_LIST=[]):
+def wechatUser(profile, wxbot, SUBJECT="", BODY="", ATTACH_LIST=[], IMAGE_LIST=[]):
+    _logger = logging.getLogger(__name__)
     if wxbot != None and wxbot.my_account != {}:
         try:
             # send message
             user_id = wxbot.my_account['UserName']
             wxbot.send_msg_by_uid(SUBJECT + "\n" + BODY, user_id)
             for fpath in ATTACH_LIST:
-                wxbot.send_file(fpath, user_id)
+                wxbot.send_file_msg_by_uid(fpath, user_id)
+            for fpath in IMAGE_LIST:
+                wxbot.send_img_msg_by_uid(fpath, user_id)
+            return True
             return True
         except Exception, e:
             _logger.error(e)
             return False
     return False
 
-def sendToUser(profile, wxbot, send_type, SUBJECT="", BODY="", ATTACH_LIST=[]):
+def sendToUser(profile, wxbot, SUBJECT="", BODY="", ATTACH_LIST=[], IMAGE_LIST=[]):
+    send_type = 0
+    if wxbot != None and wxbot.my_account != {} and ('prefers_email' not in profile or not profile['prefers_email']):
+        send_type = 1
     if send_type == 0:
         return emailUser(profile, SUBJECT, BODY, ATTACH_LIST)
     else:
-        return wechatUser(profile, wxbot, SUBJECT, BODY, ATTACH_LIST)
+        return wechatUser(profile, wxbot, SUBJECT, BODY, ATTACH_LIST, IMAGE_LIST)
 
 def getTimezone(profile):
     """

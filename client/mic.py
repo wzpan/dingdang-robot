@@ -30,6 +30,7 @@ class Mic:
         self.speaker = speaker
         self.passive_stt_engine = passive_stt_engine
         self.active_stt_engine = active_stt_engine
+        self.dingdangpath = dingdangpath
         self._logger.info("Initializing PyAudio. ALSA/Jack error messages " +
                           "that pop up during this process are normal and " +
                           "can usually be safely ignored.")
@@ -78,13 +79,15 @@ class Mic:
                 lastN.append(self.getScore(data))
                 average = sum(lastN) / len(lastN)
                 
-            except Exception:
+            except Exception, e:
+                self._logger.warning(e)
                 continue
             
         try:
             stream.stop_stream()
             stream.close()
-        except Exception:
+        except Exception, e:
+            self._logger.warning(e)
             pass
 
         # this will be the benchmark to cause a disturbance over!
@@ -141,7 +144,8 @@ class Mic:
 
                 # flag raised when sound disturbance detected
                 didDetect = False
-            except Exception:
+            except Exception, e:
+                self._logger.warning(e)
                 pass
 
         # start passively listening for disturbance above threshold
@@ -155,7 +159,8 @@ class Mic:
                 if score > THRESHOLD:
                     didDetect = True
                     break
-            except Exception:
+            except Exception, e:
+                self._logger.warning(e)
                 continue
 
         # no use continuing if no flag raised
@@ -164,7 +169,8 @@ class Mic:
             try:
                 stream.stop_stream()
                 stream.close()
-            except Exception:
+            except Exception, e:
+                self._logger.warning(e)
                 pass
             return (None, None)
 
@@ -178,14 +184,16 @@ class Mic:
             try:
                 data = stream.read(CHUNK)
                 frames.append(data)
-            except Exception:
+            except Exception, e:
+                self._logger.warning(e)
                 continue
 
         # save the audio data
         try:
             stream.stop_stream()
             stream.close()
-        except:
+        except Exception, e:
+            self._logger.warning(e)
             pass
 
         with tempfile.NamedTemporaryFile(mode='w+b') as f:
@@ -260,7 +268,8 @@ class Mic:
                 # TODO: 0.8 should not be a MAGIC NUMBER!
                 if average < THRESHOLD * 0.8:
                     break
-            except Exception:
+            except Exception, e:
+                self._logger.warning(e)
                 continue
 
         self.speaker.play(dingdangpath.data('audio', 'beep_lo.wav'))
@@ -269,7 +278,8 @@ class Mic:
         try:
             stream.stop_stream()
             stream.close()
-        except Exception:
+        except Exception, e:
+            self._logger.warning(e)
             pass
 
         with tempfile.SpooledTemporaryFile(mode='w+b') as f:

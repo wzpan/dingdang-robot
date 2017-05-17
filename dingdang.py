@@ -131,6 +131,7 @@ class Dingdang(object):
             self.wxBot = WechatBot(conversation.brain)
             self.wxBot.DEBUG = True
             self.wxBot.conf['qr'] = 'tty'
+            conversation.wxbot = self.wxBot
             t = threading.Thread(target=self.start_wxbot)
             t.start()
        
