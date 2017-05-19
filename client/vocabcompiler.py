@@ -1,6 +1,6 @@
 # -*- coding: utf-8-*-
 """
-Iterates over all the WORDS variables in the modules and creates a
+Iterates over all the WORDS variables in the plugins and creates a
 vocabulary for the respective stt_engine if needed.
 """
 
@@ -23,7 +23,7 @@ from g2p import PhonetisaurusG2P
 try:
     import cmuclmtk
 except ImportError:
-    logging.getLogger(__name__).error("Error importing CMUCLMTK module. " +
+    logging.getLogger(__name__).error("Error importing CMUCLMTK plugin. " +
                                       "PocketsphinxVocabulary will not work " +
                                       "correctly.", exc_info=True)
 
@@ -476,17 +476,17 @@ class JuliusVocabulary(AbstractVocabulary):
         shutil.rmtree(tmpdir)
 
 
-def get_phrases_from_module(module):
+def get_phrases_from_plugin(plugin):
     """
-    Gets phrases from a module.
+    Gets phrases from a plugin.
 
     Arguments:
-        module -- a module reference
+        plugin -- a plugin reference
 
     Returns:
-        The list of phrases in this module.
+        The list of phrases in this plugin.
     """
-    return module.WORDS if hasattr(module, 'WORDS') else []
+    return plugin.WORDS if hasattr(plugin, 'WORDS') else []
 
 
 def get_keyword_phrases():
@@ -509,17 +509,17 @@ def get_keyword_phrases():
 
 def get_all_phrases():
     """
-    Gets phrases from all modules.
+    Gets phrases from all plugins.
 
     Returns:
-        A list of phrases in all modules plus additional phrases passed to this
+        A list of phrases in all plugins plus additional phrases passed to this
         function.
     """
     phrases = []
 
-    modules = brain.Brain.get_modules()
-    for module in modules:
-        phrases.extend(get_phrases_from_module(module))
+    plugins = brain.Brain.get_plugins()
+    for plugin in plugins:
+        phrases.extend(get_phrases_from_plugin(plugin))
 
     return sorted(list(set(phrases)))
 
@@ -538,7 +538,7 @@ if __name__ == '__main__':
     base_dir = args.base_dir if args.base_dir else tempfile.mkdtemp()
 
     phrases = get_all_phrases()
-    print("Module phrases:    %r" % phrases)
+    print("Plugin phrases:    %r" % phrases)
 
     for subclass in AbstractVocabulary.__subclasses__():
         if hasattr(subclass, 'PATH_PREFIX'):

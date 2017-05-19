@@ -16,7 +16,7 @@
 
 ## 硬件要求
 
-* Raspberry Pi 1～3 代；
+* Raspberry Pi 全系列；
 * 能兼容 Raspberry Pi 的 USB 麦克风（建议选购全向麦克风）；
 * 能兼容 Raspberry Pi 的音箱。
 
@@ -40,6 +40,8 @@ coming soon
 http://config.mail.163.com/settings/imap/index.jsp?uid=账户名@163.com
 
 ## 贡献
+
+coming soon
 
 ## 联系
 

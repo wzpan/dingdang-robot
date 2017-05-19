@@ -43,7 +43,7 @@ class WechatBot(WXBot):
         self.brain = brain
 
     def handle_msg_all(self, msg):
-        # ignore the msg when handling modules
+        # ignore the msg when handling plugins
         if self.brain.handling:
             return
         if msg['msg_type_id'] == 1 and msg['to_user_id'] == self.my_account['UserName']:  # reply to self

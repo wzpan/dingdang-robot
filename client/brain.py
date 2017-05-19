@@ -8,8 +8,8 @@ class Brain(object):
     def __init__(self, mic, profile):
         """
         Instantiates a new Brain object, which cross-references user
-        input with a list of modules. Note that the order of brain.modules
-        matters, as the Brain will cease execution on the first module
+        input with a list of plugins. Note that the order of brain.plugins
+        matters, as the Brain will cease execution on the first plugin
         that accepts a given input.
 
         Arguments:
@@ -20,71 +20,71 @@ class Brain(object):
 
         self.mic = mic
         self.profile = profile
-        self.modules = self.get_modules()
+        self.plugins = self.get_plugins()
         self._logger = logging.getLogger(__name__)
         self.handling = False
 
     @classmethod
-    def get_modules(cls):
+    def get_plugins(cls):
         """
-        Dynamically loads all the modules in the modules folder and sorts
+        Dynamically loads all the plugins in the plugins folder and sorts
         them by the PRIORITY key. If no PRIORITY is defined for a given
-        module, a priority of 0 is assumed.
+        plugin, a priority of 0 is assumed.
         """
 
         logger = logging.getLogger(__name__)
         locations = [dingdangpath.PLUGIN_PATH, dingdangpath.CONTRIB_PATH]
-        logger.debug("Looking for modules in: %s",
+        logger.debug("Looking for plugins in: %s",
                      ', '.join(["'%s'" % location for location in locations]))
-        modules = []
+        plugins = []
         for finder, name, ispkg in pkgutil.walk_packages(locations):
             try:
                 loader = finder.find_module(name)
                 mod = loader.load_module(name)
             except:
-                logger.warning("Skipped module '%s' due to an error.", name,
+                logger.warning("Skipped plugin '%s' due to an error.", name,
                                exc_info=True)
             else:
                 if hasattr(mod, 'WORDS'):
-                    logger.debug("Found module '%s' with words: %r", name,
+                    logger.debug("Found plugin '%s' with words: %r", name,
                                  mod.WORDS)
-                    modules.append(mod)
+                    plugins.append(mod)
                 else:
-                    logger.warning("Skipped module '%s' because it misses " +
+                    logger.warning("Skipped plugin '%s' because it misses " +
                                    "the WORDS constant.", name)
-        modules.sort(key=lambda mod: mod.PRIORITY if hasattr(mod, 'PRIORITY')
+        plugins.sort(key=lambda mod: mod.PRIORITY if hasattr(mod, 'PRIORITY')
                      else 0, reverse=True)
-        return modules
+        return plugins
 
     def query(self, texts, wxbot=None):
         """
-        Passes user input to the appropriate module, testing it against
-        each candidate module's isValid function.
+        Passes user input to the appropriate plugin, testing it against
+        each candidate plugin's isValid function.
 
         Arguments:
-        text -- user input, typically speech, to be parsed by a module
+        text -- user input, typically speech, to be parsed by a plugin
         send_wechat -- also send the respondsed result to wechat
         """
-        for module in self.modules:
+        for plugin in self.plugins:
             for text in texts:
-                if module.isValid(text):
-                    self._logger.debug("'%s' is a valid phrase for module " +
-                                       "'%s'", text, module.__name__)
+                if plugin.isValid(text):
+                    self._logger.debug("'%s' is a valid phrase for plugin " +
+                                       "'%s'", text, plugin.__name__)
                     try:
                         handling = True
-                        module.handle(text, self.mic, self.profile, wxbot)
+                        plugin.handle(text, self.mic, self.profile, wxbot)
                         handling = False
                     except Exception:
-                        self._logger.error('Failed to execute module',
+                        self._logger.error('Failed to execute plugin',
                                            exc_info=True)
                         reply = u"抱歉，我的大脑出故障了，晚点再试试吧"
                         self.mic.say(reply)
                     else:
                         self._logger.debug("Handling of phrase '%s' by " +
-                                           "module '%s' completed", text,
-                                           module.__name__)
+                                           "plugin '%s' completed", text,
+                                           plugin.__name__)
                     finally:
                         return
-        self._logger.debug("No module was able to handle any of these " +
+        self._logger.debug("No plugin was able to handle any of these " +
                            "phrases: %r", texts)
         
