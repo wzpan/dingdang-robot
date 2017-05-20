@@ -80,4 +80,4 @@ temp
 userInfo
 
 # wget log
-wget*-log
+wget-log*
