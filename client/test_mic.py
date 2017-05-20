@@ -2,7 +2,7 @@
 """
 A drop-in replacement for the Mic class used during unit testing.
 Designed to take pre-arranged inputs as an argument and store any
-outputs for inspection. Requires a populated profile (profile.yml).
+outputs for inspection. Requires a profile (profile.yml).
 """
 
 
