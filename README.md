@@ -51,11 +51,17 @@
 
 * [下载地址](https://github.com/wzpan/dingdang-robot/wiki/changelog)
 
-之后使用 `md5sum` 命令或其他 MD5 校验工具校验镜像的 MD5 值是否和下载页中的 MD5 值一致。
+下载下来是一个 .gzip 压缩文件。建议先使用 `md5sum` 命令或其他 MD5 校验工具校验镜像的 MD5 值是否和下载页中的 MD5 值一致。
 
 > 温馨提示：请务必使用官方提供的镜像下载地址，不要下载使用来历不明的镜像。在安装镜像前，强烈建议先校验下镜像 MD5 值，避免镜像被篡改，植入恶意程序。
 
-之后参考 [安装 Raspbian 镜像](https://www.raspberrypi.org/documentation/installation/) 的方法刷入镜像到内存卡中。
+之后将其解压：
+
+``` sh
+gzip -d dingdang-*.gzip
+```
+
+最后参考 [安装 Raspbian 镜像](https://www.raspberrypi.org/documentation/installation/) 的方法刷入镜像到内存卡中。
 
 ### 手动安装
 
