@@ -101,7 +101,7 @@ python dingdang.py
 ## 联系
 
 * 叮当的主要开发者是 [潘伟洲](http://hahack.com) 。
-* QQ 群：coming song
+* QQ 群：580447290
 
 ## 感谢
 
