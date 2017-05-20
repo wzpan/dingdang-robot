@@ -2,7 +2,8 @@
 =============
 
 [![GitHub release](https://img.shields.io/github/release/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
-[![label](https://img.shields.io/github/issues-raw/badges/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
+[![GitHub issues](https://img.shields.io/github/issues/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
 [![license](https://img.shields.io/github/license/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
 
 叮当是一款可以工作在 Raspberry Pi 上的开源中文语音对话机器人/智能音箱项目，目的是让中国的Hacker们也能快速打造个性化的智能音箱。
