@@ -22,6 +22,7 @@ import urlparse
 import requests
 import threading
 from abc import ABCMeta, abstractmethod
+from uuid import getnode as get_mac
 
 import argparse
 import yaml
@@ -439,17 +440,15 @@ class BaiduTTS(AbstractMp3TTSEngine):
         baidu_yuyin: 'AIzaSyDoHmTEToZUQrltmORWS4Ott0OHVA62tw8'
             api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
             secret_key: '14dbd10057xu7b256e537455698c0e4e'
-            cuid: 'xx-xx-xx-xx-xx-xx' # your mac address
         ...
     """
 
     SLUG = "baidu-tts"
 
-    def __init__(self, api_key, secret_key, cuid, per=0):
+    def __init__(self, api_key, secret_key, per=0):
         self._logger = logging.getLogger(__name__)
         self.api_key = api_key
         self.secret_key = secret_key
-        self.cuid = cuid
         self.per = per
 
     @classmethod
@@ -468,9 +467,6 @@ class BaiduTTS(AbstractMp3TTSEngine):
                     if 'secret_key' in profile['baidu_yuyin']:
                         config['secret_key'] = \
                             profile['baidu_yuyin']['secret_key']
-                    if 'cuid' in profile['baidu_yuyin']:
-                        config['cuid'] = \
-                            profile['baidu_yuyin']['cuid']
                     if 'per' in profile['baidu_yuyin']:
                         config['per'] = \
                             profile['baidu_yuyin']['per']
@@ -510,7 +506,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
                  'lan': 'zh',
                  'tok': self.get_token(),
                  'ctp': 1,
-                 'cuid': self.cuid,
+                 'cuid': str(get_mac())[:32],
                  'per': self.per
                  }
         r = requests.post('http://tsn.baidu.com/text2audio',

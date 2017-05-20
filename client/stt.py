@@ -16,7 +16,7 @@ import yaml
 import dingdangpath
 import diagnose
 import vocabcompiler
-from uuid import getnode as mac
+from uuid import getnode as get_mac
 
 import sys
 
@@ -200,17 +200,15 @@ class BaiduSTT(AbstractSTTEngine):
         baidu_yuyin: 'AIzaSyDoHmTEToZUQrltmORWS4Ott0OHVA62tw8'
             api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
             secret_key: '14dbd10057xu7b256e537455698c0e4e'
-            cuid: 'xx-xx-xx-xx-xx-xx' # your mac address
         ...
     """
 
     SLUG = "baidu-stt"
 
-    def __init__(self, api_key, secret_key, cuid):
+    def __init__(self, api_key, secret_key):
         self._logger = logging.getLogger(__name__)
         self.api_key = api_key
         self.secret_key = secret_key
-        self.cuid = cuid
 
     @classmethod
     def get_config(cls):
@@ -228,9 +226,6 @@ class BaiduSTT(AbstractSTTEngine):
                     if 'secret_key' in profile['baidu_yuyin']:
                         config['secret_key'] = \
                             profile['baidu_yuyin']['secret_key']
-                    if 'cuid' in profile['baidu_yuyin']:
-                        config['cuid'] = \
-                            profile['baidu_yuyin']['cuid']
         return config
 
     def get_token(self):
@@ -267,7 +262,7 @@ class BaiduSTT(AbstractSTTEngine):
                 "len": len(audio),
                 "rate": frame_rate,
                 "speech": base_data,
-                "cuid": self.cuid,
+                "cuid": str(get_mac())[:32],
                 "channel": 1}
         data = json.dumps(data)
         r = requests.post('http://vop.baidu.com/server_api',
