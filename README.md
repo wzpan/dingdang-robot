@@ -119,11 +119,11 @@ python dingdang.py
 
 * 为什么取名为“叮当”？
 
-  - 我一开始有多个候选唤醒词，但我发现”叮当“在离线唤醒词中准确率最高。所以取名为“叮当”。
+  - 我一开始有多个候选唤醒词，但我发现”叮当“在离线唤醒词中准确率最高。所以取名为“叮当”。
   
 * 我想了解你的系统镜像都做了哪些定制？
 
-  - 请参见 [dingdang 镜像与 Raspbian 系统的区别](https://github.com/wzpan/dingdang-robot/wiki/different-with-raspbian) 。
+  - 请参见 [dingdang 镜像与 Raspbian 系统的区别](https://github.com/wzpan/dingdang-robot/wiki/different-with-raspbian) 。
 
 ## 免责声明
 
