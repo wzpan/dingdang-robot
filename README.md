@@ -29,7 +29,7 @@
 
 推荐使用镜像安装的方式，像安装 Raspbian 系统一样，安装完后，只需要少量的配置即可立即使用叮当机器人。
 
-首先到 [下载](https://github.com/wzpan/dingdang-robot/wiki/changelog) 页下载最新版本的镜像。
+* [下载地址](https://github.com/wzpan/dingdang-robot/wiki/changelog)
 
 之后使用 `md5sum` 命令或其他 MD5 校验工具校验镜像的 MD5 值是否和下载页中的 MD5 值一致。
 
