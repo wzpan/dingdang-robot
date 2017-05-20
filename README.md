@@ -18,11 +18,28 @@
 
 * Raspberry Pi 全系列；
 * 能兼容 Raspberry Pi 的 USB 麦克风（建议选购全向麦克风）；
-* 能兼容 Raspberry Pi 的音箱。
+* 能兼容 Raspberry Pi 的音箱；
+* 至少 8G 的 Micro-SD 内存卡；
+* 摄像头（可选，用于拍照）。
+* 读卡器（可选，用于刷镜像进内存卡）。
 
 ## 安装
 
-coming soon
+### 镜像安装
+
+推荐使用镜像安装的方式，像安装 Raspbian 系统一样，安装完后，只需要少量的配置即可立即使用叮当机器人。
+
+首先到 [下载](https://github.com/wzpan/dingdang-robot/wiki/changelog) 页下载最新版本的镜像。
+
+之后使用 `md5sum` 命令或其他 MD5 校验工具校验镜像的 MD5 值是否和下载页中的 MD5 值一致。
+
+> 温馨提示：请务必使用官方提供的镜像下载地址，不要下载使用来历不明的镜像。在安装镜像前，强烈建议先校验下镜像 MD5 值，避免镜像被篡改，植入恶意程序。
+
+之后参考 [安装 Raspbian 镜像](https://www.raspberrypi.org/documentation/installation/) 的方法刷入镜像到内存卡中。
+
+### 手动安装
+
+见 [手动安装](https://github.com/wzpan/dingdang-robot/wiki/install)。
 
 ## 插件
 
@@ -31,23 +48,24 @@ coming soon
 
 ## 配置
 
-coming soon
-
-### 邮件收发
-
-允许使用叮当收发163邮件：
-
-http://config.mail.163.com/settings/imap/index.jsp?uid=账户名@163.com
+请参考 [配置](https://github.com/wzpan/dingdang-robot/wiki/configuration) 。
 
 ## 贡献
 
-coming soon
+* 提 bug 请到 [issue 页面](https://github.com/wzpan/dingdang-robot/issues)；
+* 要贡献代码，欢迎 fork 之后再提 pull request；
+* 插件请提交到 [dingdang-contrib](https://github.com/wzpan/dingdang-contrib) 。
 
 ## 联系
 
-叮当的主要开发者是 [潘伟洲](http://hahack.com) 。
+* 叮当的主要开发者是 [潘伟洲](http://hahack.com) 。
+* QQ 群：coming song
 
 ## 感谢
 
 * 叮当的前身是 [jasper-client](https://github.com/jasperproject/jasper-client)。感谢 [Shubhro Saha](http://www.shubhro.com/), [Charles Marsh](http://www.crmarsh.com/) and [Jan Holthuis](http://homepage.ruhr-uni-bochum.de/Jan.Holthuis/) 在 Jasper 项目上做出的优秀贡献；
 * 微信机器人使用的是 [liuwons](http://lwons.com/) 的 [wxBot](https://github.com/liuwons/wxBot)。
+
+## 免责声明
+
+叮当只用作个人学习研究，如因使用叮当导致任何损失，本人概不负责。
