@@ -15,6 +15,7 @@
 * [安装](#安装)
 * [升级](#升级)
 * [配置](#配置)
+* [运行](#运行)
 * [插件](#插件)
 * [贡献](#贡献)
 * [联系](#联系)
@@ -70,6 +71,14 @@ git pull
 ## 配置
 
 请参考 [配置](https://github.com/wzpan/dingdang-robot/wiki/configuration) 。
+
+## 运行
+
+``` sh
+python dingdang.py
+```
+
+建议在 tmux 中执行。
 
 ## 插件
 
