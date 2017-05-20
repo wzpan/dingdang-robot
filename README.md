@@ -8,6 +8,20 @@
 
 叮当是一款可以工作在 Raspberry Pi 上的开源中文语音对话机器人/智能音箱项目，目的是让中国的Hacker们也能快速打造个性化的智能音箱。
 
+## Table of Contents
+
+* [特性](#特性)
+* [硬件要求](#硬件要求)
+* [安装](#安装)
+* [升级](#升级)
+* [配置](#配置)
+* [插件](#插件)
+* [贡献](#贡献)
+* [联系](#联系)
+* [感谢](#感谢)
+* [FAQ](#faq)
+* [免责声明](#免责声明)
+
 ## 特性
 
 叮当包括以下诸多特性：
@@ -46,14 +60,22 @@
 
 见 [手动安装](https://github.com/wzpan/dingdang-robot/wiki/install)。
 
+## 升级
+
+``` sh
+cd /home/pi/dingdang
+git pull
+```
+
+## 配置
+
+请参考 [配置](https://github.com/wzpan/dingdang-robot/wiki/configuration) 。
+
 ## 插件
 
 * [官方插件列表](https://github.com/wzpan/dingdang-robot/wiki/plugins)
 * [第三方插件](https://github.com/wzpan/dingdang-contrib)
 
-## 配置
-
-请参考 [配置](https://github.com/wzpan/dingdang-robot/wiki/configuration) 。
 
 ## 贡献
 
