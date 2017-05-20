@@ -78,3 +78,6 @@ temp
 
 # NetEase music account info
 userInfo
+
+# wget log
+wget*-log

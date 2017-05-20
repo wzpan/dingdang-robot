@@ -2,7 +2,7 @@
 import logging
 from notifier import Notifier
 from brain import Brain
-
+import time
 
 class Conversation(object):
 
@@ -15,6 +15,29 @@ class Conversation(object):
         self.notifier = Notifier(profile)
         self.wxbot = None
 
+    def is_proper_time(self):
+        """
+        whether it's the proper time to gather notifications without disturb user
+        """
+        if 'do_not_bother' not in self.profile:
+            return True
+        else:
+            if self.profile['do_not_bother']['enable']:
+                if 'since' not in self.profile['do_not_bother'] or \
+                   'till' not in self.profile['do_not_bother']:
+                    return True
+                else:
+                    since = self.profile['do_not_bother']['since']
+                    till = self.profile['do_not_bother']['till']
+                    current = time.localtime(time.time()).tm_hour
+                    if till > since:
+                        return not current in range(since, till)
+                    else:
+                        return not (current in range(since, 25) or current in range(-1, till))
+            else:
+                return True
+                    
+
     def handleForever(self):
         """
         Delegates user input to the handling function when activated.
@@ -23,10 +46,11 @@ class Conversation(object):
                           self.persona)
         while True:
             # Print notifications until empty
-            notifications = self.notifier.getAllNotifications()
-            for notif in notifications:
-                self._logger.info("Received notification: '%s'", str(notif))
-                self.mic.say(str(notif))
+            if self.is_proper_time():
+                notifications = self.notifier.getAllNotifications()
+                for notif in notifications:
+                    self._logger.info("Received notification: '%s'", str(notif))
+                    self.mic.say(str(notif))
 
             self._logger.debug("Started listening for keyword '%s'",
                                self.persona)
