@@ -71,6 +71,20 @@
 * 叮当的前身是 [jasper-client](https://github.com/jasperproject/jasper-client)。感谢 [Shubhro Saha](http://www.shubhro.com/), [Charles Marsh](http://www.crmarsh.com/) and [Jan Holthuis](http://homepage.ruhr-uni-bochum.de/Jan.Holthuis/) 在 Jasper 项目上做出的优秀贡献；
 * 微信机器人使用的是 [liuwons](http://lwons.com/) 的 [wxBot](https://github.com/liuwons/wxBot)。
 
+## FAQ
+
+* 我能否更换成其他唤醒词，而不叫而不是叫”叮当“？
+
+  - 能。参见 [修改唤醒词](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E9%85%8D%E7%BD%AE%E9%BA%A6%E5%85%8B%E9%A3%8E) 。
+
+* 百度不太能够准确识别我的指令，怎么办？
+
+  - 参见 [优化百度语音识别准确度](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E4%BC%98%E5%8C%96%E7%99%BE%E5%BA%A6%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E5%87%86%E7%A1%AE%E5%BA%A6) 。
+
+* 为什么取名为”叮当“？
+
+  - 我一开始有多个候选唤醒词，但我发现”叮当“在离线唤醒词中准确率最高。所以取名为”叮当“。
+
 ## 免责声明
 
 叮当只用作个人学习研究，如因使用叮当导致任何损失，本人概不负责。
