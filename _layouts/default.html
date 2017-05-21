@@ -67,21 +67,6 @@
             "videoSrc":"http://gslb.miaopai.com/stream/A9UpjG1HHBsEUMsHTRVV35KqXySh6t1R.mp4?ssig=b8db97db804f4d507ff50ae194190a04&time_stamp=1495378211748&cookie_id=&vend=1&os=3&partner=1&platform=2&cookie_id=&refer=miaopai&scid=A9UpjG1HHBsEUMsHTRVV35KqXySh6t1R",
             "poster":"http://bsyimg6.cdn.krcom.cn/stream/A9UpjG1HHBsEUMsHTRVV35KqXySh6t1R_m.jpg"
         });
-    //下载分块儿滚动固定
-    var top1=$('.cotentRight').offset().top;
-    var left1=$('.cotentRight').offset().left;
-    var footerHeg=$('.footer').offset().top;
-    var ewmHeg=517;
-    $(window).scroll(function () {
-        var scroll_top=$(window).scrollTop();
-        if(scroll_top>=top1&&scroll_top+ewmHeg<footerHeg){
-            $('.cotentRight').css({'position':'fixed','top':0,'left':'50%','margin-left':'172px'});
-        }else if(scroll_top+ewmHeg>footerHeg){
-            $('.cotentRight').css({'position':'absolute','top':(footerHeg-ewmHeg),'left':'50%','margin-left':'172px'});
-        }else{
-            $('.cotentRight').css({'position':'static','margin-left':'0'})
-        }
-    })
 })
 </script>
   </body>
