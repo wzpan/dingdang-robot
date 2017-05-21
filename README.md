@@ -13,7 +13,8 @@
    </div>
 </div>  
 
-<div id="demo_placeholder"/>
+<div id="demo_placeholder">
+</div>
 
 ## Table of Contents
 
