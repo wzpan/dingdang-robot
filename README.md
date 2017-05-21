@@ -117,7 +117,7 @@ python dingdang.py
 
 * 我能否更换成其他唤醒词，而不是叫“叮当”？
 
-  - 能。参见 [修改唤醒词](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E9%85%8D%E7%BD%AE%E9%BA%A6%E5%85%8B%E9%A3%8E) 。
+  - 能。参见 [修改唤醒词](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E9%85%8D%E7%BD%AE%E9%BA%A6%E5%85%8B%E9%A3%8E) 。[项目站点](http://dingdang.hahack.com) 置顶的视频就演示了与一个名为“翠花”的机器人聊天。
 
 * 百度不太能够准确识别我的指令，怎么办？
 
