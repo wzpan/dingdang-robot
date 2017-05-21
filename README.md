@@ -12,7 +12,6 @@
    <div class="MIAOPAI_player" style='width:600px;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;' >
    </div>
 </div>  
-（与命名为“翠花”的叮当机器人聊天）
 
 ## Table of Contents
 
