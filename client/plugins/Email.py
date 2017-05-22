@@ -1,28 +1,56 @@
 # -*- coding: utf-8-*-
 import imaplib
 import email
-import re
 from dateutil import parser
 
 WORDS = ["EMAIL", "INBOX"]
 
 
-def getSender(email):
+#字符编码转换方法
+def my_unicode(s, encoding):
+    if encoding:
+        return unicode(s, encoding)
+    else:
+        return unicode(s)
+       
+
+def getSender(msg):
     """
         Returns the best-guess sender of an email.
 
         Arguments:
-        email -- the email whose sender is desired
+        msg -- the email whose sender is desired
 
         Returns:
-        Sender of the email.
+        Sender of the sender.
     """
-    sender = email['From']
-    start_pos = sender.find('<')
-    end_pos = sender.find('>')
-    if start_pos > -1 and end_pos > -1:
-        sender = sender[start_pos+1:end_pos]
+    ls = msg["From"].split(' ')
+    if(len(ls) == 2):
+        fromname = email.Header.decode_header((ls[0]).strip('\"'))
+        sender = my_unicode(fromname[0][0], fromname[0][1])
+    else:
+        sender = msg['From']
     return sender
+
+
+def getSubject(msg, profile):
+    """
+        Returns the title of an email
+
+        Arguments:
+        msg -- the email
+
+        Returns:
+        Title of the email.
+    """
+    subject = email.Header.decode_header(msg['subject'])
+    sub = my_unicode(subject[0][0], subject[0][1]).replace('[read]', '')
+    to_read = False
+    if 'read_email_title' in profile:
+        to_read =  profile['read_email_title']
+    if '[read]' in subject or to_read:
+        return u'，邮件标题为：' + sub
+    return ''
 
 
 def getDate(email):

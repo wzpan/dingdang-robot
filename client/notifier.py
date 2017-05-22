@@ -45,7 +45,7 @@ class Notifier(object):
             lastDate = Email.getMostRecentDate(emails)
 
         def styleEmail(e):
-            return "您有来自 %s 的新邮件" % Email.getSender(e)
+            return "您有来自 %s 的新邮件 %s" % (Email.getSender(e), Email.getSubject(e, self.profile))
 
         for e in emails:
             self.q.put(styleEmail(e))
