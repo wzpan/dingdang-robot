@@ -6,11 +6,21 @@
     <meta name="description" content="{{ page.description | default: site.description | default: site.github.project_tagline }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="http://wscdn.miaopai.com/static20131031/miaopai20140729/video-static/static/css/MPlayer-1.1.2.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">        
     <script src="http://wscdn.miaopai.com/static20131031/miaopai20140729/pc-static/js/jquery-1.12.4.min.js"></script>
     <script src='http://wscdn.miaopai.com/static20131031/miaopai20140729/video-static/static/js/MiaopaiPlayer-1.1.6.min.js'></script>
   </head>
+  <style>
+    ul {    
+      list-style-type: disc;
+      -webkit-padding-start: 40px;
+    }
+    ul ul, ol ul {
+      list-style-type: circle;
+    }
+  </style>         
   <body>
     <section class="page-header">
       <h1 class="project-name">{{ site.title | default: site.github.repository_name }}</h1>
