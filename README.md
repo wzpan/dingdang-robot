@@ -1,12 +1,20 @@
 叮当——中文语音对话机器人
 =============
 
-[![GitHub release](https://img.shields.io/github/release/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
-[![GitHub issues](https://img.shields.io/github/issues/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
-[![license](https://img.shields.io/github/license/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot)
+[![GitHub tag](https://img.shields.io/github/tag/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/releases)
+[![GitHub issues](https://img.shields.io/github/issues/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/pulls)
+[![GitHub pull requests](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/wzpan/dingdang-robot/blob/master/LICENSE)
 
 叮当是一款可以工作在 Raspberry Pi 上的开源中文语音对话机器人/智能音箱项目，目的是让中国的Hacker们也能快速打造个性化的智能音箱。
+
+<div class="video">
+   <div class="MIAOPAI_player" style='width:600px;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;' >
+   </div>
+</div>  
+
+<div id="demo_placeholder">
+</div>
 
 ## Table of Contents
 
@@ -27,12 +35,12 @@
 
 叮当包括以下诸多特性：
 
-1. 模块化。功能插件、语音识别、语音合成、对话机器人都做到了高度模块化，方便继承和开发自己的插件。
-2. 微信接入。支持接入微信，并通过微信远程操控自己家中的设备。
-3. 中文支持。支持百度语音识别和语音合成，未来还将支持接入其他的中文语音识别和合成。
-4. 对话机器人支持。支持接入图灵机器人，未来还将支持接入小黄鸭等其他对话机器人。
-5. 全局监听，离线唤醒。支持无接触地离线语音指令唤醒。
-6. 灵活可配置。支持定制机器人名字，支持选择语音识别和合成的插件。
+* 模块化。功能插件、语音识别、语音合成、对话机器人都做到了高度模块化，第三方插件单独维护，方便继承和开发自己的插件。
+* 微信接入。支持接入微信，并通过微信远程操控自己家中的设备。
+* 中文支持。支持百度语音识别和语音合成，未来还将支持接入其他的中文语音识别和合成。
+* 对话机器人支持。支持接入图灵机器人，未来还将支持接入小黄鸭等其他对话机器人。
+* 全局监听，离线唤醒。支持无接触地离线语音指令唤醒。
+* 灵活可配置。支持定制机器人名字，支持选择语音识别和合成的插件。
 
 ## 硬件要求
 
@@ -101,7 +109,7 @@ python dingdang.py
 ## 联系
 
 * 叮当的主要开发者是 [潘伟洲](http://hahack.com) 。
-* QQ 群：coming song
+* QQ 群：580447290
 
 ## 感谢
 
@@ -110,17 +118,21 @@ python dingdang.py
 
 ## FAQ
 
-* 我能否更换成其他唤醒词，而不叫而不是叫”叮当“？
+* 我能否更换成其他唤醒词，而不是叫“叮当”？
 
-  - 能。参见 [修改唤醒词](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E9%85%8D%E7%BD%AE%E9%BA%A6%E5%85%8B%E9%A3%8E) 。
+  - 能。参见 [修改唤醒词](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E9%85%8D%E7%BD%AE%E9%BA%A6%E5%85%8B%E9%A3%8E) 。[项目站点](http://dingdang.hahack.com) 置顶的视频就演示了与一个名为“翠花”的机器人聊天。
 
 * 百度不太能够准确识别我的指令，怎么办？
 
   - 参见 [优化百度语音识别准确度](https://github.com/wzpan/dingdang-robot/wiki/configuration#%E4%BC%98%E5%8C%96%E7%99%BE%E5%BA%A6%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E5%87%86%E7%A1%AE%E5%BA%A6) 。
 
-* 为什么取名为”叮当“？
+* 为什么取名为“叮当”？
 
-  - 我一开始有多个候选唤醒词，但我发现”叮当“在离线唤醒词中准确率最高。所以取名为”叮当“。
+  - 我一开始有多个候选唤醒词，但我发现”叮当“在离线唤醒词中准确率最高。所以取名为“叮当”。
+  
+* 我想了解你的系统镜像都做了哪些定制？
+
+  - 请参见 [dingdang 镜像与 Raspbian 系统的区别](https://github.com/wzpan/dingdang-robot/wiki/different-with-raspbian) 。
 
 ## 免责声明
 
