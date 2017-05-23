@@ -73,6 +73,8 @@ gzip -d dingdang-*.gzip
 
 最后参考 [安装 Raspbian 镜像](https://www.raspberrypi.org/documentation/installation/) 的方法刷入镜像到内存卡中。
 
+刷完后记得在启动系统后进入 `raspi-config` 的高级选项中开启 Extend FileSystem，以让内存卡中的剩余空间合并到主分区中。
+
 ### 手动安装
 
 见 [手动安装](https://github.com/wzpan/dingdang-robot/wiki/install)。
