@@ -28,6 +28,9 @@ def getSender(msg):
     if(len(ls) == 2):
         fromname = email.Header.decode_header((ls[0]).strip('\"'))
         sender = my_unicode(fromname[0][0], fromname[0][1])
+    elif(len(ls) > 2):
+        fromname = email.Header.decode_header((msg[:msg.find('<')]).strip('\"'))
+        sender = my_unicode(fromname[0][0], fromname[0][1])
     else:
         sender = msg['From']
     return sender
@@ -44,12 +47,16 @@ def getSubject(msg, profile):
         Title of the email.
     """
     subject = email.Header.decode_header(msg['subject'])
-    sub = my_unicode(subject[0][0], subject[0][1]).replace('[read]', '')
+    sub = my_unicode(subject[0][0], subject[0][1])
     to_read = False
+    if sub.strip() == '':
+        return ''
     if 'read_email_title' in profile:
         to_read =  profile['read_email_title']
-    if '[read]' in subject or to_read:
-        return u'，邮件标题为：' + sub
+    if '[echo]' in sub:
+        return sub
+    if to_read:
+        return '邮件标题为 %s' % sub
     return ''
 
 
