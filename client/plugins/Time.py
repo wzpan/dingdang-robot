@@ -16,6 +16,7 @@ def handle(text, mic, profile, wxbot=None):
         mic -- used to interact with the user (for both input and output)
         profile -- contains information related to the user (e.g., phone
                    number)
+        wxBot -- wechat robot
     """
 
     tz = getTimezone(profile)

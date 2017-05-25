@@ -15,9 +15,9 @@ def handle(text, mic, profile, wxbot=None):
         Arguments:
         text -- user-input, typically transcribed speech
         mic -- used to interact with the user (for both input and output)
-        wxBot -- wechat robot
         profile -- contains information related to the user (e.g., phone
                    number)
+        wxbot -- wechat bot instance
     """
     sys.path.append(mic.dingdangpath.LIB_PATH)
     from app_utils import sendToUser
