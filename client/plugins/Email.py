@@ -132,6 +132,7 @@ def handle(text, mic, profile, wxbot=None):
         mic -- used to interact with the user (for both input and output)
         profile -- contains information related to the user (e.g., email
                    address)
+        wxBot -- wechat robot
     """
     try:
         msgs = fetchUnreadEmails(profile, limit=5)

@@ -24,6 +24,7 @@ def handle(text, mic, profile, wxbot=None):
     mic -- used to interact with the user (for both input and output)
     profile -- contains information related to the user (e.g., phone
                number)
+    wxBot -- wechat robot
     """
     if need_robot(profile):
         robot = get_robot_by_slug("tuling")
