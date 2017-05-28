@@ -108,7 +108,7 @@ python dingdang.py
 
 * 提 bug 请到 [issue 页面](https://github.com/wzpan/dingdang-robot/issues)；
 * 要贡献代码，欢迎 fork 之后再提 pull request；
-* 插件请提交到 [dingdang-contrib](https://github.com/wzpan/dingdang-contrib) 。
+* 插件请提交到 [dingdang-contrib](https://github.com/dingdang-robot/dingdang-contrib) 。
 
 ## 联系
 
