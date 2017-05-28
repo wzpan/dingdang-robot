@@ -101,7 +101,7 @@ python dingdang.py
 ## 插件
 
 * [官方插件列表](https://github.com/wzpan/dingdang-robot/wiki/plugins)
-* [第三方插件](https://github.com/wzpan/dingdang-contrib)
+* [第三方插件](https://github.com/dingdang-robot/dingdang-contrib)
 
 
 ## 贡献
