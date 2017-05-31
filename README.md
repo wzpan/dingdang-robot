@@ -5,6 +5,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/pulls)
 [![GitHub pull requests](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/wzpan/dingdang-robot/blob/master/LICENSE)
+[![Travis](https://img.shields.io/travis/wzpan/dingdang-robot.svg)](#)
 [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-580447290-red.svg
 )](http://onmw7y6f4.bkt.clouddn.com/dingdang-group.png)
 
