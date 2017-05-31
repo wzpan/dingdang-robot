@@ -9,8 +9,10 @@ DATA_PATH = os.path.join(APP_PATH, "static")
 LIB_PATH = os.path.join(APP_PATH, "client")
 PLUGIN_PATH = os.path.join(LIB_PATH, "plugins")
 
-CONFIG_PATH = os.path.expanduser(os.getenv('DINGDANG_CONFIG', '~/.dingdang'))
-CONTRIB_PATH = os.path.expanduser(os.getenv('DINGDANG_CONFIG', '~/.dingdang/contrib'))
+CONFIG_PATH = os.path.expanduser(os.getenv \
+                                 ('DINGDANG_CONFIG', '~/.dingdang'))
+CONTRIB_PATH = os.path.expanduser(os.getenv \
+                                  ('DINGDANG_CONFIG', '~/.dingdang/contrib'))
 
 
 def config(*fname):

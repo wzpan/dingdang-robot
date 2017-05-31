@@ -3,7 +3,6 @@
 
 import os
 import sys
-import shutil
 import logging
 
 import yaml
@@ -13,11 +12,9 @@ from client import tts
 from client import stt
 from client import dingdangpath
 from client import diagnose
-from client import brain
 from client.wxbot import WXBot
 from client.conversation import Conversation
-from client.tts import SimpleMp3Player 
-
+from client.tts import SimpleMp3Player
 # Add dingdangpath.LIB_PATH to sys.path
 sys.path.append(dingdangpath.LIB_PATH)
 
@@ -46,7 +43,8 @@ class WechatBot(WXBot):
         # ignore the msg when handling plugins
         if self.brain.handling:
             return
-        if msg['msg_type_id'] == 1 and msg['to_user_id'] == self.my_account['UserName']:  # reply to self
+        if msg['msg_type_id'] == 1 and \
+           msg['to_user_id'] == self.my_account['UserName']:  # reply to self
             if msg['content']['type'] == 0:
                 msg_data = msg['content']['data']
                 self.brain.query([msg_data], self)
@@ -112,7 +110,7 @@ class Dingdang(object):
                        stt_engine_class.get_active_instance())
 
     def start_wxbot(self):
-        self.wxBot.run()        
+        self.wxBot.run()
 
     def run(self):
         if 'first_name' in self.config:
@@ -134,9 +132,10 @@ class Dingdang(object):
             conversation.wxbot = self.wxBot
             t = threading.Thread(target=self.start_wxbot)
             t.start()
-       
+
         self.mic.say(salutation)
         conversation.handleForever()
+
 
 if __name__ == "__main__":
 
