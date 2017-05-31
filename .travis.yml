@@ -15,7 +15,7 @@ install:
     - "pip install nose --download-cache $HOME/.pip-cache"
     - "pip install flake8  --download-cache $HOME/.pip-cache"
 before_script:
-    - "flake8 jasper.py client tests"
+    - "flake8 dingdang.py client tests"
 script:
     - "coverage run -m nosetests -s --exe"
 after_success:
