@@ -2,7 +2,7 @@
 =============
 
 [![GitHub tag](https://img.shields.io/github/tag/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/releases)
-[![Travis](https://img.shields.io/travis/wzpan/dingdang-robot.svg)](#)
+[![Travis](https://img.shields.io/travis/wzpan/dingdang-robot.svg)](https://travis-ci.org/wzpan/dingdang-robot)
 [![GitHub issues](https://img.shields.io/github/issues/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/wzpan/dingdang-robot.svg)](https://github.com/wzpan/dingdang-robot/pulls)
 [![GitHub pull requests](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/wzpan/dingdang-robot/blob/master/LICENSE)
