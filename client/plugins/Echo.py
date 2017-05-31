@@ -2,6 +2,7 @@
 
 WORDS = [u"ECHO", u"CHUANHUA"]
 
+PRIORITY = 0
 
 def handle(text, mic, profile, wxbot=None):
     """
