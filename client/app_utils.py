@@ -1,12 +1,14 @@
 # -*- coding: utf-8-*-
 import smtplib
 from email.MIMEText import MIMEText
-from email.MIMEMultipart import MIMEMultipart  
+from email.MIMEMultipart import MIMEMultipart
 import logging
 import os
 from pytz import timezone
 
-def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER, PASSWORD, SMTP_SERVER, SMTP_PORT):
+
+def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
+              PASSWORD, SMTP_SERVER, SMTP_PORT):
     """Sends an email."""
     txt = MIMEText(BODY.encode('utf-8'), 'html', 'utf-8')
     msg = MIMEMultipart()
@@ -41,7 +43,6 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER, PASSWORD, SMTP_SERVE
         return False
 
 
-   
 def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
     """
     sends an email.
@@ -80,9 +81,10 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
         return False
 
 
-def wechatUser(profile, wxbot, SUBJECT="", BODY="", ATTACH_LIST=[], IMAGE_LIST=[]):
+def wechatUser(profile, wxbot, SUBJECT="", BODY="",
+               ATTACH_LIST=[], IMAGE_LIST=[]):
     _logger = logging.getLogger(__name__)
-    if wxbot != None and wxbot.my_account != {}:
+    if wxbot is not None and wxbot.my_account != {}:
         try:
             # send message
             user_id = wxbot.my_account['UserName']
@@ -98,14 +100,19 @@ def wechatUser(profile, wxbot, SUBJECT="", BODY="", ATTACH_LIST=[], IMAGE_LIST=[
             return False
     return False
 
-def sendToUser(profile, wxbot, SUBJECT="", BODY="", ATTACH_LIST=[], IMAGE_LIST=[]):
+
+def sendToUser(profile, wxbot, SUBJECT="", BODY="",
+               ATTACH_LIST=[], IMAGE_LIST=[]):
     send_type = 0
-    if wxbot != None and wxbot.my_account != {} and ('prefers_email' not in profile or not profile['prefers_email']):
+    if wxbot is not None and wxbot.my_account != {} \
+       and ('prefers_email' not in profile or not profile['prefers_email']):
         send_type = 1
     if send_type == 0:
         return emailUser(profile, SUBJECT, BODY, ATTACH_LIST)
     else:
-        return wechatUser(profile, wxbot, SUBJECT, BODY, ATTACH_LIST, IMAGE_LIST)
+        return wechatUser(profile, wxbot, SUBJECT, BODY,
+                          ATTACH_LIST, IMAGE_LIST)
+
 
 def getTimezone(profile):
     """
@@ -119,5 +126,3 @@ def getTimezone(profile):
         return timezone(profile['timezone'])
     except:
         return None
-
-

@@ -21,7 +21,7 @@ def handle(text, mic, profile, wxbot=None):
     """
     sys.path.append(mic.dingdangpath.LIB_PATH)
     from app_utils import sendToUser
-    
+
     quality = 100
     count_down = 3
     dest_path = os.path.expanduser('~/pictures')
@@ -30,20 +30,28 @@ def handle(text, mic, profile, wxbot=None):
     send_to_user = True
     sound = True
     # read config
-    if profile['camera'] and 'enable' in profile['camera'] and profile['camera']['enable']:
-        if 'count_down' in profile['camera'] and profile['camera']['count_down'] > 0:
+    if profile['camera'] and 'enable' in profile['camera'] and \
+       profile['camera']['enable']:
+        if 'count_down' in profile['camera'] and \
+           profile['camera']['count_down'] > 0:
             count_down = profile['camera']['count_down']
-        if 'quality' in profile['camera'] and profile['camera']['quality'] > 0:
+        if 'quality' in profile['camera'] and \
+           profile['camera']['quality'] > 0:
             quality = profile['camera']['quality']
-        if 'dest_path' in profile['camera'] and profile['camera']['dest_path'] != '':
+        if 'dest_path' in profile['camera'] and \
+           profile['camera']['dest_path'] != '':
             dest_path = profile['camera']['dest_path']
-        if 'vertical_flip' in profile['camera'] and profile['camera']['vertical_flip']:
+        if 'vertical_flip' in profile['camera'] and \
+           profile['camera']['vertical_flip']:
             vertical_flip = True
-        if 'horizontal_flip' in profile['camera'] and profile['camera']['horizontal_flip']:
+        if 'horizontal_flip' in profile['camera'] and \
+           profile['camera']['horizontal_flip']:
             horizontal_flip = True
-        if 'send_to_user' in profile['camera'] and not profile['camera']['send_to_user']:
+        if 'send_to_user' in profile['camera'] and \
+           not profile['camera']['send_to_user']:
             send_to_user = False
-        if 'sound' in profile['camera'] and not profile['camera']['sound']:
+        if 'sound' in profile['camera'] and \
+           not profile['camera']['sound']:
             sound = False
         if any(word in text for word in [u"安静", u"偷偷", u"悄悄"]):
             sound = False
@@ -74,7 +82,9 @@ def handle(text, mic, profile, wxbot=None):
         # send to user
         if send_to_user:
             target = '邮箱'
-            if wxbot != None and wxbot.my_account != {} and ('prefers_email' not in profile or not profile['prefers_email']):
+            if wxbot is not None and wxbot.my_account != {} and \
+               ('prefers_email' not in profile or
+               not profile['prefers_email']):
                 target = '微信'
             if sound:
                 mic.say(u'拍照成功！正在发送照片到您的%s' % target)

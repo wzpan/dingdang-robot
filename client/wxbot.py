@@ -144,7 +144,7 @@ class WXBot:
         #如果通讯录联系人过多，这里会直接获取失败
         try:
             r = self.session.post(url, data='{}')
-        except Exception as e:
+        except Exception:
             self.is_big_contact = True
             return False
         r.encoding = 'utf-8'
@@ -1049,7 +1049,7 @@ class WXBot:
                 return None
             mid = json.loads(r.text)['MediaId']
             return mid
-        except Exception,e:
+        except Exception:
             return None
 
     def send_file_msg_by_uid(self, fpath, uid):
@@ -1074,7 +1074,7 @@ class WXBot:
                 return True
             else:
                 return False
-        except Exception,e:
+        except Exception:
             return False
 
     def send_img_msg_by_uid(self, fpath, uid):
@@ -1102,7 +1102,7 @@ class WXBot:
                 return True
             else:
                 return False
-        except Exception,e:
+        except Exception:
             return False
 
     def get_user_id(self, name):

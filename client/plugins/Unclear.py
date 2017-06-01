@@ -1,16 +1,15 @@
 # -*- coding: utf-8-*-
-import sys
 from sys import maxint
 import random
-sys.path.append("../")
-from robot import get_robot_by_slug
+from client.robot import get_robot_by_slug
 
 WORDS = []
 
 PRIORITY = -(maxint + 1)
 
+
 def need_robot(profile):
-    if 'robot' in profile and profile['robot'] != None:        
+    if 'robot' in profile and profile['robot'] is not None:
         return True
     return False
 

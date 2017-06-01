@@ -24,8 +24,7 @@ class Notifier(object):
         self.notifiers = []
 
         if 'email' in profile and \
-           (not profile['email'].has_key('enable') or \
-           profile['email']['enable']) :
+           ('enable' not in profile['email'] or profile['email']['enable']):
             self.notifiers.append(self.NotificationClient(
                 self.handleEmailNotifications, None))
         else:

@@ -168,7 +168,8 @@ def run():
         else:
             logger.debug("PIP package '%s' found", req.name)
 
-    for fname in [os.path.join(dingdangpath.APP_PATH, os.pardir, "phonetisaurus",
+    for fname in [os.path.join(dingdangpath.APP_PATH, os.pardir,
+                               "phonetisaurus",
                                "g014b2b.fst")]:
         logger.debug("Checking file '%s'...", fname)
         if not os.access(fname, os.R_OK):

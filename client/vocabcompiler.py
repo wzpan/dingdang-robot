@@ -523,6 +523,7 @@ def get_all_phrases():
 
     return sorted(list(set(phrases)))
 
+
 if __name__ == '__main__':
     import argparse
 

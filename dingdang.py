@@ -48,7 +48,7 @@ class WechatBot(WXBot):
             if msg['content']['type'] == 0:
                 msg_data = msg['content']['data']
                 self.brain.query([msg_data], self)
-            elif msg['content']['type'] == 4: # echo voice
+            elif msg['content']['type'] == 4:  # echo voice
                 player = SimpleMp3Player()
                 player.play_mp3('./temp/voice_%s.mp3' % msg['msg_id'])
 
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     print("*******************************************************")
     print("*             叮当 - 中文语音对话机器人               *")
     print("*          (c) 2017 潘伟洲 <m@hahack.com>             *")
-    print("*   https://github.com/wzpan/dingdang-robot.git       *")    
+    print("*   https://github.com/wzpan/dingdang-robot.git       *")
     print("*******************************************************")
 
     logging.basicConfig()
@@ -153,8 +153,8 @@ if __name__ == "__main__":
         logger.setLevel(logging.DEBUG)
 
     if not args.no_network_check and not diagnose.check_network_connection():
-        logger.warning("Network not connected. This may prevent Dingdang from " +
-                       "running properly.")
+        logger.warning("Network not connected. This may prevent Dingdang " +
+                       "from running properly.")
 
     if args.diagnose:
         failed_checks = diagnose.run()

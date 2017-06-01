@@ -7,9 +7,6 @@ import json
 import tempfile
 import logging
 import urllib
-import urlparse
-import re
-import subprocess
 from abc import ABCMeta, abstractmethod
 import requests
 import yaml
@@ -22,6 +19,7 @@ import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
+
 
 class AbstractSTTEngine(object):
     """
@@ -191,7 +189,7 @@ class PocketSphinxSTT(AbstractSTTEngine):
 
 class BaiduSTT(AbstractSTTEngine):
     """
-    百度的语音识别API. 
+    百度的语音识别API.
     要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
     之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
     填入 profile.xml 中.
@@ -231,8 +229,8 @@ class BaiduSTT(AbstractSTTEngine):
     def get_token(self):
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
         params = urllib.urlencode({'grant_type': 'client_credentials',
-                                    'client_id': self.api_key,
-                                    'client_secret': self.secret_key})
+                                   'client_id': self.api_key,
+                                   'client_secret': self.secret_key})
         r = requests.get(URL, params=params)
         try:
             r.raise_for_status()
@@ -243,7 +241,6 @@ class BaiduSTT(AbstractSTTEngine):
                                   r.text,
                                   exc_info=True)
             return ''
-            
 
     def transcribe(self, fp):
         try:
@@ -271,7 +268,7 @@ class BaiduSTT(AbstractSTTEngine):
         try:
             r.raise_for_status()
             text = ''
-            if r.json().has_key('result'):
+            if 'result' in r.json():
                 text = r.json()['result'][0].encode('utf-8')
         except requests.exceptions.HTTPError:
             self._logger.critical('Request failed with response: %r',
@@ -300,7 +297,6 @@ class BaiduSTT(AbstractSTTEngine):
     def is_available(cls):
         return diagnose.check_network_connection()
 
-    
 
 def get_engine_by_slug(slug=None):
     """

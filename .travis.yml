@@ -12,8 +12,8 @@ install:
     - "pip install -r client/requirements.txt  --download-cache $HOME/.pip-cache"
     - "pip install coverage  --download-cache $HOME/.pip-cache"
     - "pip install nose --download-cache $HOME/.pip-cache"
-    - "pip install flake8  --download-cache $HOME/.pip-cache"
+    - "pip install flake8 --download-cache $HOME/.pip-cache"
 before_script:
-    - "flake8 dingdang.py client"
+    - "flake8 --exclude=wxbot.py dingdang.py client"
 script:
     - "nosetests -s --exe -v --with-coverage --cover-erase"

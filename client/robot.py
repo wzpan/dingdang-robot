@@ -4,11 +4,12 @@ import json
 import logging
 from uuid import getnode as get_mac
 from app_utils import sendToUser
+from abc import ABCMeta, abstractmethod
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-from abc import ABCMeta, abstractmethod
 
 class AbstractRobot(object):
 
@@ -27,8 +28,8 @@ class AbstractRobot(object):
     @abstractmethod
     def chat(self, texts):
         pass
-    
-    
+
+
 class TulingRobot(AbstractRobot):
 
     SLUG = "tuling"
@@ -37,7 +38,7 @@ class TulingRobot(AbstractRobot):
         """
         图灵机器人
         """
-        super(self.__class__, self).__init__()        
+        super(self.__class__, self).__init__()
         self.mic = mic
         self.profile = profile
         self.wxbot = wxbot
@@ -82,10 +83,12 @@ class TulingRobot(AbstractRobot):
             max_length = 200
             if 'max_length' in self.profile:
                 max_length = self.profile['max_length']
-            if len(result) > max_length and self.profile['read_long_content'] != None \
-               and not self.profile['read_long_content']:
+            if len(result) > max_length and \
+               self.profile['read_long_content'] is not None and \
+               not self.profile['read_long_content']:
                 target = '邮件'
-                if self.wxbot != None and self.wxbot.my_account != {} and not self.profile['prefers_email']:
+                if self.wxbot is not None and self.wxbot.my_account != {} \
+                   and not self.profile['prefers_email']:
                     target = '微信'
                 self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
                 if sendToUser(self.profile, self.wxbot, u'回答%s' % msg, result):
@@ -95,11 +98,12 @@ class TulingRobot(AbstractRobot):
             else:
                 self.mic.say(result)
         except Exception:
-            self._logger.critical("Tuling robot failed to responsed for %r", msg, exc_info=True)
+            self._logger.critical("Tuling robot failed to responsed for %r",
+                                  msg, exc_info=True)
             self.mic.say("抱歉, 我的大脑短路了 " +
                          "请稍后再试试.")
 
-                
+
 def get_robot_by_slug(slug):
     """
     Returns:
@@ -109,7 +113,7 @@ def get_robot_by_slug(slug):
         raise TypeError("Invalid slug '%s'", slug)
 
     selected_robots = filter(lambda robot: hasattr(robot, "SLUG") and
-                              robot.SLUG == slug, get_robots())
+                             robot.SLUG == slug, get_robots())
     if len(selected_robots) == 0:
         raise ValueError("No robot found for slug '%s'" % slug)
     else:
@@ -119,7 +123,7 @@ def get_robot_by_slug(slug):
         robot = selected_robots[0]
         return robot
 
-    
+
 def get_robots():
     def get_subclasses(cls):
         subclasses = set()

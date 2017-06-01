@@ -12,25 +12,16 @@ import platform
 import re
 import tempfile
 import subprocess
-import json
 import pipes
 import logging
 import wave
-import Queue
 import urllib
-import urlparse
 import requests
-import threading
 from abc import ABCMeta, abstractmethod
 from uuid import getnode as get_mac
 
 import argparse
 import yaml
-
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 
 try:
     import mad
@@ -39,6 +30,10 @@ except ImportError:
 
 import diagnose
 import dingdangpath
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 class AbstractTTSEngine(object):
@@ -431,7 +426,7 @@ class PicoTTS(AbstractTTSEngine):
 class BaiduTTS(AbstractMp3TTSEngine):
     """
     使用百度语音合成技术
-    
+
     要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
     之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
     填入 profile.xml 中.
@@ -480,8 +475,8 @@ class BaiduTTS(AbstractMp3TTSEngine):
     def get_token(self):
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
         params = urllib.urlencode({'grant_type': 'client_credentials',
-                                    'client_id': self.api_key,
-                                    'client_secret': self.secret_key})
+                                   'client_id': self.api_key,
+                                   'client_secret': self.secret_key})
         r = requests.get(URL, params=params)
         try:
             r.raise_for_status()
@@ -493,13 +488,11 @@ class BaiduTTS(AbstractMp3TTSEngine):
                                   exc_info=True)
             return ''
 
-        
     def split_sentences(self, text):
         punctuations = ['.', '。', ';', '；', '\n']
         for i in punctuations:
             text = text.replace(i, '@@@')
         return text.split('@@@')
-
 
     def get_speech(self, phrase):
         query = {'tex': phrase,
@@ -510,11 +503,11 @@ class BaiduTTS(AbstractMp3TTSEngine):
                  'per': self.per
                  }
         r = requests.post('http://tsn.baidu.com/text2audio',
-                         data=query,
-                         headers={'content-type': 'application/json'})
+                          data=query,
+                          headers={'content-type': 'application/json'})
         try:
             r.raise_for_status()
-            if r.json()['err_msg'] != None:
+            if r.json()['err_msg'] is not None:
                 self._logger.critical('Baidu TTS failed with response: %r',
                                       r.json()['err_msg'],
                                       exc_info=True)
@@ -529,10 +522,10 @@ class BaiduTTS(AbstractMp3TTSEngine):
     def say(self, phrase):
         self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
         tmpfile = self.get_speech(phrase)
-        if tmpfile != None:
+        if tmpfile is not None:
             self.play_mp3(tmpfile)
-            os.remove(tmpfile)            
-        
+            os.remove(tmpfile)
+
 
 def get_default_engine_slug():
     return 'osx-tts' if platform.system().lower() == 'darwin' else 'espeak-tts'
@@ -575,6 +568,7 @@ def get_engines():
     return [tts_engine for tts_engine in
             list(get_subclasses(AbstractTTSEngine))
             if hasattr(tts_engine, 'SLUG') and tts_engine.SLUG]
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Dingdang TTS module')

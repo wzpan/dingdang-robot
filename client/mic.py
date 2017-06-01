@@ -24,7 +24,8 @@ class Mic:
         speaker -- handles platform-independent audio output
         passive_stt_engine -- performs STT while Dingdang is in passive listen
                               mode
-        acive_stt_engine -- performs STT while Dingdang is in active listen mode
+        acive_stt_engine -- performs STT while Dingdang is in active listen
+                            mode
         """
         self._logger = logging.getLogger(__name__)
         self.speaker = speaker
@@ -78,11 +79,11 @@ class Mic:
                 lastN.pop(0)
                 lastN.append(self.getScore(data))
                 average = sum(lastN) / len(lastN)
-                
+
             except Exception, e:
                 self._logger.warning(e)
                 continue
-            
+
         try:
             stream.stop_stream()
             stream.close()
@@ -302,6 +303,3 @@ class Mic:
     def play(self, src):
         # play a voice
         self.speaker.play(src)
-                        
-            
-            

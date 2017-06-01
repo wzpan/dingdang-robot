@@ -3,6 +3,7 @@ import logging
 import pkgutil
 import dingdangpath
 
+
 class Brain(object):
 
     def __init__(self, mic, profile):
@@ -71,9 +72,9 @@ class Brain(object):
                     self._logger.debug("'%s' is a valid phrase for plugin " +
                                        "'%s'", text, plugin.__name__)
                     try:
-                        handling = True
+                        self.handling = True
                         plugin.handle(text, self.mic, self.profile, wxbot)
-                        handling = False
+                        self.handling = False
                     except Exception:
                         self._logger.error('Failed to execute plugin',
                                            exc_info=True)
@@ -87,4 +88,3 @@ class Brain(object):
                         return
         self._logger.debug("No plugin was able to handle any of these " +
                            "phrases: %r", texts)
-        

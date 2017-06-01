@@ -6,13 +6,13 @@ from dateutil import parser
 WORDS = ["EMAIL", "INBOX"]
 
 
-#字符编码转换方法
+# 字符编码转换方法
 def my_unicode(s, encoding):
     if encoding:
         return unicode(s, encoding)
     else:
         return unicode(s)
-       
+
 
 def getSender(msg):
     """
@@ -24,12 +24,14 @@ def getSender(msg):
         Returns:
         Sender of the sender.
     """
-    ls = msg["From"].split(' ')
+    fromstr = msg["From"]
+    ls = fromstr.split(' ')
     if(len(ls) == 2):
         fromname = email.Header.decode_header((ls[0]).strip('\"'))
         sender = my_unicode(fromname[0][0], fromname[0][1])
     elif(len(ls) > 2):
-        fromname = email.Header.decode_header((msg[:msg.find('<')]).strip('\"'))
+        fromname = email.Header.decode_header((fromstr[:fromstr.find('<')])
+                                              .strip('\"'))
         sender = my_unicode(fromname[0][0], fromname[0][1])
     else:
         sender = msg['From']
@@ -52,7 +54,7 @@ def getSubject(msg, profile):
     if sub.strip() == '':
         return ''
     if 'read_email_title' in profile:
-        to_read =  profile['read_email_title']
+        to_read = profile['read_email_title']
     if '[echo]' in sub:
         return sub
     if to_read:
@@ -95,7 +97,8 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         A list of unread email objects.
     """
 
-    conn = imaplib.IMAP4(profile['email']['imap_server'], profile['email']['imap_port'])
+    conn = imaplib.IMAP4(profile['email']['imap_server'],
+                         profile['email']['imap_port'])
     conn.debug = 0
     conn.login(profile['email']['address'], profile['email']['password'])
     conn.select(readonly=(not markRead))
@@ -138,7 +141,7 @@ def handle(text, mic, profile, wxbot=None):
         msgs = fetchUnreadEmails(profile, limit=5)
 
         if isinstance(msgs, int):
-            response = "您有 %d 封未读邮件" % msgs            
+            response = "您有 %d 封未读邮件" % msgs
             mic.say(response)
             return
 

@@ -4,6 +4,7 @@ from notifier import Notifier
 from brain import Brain
 import time
 
+
 class Conversation(object):
 
     def __init__(self, persona, mic, profile):
@@ -11,13 +12,14 @@ class Conversation(object):
         self.persona = persona
         self.mic = mic
         self.profile = profile
-        self.brain = Brain(mic, profile)        
+        self.brain = Brain(mic, profile)
         self.notifier = Notifier(profile)
         self.wxbot = None
 
     def is_proper_time(self):
         """
-        whether it's the proper time to gather notifications without disturb user
+        whether it's the proper time to gather
+        notifications without disturb user
         """
         if 'do_not_bother' not in self.profile:
             return True
@@ -31,12 +33,12 @@ class Conversation(object):
                     till = self.profile['do_not_bother']['till']
                     current = time.localtime(time.time()).tm_hour
                     if till > since:
-                        return not current in range(since, till)
+                        return current not in range(since, till)
                     else:
-                        return not (current in range(since, 25) or current in range(-1, till))
+                        return not (current in range(since, 25) or
+                                    current in range(-1, till))
             else:
                 return True
-                    
 
     def handleForever(self):
         """
@@ -49,7 +51,8 @@ class Conversation(object):
             if self.is_proper_time():
                 notifications = self.notifier.getAllNotifications()
                 for notif in notifications:
-                    self._logger.info("Received notification: '%s'", str(notif))
+                    self._logger.info("Received notification: '%s'",
+                                      str(notif))
                     self.mic.say(str(notif))
 
             self._logger.debug("Started listening for keyword '%s'",
