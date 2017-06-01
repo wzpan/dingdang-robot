@@ -70,7 +70,7 @@ class AbstractTTSEngine(object):
         pass
 
     def play(self, filename):
-        cmd = ['aplay', '-D', 'plughw:1,0', str(filename)]
+        cmd = ['aplay', str(filename)]
         self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
                                                      for arg in cmd]))
         with tempfile.TemporaryFile() as f:
@@ -346,7 +346,7 @@ class MacOSXTTS(AbstractTTSEngine):
                 self._logger.debug("Output was: '%s'", output)
 
     def play(self, filename):
-        cmd = ['aplay', '-D', 'plughw:1,0', str(filename)]
+        cmd = ['aplay', str(filename)]
         self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
                                                      for arg in cmd]))
         with tempfile.TemporaryFile() as f:
