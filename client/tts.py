@@ -445,6 +445,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         self.api_key = api_key
         self.secret_key = secret_key
         self.per = per
+        self.token = ''
 
     @classmethod
     def get_config(cls):
@@ -495,9 +496,11 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return text.split('@@@')
 
     def get_speech(self, phrase):
+        if self.token == '':
+            self.token = self.get_token()
         query = {'tex': phrase,
                  'lan': 'zh',
-                 'tok': self.get_token(),
+                 'tok': self.token,
                  'ctp': 1,
                  'cuid': str(get_mac())[:32],
                  'per': self.per

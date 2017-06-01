@@ -207,6 +207,7 @@ class BaiduSTT(AbstractSTTEngine):
         self._logger = logging.getLogger(__name__)
         self.api_key = api_key
         self.secret_key = secret_key
+        self.token = ''
 
     @classmethod
     def get_config(cls):
@@ -254,8 +255,10 @@ class BaiduSTT(AbstractSTTEngine):
         frame_rate = wav_file.getframerate()
         audio = wav_file.readframes(n_frames)
         base_data = base64.b64encode(audio)
+        if self.token == '':
+            self.token = self.get_token()
         data = {"format": "wav",
-                "token": self.get_token(),
+                "token": self.token,
                 "len": len(audio),
                 "rate": frame_rate,
                 "speech": base_data,
