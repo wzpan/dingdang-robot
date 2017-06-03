@@ -47,7 +47,7 @@ class Notifier(object):
 
         def styleEmail(e):
             subject = Email.getSubject(e, self.profile)
-            if '[echo]' in subject:
+            if Email.isEchoEmail(e, self.profile):
                 return subject.replace('[echo]', '')
             sender = Email.getSender(e)
             return "您有来自 %s 的新邮件 %s" % (sender, subject)

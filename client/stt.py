@@ -13,6 +13,7 @@ import yaml
 import dingdangpath
 import diagnose
 import vocabcompiler
+from snowboy import snowboydetect
 from uuid import getnode as get_mac
 
 import sys
@@ -299,6 +300,73 @@ class BaiduSTT(AbstractSTTEngine):
     @classmethod
     def is_available(cls):
         return diagnose.check_network_connection()
+
+
+class SnowboySTT(AbstractSTTEngine):
+    """
+    Snowboy STT 离线识别引擎（只适用于离线唤醒）
+        ...
+        snowboy:
+            model: '/home/pi/.dingdang/snowboy/dingdangdingdang.pmdl'  # 唤醒词模型
+            sensitivity: "0.5"  # 敏感度
+        ...
+    """
+
+    SLUG = "snowboy-stt"
+
+    def __init__(self, sensitivity, model, hotword):
+        self._logger = logging.getLogger(__name__)
+        self.sensitivity = sensitivity
+        self.hotword = hotword
+        self.model = model
+        self.resource_file = os.path.join(dingdangpath.LIB_PATH,
+                                          'snowboy/common.res')
+        self.detector = snowboydetect.SnowboyDetect(
+            resource_filename=self.resource_file,
+            model_str=self.model)
+        self.detector.SetAudioGain(1)
+        self.detector.SetSensitivity(self.sensitivity)
+
+    @classmethod
+    def get_config(cls):
+        # FIXME: Replace this as soon as we have a config module
+        config = {}
+        # Try to get snowboy config from config
+        profile_path = dingdangpath.config('profile.yml')
+        if os.path.exists(profile_path):
+            with open(profile_path, 'r') as f:
+                profile = yaml.safe_load(f)
+                if 'snowboy' in profile:
+                    if 'model' in profile['snowboy']:
+                        config['model'] = \
+                            profile['snowboy']['model']
+                    else:
+                        config['model'] = os.path.join(
+                            dingdangpath.LIB_PATH, 'snowboy/dingdang.pmdl')
+                    if 'sensitivity' in profile['snowboy']:
+                        config['sensitivity'] = \
+                            profile['snowboy']['sensitivity']
+                    else:
+                        config['sensitivity'] = "0.5"
+                    if 'robot_name' in profile:
+                        config['hotword'] = profile['robot_name']
+                    else:
+                        config['hotword'] = 'DINGDANG'
+        return config
+
+    def transcribe(self, fp):
+        fp.seek(44)
+        data = fp.read()
+        ans = self.detector.RunDetection(data)
+        if ans:
+            self._logger.info('Transcribed: %r', self.hotword)
+            return [self.hotword]
+        else:
+            return []
+
+    @classmethod
+    def is_available(cls):
+        return diagnose.check_python_import('snowboy.snowboydetect')
 
 
 def get_engine_by_slug(slug=None):

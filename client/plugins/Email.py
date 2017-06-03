@@ -62,6 +62,14 @@ def getSubject(msg, profile):
     return ''
 
 
+def isEchoEmail(msg, profile):
+    """ Whether an email is an Echo email"""
+    subject = getSubject(msg, profile)
+    if '[echo]' in subject:
+        return True
+    return False
+
+
 def getDate(email):
     return parser.parse(email.get('date'))
 
@@ -118,6 +126,9 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
 
             if not since or getDate(msg) > since:
                 msgs.append(msg)
+
+            if isEchoEmail(msg, profile):
+                conn.store(num, '+FLAGS', '\Seen')
     conn.close()
     conn.logout()
 
