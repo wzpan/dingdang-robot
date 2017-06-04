@@ -13,7 +13,6 @@ import yaml
 import dingdangpath
 import diagnose
 import vocabcompiler
-from snowboy import snowboydetect
 from uuid import getnode as get_mac
 
 import sys
@@ -321,6 +320,14 @@ class SnowboySTT(AbstractSTTEngine):
         self.model = model
         self.resource_file = os.path.join(dingdangpath.LIB_PATH,
                                           'snowboy/common.res')
+        try:
+            from snowboy import snowboydetect
+        except Exception, e:
+            self._logger.critical(e)
+            if 'libf77blas.so' in e.message:
+                self._logger.critical("您可能需要安装一个so包加载库：" +
+                                      "sudo apt-get install libatlas-base-dev")
+            return
         self.detector = snowboydetect.SnowboyDetect(
             resource_filename=self.resource_file,
             model_str=self.model)

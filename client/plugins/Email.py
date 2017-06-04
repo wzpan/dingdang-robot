@@ -1,6 +1,8 @@
 # -*- coding: utf-8-*-
 import imaplib
 import email
+import time
+import datetime
 from dateutil import parser
 
 WORDS = ["EMAIL", "INBOX"]
@@ -60,6 +62,17 @@ def getSubject(msg, profile):
     if to_read:
         return '邮件标题为 %s' % sub
     return ''
+
+
+def isNewEmail(msg):
+    """ Wether an email is a new email """
+    date = msg['Date']
+    dtext = date.split(',')[1].split('+')[0].strip()
+    dtime = time.strptime(dtext, '%d %b %Y %H:%M:%S')
+    current = time.localtime()
+    dt = datetime.datetime(*dtime[:6])
+    cr = datetime.datetime(*current[:6])
+    return (cr - dt).days == 0
 
 
 def isEchoEmail(msg, profile):
