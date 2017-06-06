@@ -97,7 +97,7 @@ git pull
 python dingdang.py
 ```
 
-建议在 tmux 中执行。
+建议在 tmux 或 supervisor 中执行。
 
 ## 插件
 
