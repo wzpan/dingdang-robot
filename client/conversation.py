@@ -13,7 +13,7 @@ class Conversation(object):
         self.mic = mic
         self.profile = profile
         self.brain = Brain(mic, profile)
-        self.notifier = Notifier(profile)
+        self.notifier = Notifier(profile, self.brain)
         self.wxbot = None
 
     def is_proper_time(self):

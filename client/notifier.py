@@ -17,11 +17,12 @@ class Notifier(object):
         def run(self):
             self.timestamp = self.gather(self.timestamp)
 
-    def __init__(self, profile):
+    def __init__(self, profile, brain):
         self._logger = logging.getLogger(__name__)
         self.q = Queue.Queue()
         self.profile = profile
         self.notifiers = []
+        self.brain = brain
 
         if 'email' in profile and \
            ('enable' not in profile['email'] or profile['email']['enable']):
@@ -52,6 +53,10 @@ class Notifier(object):
                     return subject.replace('[echo]', '')
                 else:
                     return ""
+            elif Email.isControlEmail(e, self.profile):
+                self.brain.query([subject.replace('[control]', '')
+                                 .strip()], None)
+                return ""
             sender = Email.getSender(e)
             return "您有来自 %s 的新邮件 %s" % (sender, subject)
         for e in emails:

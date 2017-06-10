@@ -40,6 +40,14 @@ def getSender(msg):
     return sender
 
 
+def isSelfEmail(msg, profile):
+    """ Whether the email is sent by the user """
+    fromstr = msg["From"]
+    addr = (fromstr[fromstr.find('<')+1:fromstr.find('>')]).strip('\"')
+    address = profile['email']['address'].strip()
+    return addr == address
+
+
 def getSubject(msg, profile):
     """
         Returns the title of an email
@@ -57,7 +65,7 @@ def getSubject(msg, profile):
         return ''
     if 'read_email_title' in profile:
         to_read = profile['read_email_title']
-    if '[echo]' in sub:
+    if '[echo]' in sub or '[control]' in sub:
         return sub
     if to_read:
         return '邮件标题为 %s' % sub
@@ -79,6 +87,14 @@ def isEchoEmail(msg, profile):
     """ Whether an email is an Echo email"""
     subject = getSubject(msg, profile)
     if '[echo]' in subject:
+        return True
+    return False
+
+
+def isControlEmail(msg, profile):
+    """ Whether an email is a control email"""
+    subject = getSubject(msg, profile)
+    if '[control]' in subject and isSelfEmail(msg, profile):
         return True
     return False
 
@@ -142,6 +158,7 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
 
             if isEchoEmail(msg, profile):
                 conn.store(num, '+FLAGS', '\Seen')
+
     conn.close()
     conn.logout()
 
