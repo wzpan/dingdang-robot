@@ -88,7 +88,7 @@ def handle(text, mic, profile, wxbot=None):
                 target = '微信'
             if sound:
                 mic.say(u'拍照成功！正在发送照片到您的%s' % target)
-            if sendToUser(profile, wxbot, u"这是刚刚为您拍摄的照片", "", [], [dest_file]):
+            if sendToUser(profile, wxbot, u"这是刚刚为您拍摄的照片", "", [dest_file], []):
                 if sound:
                     mic.say(u'发送成功')
             else:
