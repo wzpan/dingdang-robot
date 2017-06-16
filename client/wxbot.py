@@ -1164,7 +1164,7 @@ class WXBot:
                 return pm.group(1)
         return 'unknown'
 
-    def run(self):
+    def run(self, Mic=None):
         self.get_uuid()
         self.gen_qr_code(os.path.join(self.temp_pwd,'wxqr.png'))
         print '[INFO] Please use WeChat to scan the QR code .'
@@ -1176,6 +1176,8 @@ class WXBot:
 
         if self.login():
             print '[INFO] Web WeChat login succeed .'
+            if Mic is not None:
+                Mic.wxbot = self
         else:
             print '[ERROR] Web WeChat login failed .'
             return

@@ -9,26 +9,29 @@ import audioop
 import pyaudio
 import alteration
 import dingdangpath
-
+from app_utils import wechatUser
 
 class Mic:
 
     speechRec = None
     speechRec_persona = None
 
-    def __init__(self, speaker, passive_stt_engine, active_stt_engine):
+    def __init__(self, profile, speaker, passive_stt_engine, active_stt_engine):
         """
         Initiates the pocketsphinx instance.
 
         Arguments:
+        profile -- config profile
         speaker -- handles platform-independent audio output
         passive_stt_engine -- performs STT while Dingdang is in passive listen
                               mode
         acive_stt_engine -- performs STT while Dingdang is in active listen
                             mode
         """
+        self.profile = profile
         self._logger = logging.getLogger(__name__)
         self.speaker = speaker
+        self.wxbot = None
         self.passive_stt_engine = passive_stt_engine
         self.active_stt_engine = active_stt_engine
         self.dingdangpath = dingdangpath
@@ -295,9 +298,12 @@ class Mic:
             return self.active_stt_engine.transcribe(f)
 
     def say(self, phrase,
+            wxbot = None,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
         # alter phrase before speaking
         phrase = alteration.clean(phrase)
+        if self.wxbot is not None:
+            wechatUser(self.profile, self.wxbot, phrase, "")
         self.speaker.say(phrase)
 
     def play(self, src):

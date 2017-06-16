@@ -88,7 +88,10 @@ def wechatUser(profile, wxbot, SUBJECT="", BODY="",
         try:
             # send message
             user_id = wxbot.my_account['UserName']
-            wxbot.send_msg_by_uid(SUBJECT + "\n" + BODY, user_id)
+            if BODY != '':
+                wxbot.send_msg_by_uid(SUBJECT + "\n" + BODY, user_id)
+            else:
+                wxbot.send_msg_by_uid(SUBJECT, user_id)
             for fpath in ATTACH_LIST:
                 wxbot.send_file_msg_by_uid(fpath, user_id)
             for fpath in IMAGE_LIST:
