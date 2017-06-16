@@ -11,12 +11,14 @@ import alteration
 import dingdangpath
 from app_utils import wechatUser
 
+
 class Mic:
 
     speechRec = None
     speechRec_persona = None
 
-    def __init__(self, profile, speaker, passive_stt_engine, active_stt_engine):
+    def __init__(self, profile, speaker, passive_stt_engine,
+                 active_stt_engine):
         """
         Initiates the pocketsphinx instance.
 
@@ -298,7 +300,7 @@ class Mic:
             return self.active_stt_engine.transcribe(f)
 
     def say(self, phrase,
-            wxbot = None,
+            wxbot=None,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
         # alter phrase before speaking
         phrase = alteration.clean(phrase)
