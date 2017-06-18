@@ -4,7 +4,7 @@
 import os
 import sys
 import logging
-
+import time
 import yaml
 import argparse
 import threading
@@ -26,6 +26,7 @@ parser.add_argument('--no-network-check', action='store_true',
 parser.add_argument('--diagnose', action='store_true',
                     help='Run diagnose and exit')
 parser.add_argument('--debug', action='store_true', help='Show debug messages')
+parser.add_argument('--info', action='store_true', help='Show info messages')
 args = parser.parse_args()
 
 if args.local:
@@ -38,16 +39,26 @@ class WechatBot(WXBot):
     def __init__(self, brain):
         WXBot.__init__(self)
         self.brain = brain
+        self.music_mode = None
+        self.last = time.time()
 
     def handle_msg_all(self, msg):
         # ignore the msg when handling plugins
-        if self.brain.handling:
-            return
         if msg['msg_type_id'] == 1 and \
            msg['to_user_id'] == self.my_account['UserName']:  # reply to self
+
             if msg['content']['type'] == 0:
                 msg_data = msg['content']['data']
-                self.brain.query([msg_data], self)
+                if self.music_mode is not None:
+                    # avoid repeating command
+                    now = time.time()
+                    if (now - self.last) > 0.5:
+                        # stop passive listening
+                        self.brain.mic.stopPassiveListen()
+                        self.last = now
+                        self.music_mode.delegateInput(msg_data, True)
+                    return
+                self.brain.query([msg_data], self, True)
             elif msg['content']['type'] == 4:  # echo voice
                 player = SimpleMp3Player()
                 player.play_mp3('./temp/voice_%s.mp3' % msg['msg_id'])
@@ -153,6 +164,8 @@ if __name__ == "__main__":
 
     if args.debug:
         logger.setLevel(logging.DEBUG)
+    elif args.info:
+        logger.setLevel(logging.INFO)
 
     if not args.no_network_check and not diagnose.check_network_connection():
         logger.warning("Network not connected. This may prevent Dingdang " +

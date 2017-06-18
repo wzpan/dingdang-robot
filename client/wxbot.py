@@ -84,7 +84,7 @@ class WXBot:
         self.sync_key_str = ''
         self.sync_key = []
         self.sync_host = ''
-
+        self.is_login = False
 
         self.batch_count = 50    #一次拉取50个联系人的信息
         self.full_user_name_list = []    #直接获取不到通讯录时，获取的username列表
@@ -768,49 +768,55 @@ class WXBot:
         """
         pass
 
+    def check_msg(self):
+        [retcode, selector] = self.sync_check()
+        # print '[DEBUG] sync_check:', retcode, selector
+        if retcode == '1100':  # 从微信客户端上登出
+            return False
+        elif retcode == '1101':  # 从其它设备上登了网页微信
+            return False
+        elif retcode == '0':
+            if selector == '2':  # 有新消息
+                r = self.sync()
+                if r is not None:
+                    self.handle_msg(r)                    
+            elif selector == '3':  # 未知
+                r = self.sync()
+                if r is not None:
+                    self.handle_msg(r)
+            elif selector == '4':  # 通讯录更新
+                r = self.sync()
+                if r is not None:
+                    self.get_contact()
+            elif selector == '6':  # 可能是红包
+                r = self.sync()
+                if r is not None:
+                    self.handle_msg(r)
+            elif selector == '7':  # 在手机上操作了微信
+                r = self.sync()
+                if r is not None:
+                    self.handle_msg(r)
+            elif selector == '0':  # 无事件
+                pass
+            else:
+                print '[DEBUG] sync_check:', retcode, selector
+                r = self.sync()
+                if r is not None:
+                    self.handle_msg(r)
+        else:
+            print '[DEBUG] sync_check:', retcode, selector
+            time.sleep(10)
+        self.schedule()
+        return True
+
     def proc_msg(self):
         self.test_sync_check()
         while True:
             check_time = time.time()
             try:
-                [retcode, selector] = self.sync_check()
-                # print '[DEBUG] sync_check:', retcode, selector
-                if retcode == '1100':  # 从微信客户端上登出
+                res = self.check_msg()
+                if not res:
                     break
-                elif retcode == '1101':  # 从其它设备上登了网页微信
-                    break
-                elif retcode == '0':
-                    if selector == '2':  # 有新消息
-                        r = self.sync()
-                        if r is not None:
-                            self.handle_msg(r)
-                    elif selector == '3':  # 未知
-                        r = self.sync()
-                        if r is not None:
-                            self.handle_msg(r)
-                    elif selector == '4':  # 通讯录更新
-                        r = self.sync()
-                        if r is not None:
-                            self.get_contact()
-                    elif selector == '6':  # 可能是红包
-                        r = self.sync()
-                        if r is not None:
-                            self.handle_msg(r)
-                    elif selector == '7':  # 在手机上操作了微信
-                        r = self.sync()
-                        if r is not None:
-                            self.handle_msg(r)
-                    elif selector == '0':  # 无事件
-                        pass
-                    else:
-                        print '[DEBUG] sync_check:', retcode, selector
-                        r = self.sync()
-                        if r is not None:
-                            self.handle_msg(r)
-                else:
-                    print '[DEBUG] sync_check:', retcode, selector
-                    time.sleep(10)
-                self.schedule()
             except:
                 print '[ERROR] Except in proc_msg'
                 print format_exc()
@@ -1176,6 +1182,7 @@ class WXBot:
 
         if self.login():
             print '[INFO] Web WeChat login succeed .'
+            self.is_login = True
             if Mic is not None:
                 Mic.wxbot = self
         else:

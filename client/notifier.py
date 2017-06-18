@@ -55,7 +55,7 @@ class Notifier(object):
                     return ""
             elif Email.isControlEmail(e, self.profile):
                 self.brain.query([subject.replace('[control]', '')
-                                 .strip()], None)
+                                  .strip()], None, True)
                 return ""
             sender = Email.getSender(e)
             return "您有来自 %s 的新邮件 %s" % (sender, subject)

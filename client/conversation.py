@@ -55,6 +55,9 @@ class Conversation(object):
                                       str(notif))
                     self.mic.say(str(notif))
 
+            if self.mic.stop_passive:
+                continue
+
             self._logger.debug("Started listening for keyword '%s'",
                                self.persona)
             threshold, transcribed = self.mic.passiveListen(self.persona)

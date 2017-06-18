@@ -31,6 +31,9 @@ class Mic:
                             mode
         """
         self.profile = profile
+        self.robot_name = u'叮当'
+        if 'robot_name_cn' in profile:
+            self.robot_name = profile['robot_name_cn']
         self._logger = logging.getLogger(__name__)
         self.speaker = speaker
         self.wxbot = None
@@ -42,6 +45,7 @@ class Mic:
                           "can usually be safely ignored.")
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
+        self.stop_passive = False
 
     def __del__(self):
         self._audio.terminate()
@@ -101,6 +105,12 @@ class Mic:
 
         return THRESHOLD
 
+    def stopPassiveListen(self):
+        """
+        Stop passive listening
+        """
+        self.stop_passive = True
+
     def passiveListen(self, PERSONA):
         """
         Listens for PERSONA in everyday sound. Times out after LISTEN_TIME, so
@@ -130,10 +140,15 @@ class Mic:
         # stores the lastN score values
         lastN = [i for i in range(30)]
 
+        didDetect = False
+
         # calculate the long run average, and thereby the proper threshold
         for i in range(0, RATE / CHUNK * THRESHOLD_TIME):
 
             try:
+                if self.stop_passive:
+                    break
+
                 data = stream.read(CHUNK)
                 frames.append(data)
 
@@ -158,6 +173,9 @@ class Mic:
         for i in range(0, RATE / CHUNK * LISTEN_TIME):
 
             try:
+                if self.stop_passive:
+                    break
+
                 data = stream.read(CHUNK)
                 frames.append(data)
                 score = self.getScore(data)
@@ -173,6 +191,7 @@ class Mic:
         if not didDetect:
             print "No disturbance detected"
             try:
+                self.stop_passive = False
                 stream.stop_stream()
                 stream.close()
             except Exception, e:
@@ -188,6 +207,8 @@ class Mic:
         for i in range(0, RATE / CHUNK * DELAY_MULTIPLIER):
 
             try:
+                if self.stop_passive:
+                    break
                 data = stream.read(CHUNK)
                 frames.append(data)
             except Exception, e:
@@ -196,6 +217,7 @@ class Mic:
 
         # save the audio data
         try:
+            self.stop_passive = False
             stream.stop_stream()
             stream.close()
         except Exception, e:
@@ -300,12 +322,12 @@ class Mic:
             return self.active_stt_engine.transcribe(f)
 
     def say(self, phrase,
-            wxbot=None,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
         # alter phrase before speaking
         phrase = alteration.clean(phrase)
         if self.wxbot is not None:
-            wechatUser(self.profile, self.wxbot, phrase, "")
+            wechatUser(self.profile, self.wxbot, "%s: %s" %
+                       (self.robot_name, phrase), "")
         self.speaker.say(phrase)
 
     def play(self, src):
