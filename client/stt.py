@@ -365,7 +365,7 @@ class SnowboySTT(AbstractSTTEngine):
         fp.seek(44)
         data = fp.read()
         ans = self.detector.RunDetection(data)
-        if ans:
+        if ans > 0:
             self._logger.info('Transcribed: %r', self.hotword)
             return [self.hotword]
         else:
