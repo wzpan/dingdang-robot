@@ -17,7 +17,7 @@ def handle(text, mic, profile, wxbot=None):
                    number)
         wxbot -- wechat bot instance
     """
-    if 'wechat' not in profile or not profile['wechat']:
+    if 'wechat' not in profile or not profile['wechat'] or wxbot is None:
         mic.say(u'请先在配置文件中开启微信接入功能')
         return
     if 'email' not in profile or ('enable' in profile['email']
@@ -27,6 +27,8 @@ def handle(text, mic, profile, wxbot=None):
     sys.path.append(mic.dingdangpath.LIB_PATH)
     from app_utils import emailUser
     dest_file = os.path.join(mic.dingdangpath.TEMP_PATH, 'wxqr.png')
+    wxbot.get_uuid()
+    wxbot.gen_qr_code(dest_file)
     if os.path.exists(dest_file):
         mic.say(u'正在发送微信登录二维码到您的邮箱')
         if emailUser(profile, u"这是您的微信登录二维码", "", [dest_file]):
