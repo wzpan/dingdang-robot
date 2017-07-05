@@ -151,6 +151,8 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         for num in messages[0].split(' '):
             # parse email RFC822 format
             ret, data = conn.fetch(num, '(RFC822)')
+            if data is None:
+                continue
             msg = email.message_from_string(data[0][1])
 
             if not since or getDate(msg) > since:
