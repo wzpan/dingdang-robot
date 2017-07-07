@@ -5,7 +5,8 @@ import subprocess
 import time
 import sys
 
-WORDS = [u"ECHO", u"CHUANHUA"]
+WORDS = [u"PAIZHAO", u"ZHAOPIAN"]
+SLUG = "camera"
 
 
 def handle(text, mic, profile, wxbot=None):
@@ -30,28 +31,28 @@ def handle(text, mic, profile, wxbot=None):
     send_to_user = True
     sound = True
     # read config
-    if profile['camera'] and 'enable' in profile['camera'] and \
-       profile['camera']['enable']:
-        if 'count_down' in profile['camera'] and \
-           profile['camera']['count_down'] > 0:
-            count_down = profile['camera']['count_down']
-        if 'quality' in profile['camera'] and \
-           profile['camera']['quality'] > 0:
-            quality = profile['camera']['quality']
-        if 'dest_path' in profile['camera'] and \
-           profile['camera']['dest_path'] != '':
-            dest_path = profile['camera']['dest_path']
-        if 'vertical_flip' in profile['camera'] and \
-           profile['camera']['vertical_flip']:
+    if profile[SLUG] and 'enable' in profile[SLUG] and \
+       profile[SLUG]['enable']:
+        if 'count_down' in profile[SLUG] and \
+           profile[SLUG]['count_down'] > 0:
+            count_down = profile[SLUG]['count_down']
+        if 'quality' in profile[SLUG] and \
+           profile[SLUG]['quality'] > 0:
+            quality = profile[SLUG]['quality']
+        if 'dest_path' in profile[SLUG] and \
+           profile[SLUG]['dest_path'] != '':
+            dest_path = profile[SLUG]['dest_path']
+        if 'vertical_flip' in profile[SLUG] and \
+           profile[SLUG]['vertical_flip']:
             vertical_flip = True
-        if 'horizontal_flip' in profile['camera'] and \
-           profile['camera']['horizontal_flip']:
+        if 'horizontal_flip' in profile[SLUG] and \
+           profile[SLUG]['horizontal_flip']:
             horizontal_flip = True
-        if 'send_to_user' in profile['camera'] and \
-           not profile['camera']['send_to_user']:
+        if 'send_to_user' in profile[SLUG] and \
+           not profile[SLUG]['send_to_user']:
             send_to_user = False
-        if 'sound' in profile['camera'] and \
-           not profile['camera']['sound']:
+        if 'sound' in profile[SLUG] and \
+           not profile[SLUG]['sound']:
             sound = False
         if any(word in text for word in [u"安静", u"偷偷", u"悄悄"]):
             sound = False

@@ -6,6 +6,7 @@ import datetime
 from dateutil import parser
 
 WORDS = ["EMAIL", "INBOX"]
+SLUG = "email"
 
 
 # 字符编码转换方法
@@ -44,7 +45,7 @@ def isSelfEmail(msg, profile):
     """ Whether the email is sent by the user """
     fromstr = msg["From"]
     addr = (fromstr[fromstr.find('<')+1:fromstr.find('>')]).strip('\"')
-    address = profile['email']['address'].strip()
+    address = profile[SLUG]['address'].strip()
     return addr == address
 
 
@@ -134,10 +135,10 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         A list of unread email objects.
     """
 
-    conn = imaplib.IMAP4(profile['email']['imap_server'],
-                         profile['email']['imap_port'])
+    conn = imaplib.IMAP4(profile[SLUG]['imap_server'],
+                         profile[SLUG]['imap_port'])
     conn.debug = 0
-    conn.login(profile['email']['address'], profile['email']['password'])
+    conn.login(profile[SLUG]['address'], profile[SLUG]['password'])
     conn.select(readonly=(not markRead))
 
     msgs = []

@@ -4,6 +4,7 @@ import os
 import sys
 
 WORDS = [u"ERWEIMA"]
+SLUG = "sendqr"
 
 
 def handle(text, mic, profile, wxbot=None):

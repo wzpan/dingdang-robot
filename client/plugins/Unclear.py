@@ -4,7 +4,6 @@ import random
 from client.robot import get_robot_by_slug
 
 WORDS = []
-
 PRIORITY = -(maxint + 1)
 
 

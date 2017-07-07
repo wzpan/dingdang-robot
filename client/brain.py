@@ -62,6 +62,20 @@ class Brain(object):
                      else 0, reverse=True)
         return (plugins, exclude_plugins)
 
+    def isEnabled(self, plugin):
+        """
+        whether a plugin is enabled.
+        """
+        if plugin is None:
+            return False
+        if not hasattr(plugin, 'SLUG'):
+            return True
+        slug = plugin.SLUG
+        if slug in self.profile and 'enable' in self.profile[slug]:
+            return self.profile[slug]['enable']
+        else:
+            return True
+
     def query(self, texts, wxbot=None, thirdparty_call=False):
         """
         Passes user input to the appropriate plugin, testing it against
@@ -83,7 +97,7 @@ class Brain(object):
 
         for plugin in self.plugins:
             for text in texts:
-                if plugin.isValid(text):
+                if plugin.isValid(text) and self.isEnabled(plugin):
                     self._logger.debug("'%s' is a valid phrase for plugin " +
                                        "'%s'", text, plugin.__name__)
                     try:

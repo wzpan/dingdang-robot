@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 
 WORDS = [u"ECHO", u"CHUANHUA"]
-
+SLUG = "echo"
 PRIORITY = 0
 
 

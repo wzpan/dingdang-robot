@@ -4,6 +4,7 @@ from client.app_utils import getTimezone
 from semantic.dates import DateService
 
 WORDS = [u"TIME", u"SHIJIAN", u"JIDIAN"]
+SLUG = "time"
 
 
 def handle(text, mic, profile, wxbot=None):
