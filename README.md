@@ -136,7 +136,7 @@ python dingdang.py
   
 - pi 账户默认登录密码是啥？
 
-  - Raspbian 系统默认密码相同，都是 raspberry 。
+  - 与 Raspbian 系统默认密码相同，都是 raspberry 。
 
 ## 免责声明
 
