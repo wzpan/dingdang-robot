@@ -133,6 +133,10 @@ python dingdang.py
 - 我想了解你的系统镜像都做了哪些定制？
 
   - 请参见 [dingdang 镜像与 Raspbian 系统的区别](https://github.com/wzpan/dingdang-robot/wiki/different-with-raspbian) 。
+  
+- pi 账户默认登录密码是啥？
+
+  - 与 Raspbian 系统默认密码相同，都是 raspberry 。
 
 ## 免责声明
 
