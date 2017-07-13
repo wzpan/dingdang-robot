@@ -7,12 +7,11 @@ import tempfile
 import wave
 import audioop
 import pyaudio
-import alteration
 import dingdangpath
 from app_utils import wechatUser
 
-class Mic:
 
+class Mic:
     speechRec = None
     speechRec_persona = None
 
@@ -57,7 +56,7 @@ class Mic:
     def fetchThreshold(self):
 
         # TODO: Consolidate variables from the next three functions
-        THRESHOLD_MULTIPLIER = 3
+        THRESHOLD_MULTIPLIER = 2.5
         RATE = 16000
         CHUNK = 1024
 
@@ -116,7 +115,7 @@ class Mic:
         needs to be restarted.
         """
 
-        THRESHOLD_MULTIPLIER =3
+        THRESHOLD_MULTIPLIER = 2.5
         RATE = 16000
         CHUNK = 1024
 
@@ -322,8 +321,6 @@ class Mic:
 
     def say(self, phrase,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
-        # alter phrase before speaking
-        # phrase = alteration.clean(phrase)
         if self.wxbot is not None:
             wechatUser(self.profile, self.wxbot, "%s: %s" %
                        (self.robot_name, phrase), "")
@@ -331,4 +328,4 @@ class Mic:
 
     def play(self, src):
         # play a voice
-        self.speaker.play(src)        
+        self.speaker.play(src)

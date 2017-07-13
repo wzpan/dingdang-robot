@@ -4,6 +4,7 @@ from notifier import Notifier
 from brain import Brain
 import time
 
+
 class Conversation(object):
 
     def __init__(self, persona, mic, profile):
@@ -76,4 +77,4 @@ class Conversation(object):
             if input:
                 self.brain.query(input, self.wxbot)
             else:
-                self.mic.say("什么?")                
+                self.mic.say("什么?")

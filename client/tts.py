@@ -14,7 +14,6 @@ import tempfile
 import subprocess
 import pipes
 import logging
-import wave
 import urllib
 import requests
 from abc import ABCMeta, abstractmethod
@@ -22,11 +21,6 @@ from uuid import getnode as get_mac
 
 import argparse
 import yaml
-
-try:
-    import mad
-except ImportError:
-    pass
 
 import diagnose
 import dingdangpath
