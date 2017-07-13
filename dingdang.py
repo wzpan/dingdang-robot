@@ -56,7 +56,11 @@ class WechatBot(WXBot):
                         # stop passive listening
                         self.brain.mic.stopPassiveListen()
                         self.last = now
-                        self.music_mode.delegateInput(msg_data, True)
+                        if not self.music_mode.delegating:
+                            self.music_mode.delegating = True
+                            self.music_mode.delegateInput(msg_data, True)
+                            if self.music_mode is not None:
+                                self.music_mode.delegating = False
                     return
                 self.brain.query([msg_data], self, True)
             elif msg['content']['type'] == 4:  # echo voice

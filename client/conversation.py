@@ -4,7 +4,6 @@ from notifier import Notifier
 from brain import Brain
 import time
 
-
 class Conversation(object):
 
     def __init__(self, persona, mic, profile):
@@ -74,8 +73,7 @@ class Conversation(object):
             input = self.mic.activeListenToAllOptions(threshold)
             self._logger.debug("Stopped to listen actively with threshold: %r",
                                threshold)
-
             if input:
                 self.brain.query(input, self.wxbot)
             else:
-                self.mic.say("什么?")
+                self.mic.say("什么?")                
