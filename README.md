@@ -52,12 +52,14 @@
 
 ## 硬件要求
 
-* Raspberry Pi 全系列；
-* 能兼容 Raspberry Pi 的 USB 麦克风（建议选购全向麦克风）；
-* 能兼容 Raspberry Pi 的音箱；
+* Raspberry Pi 全系列，或其他 Linux 主机；
+* USB 麦克风（建议选购麦克风阵列）；
+* 音箱（不建议蓝牙音箱）；
 * 至少 8G 的 Micro-SD 内存卡（刷镜像的方式则要求至少16G，下个版本将会对镜像瘦身，降低要求）；
 * 摄像头（可选，用于拍照）。
 * 读卡器（可选，用于刷镜像进内存卡）。
+
+如果不知道怎么选择，可以参考 [硬件选购建议](https://github.com/wzpan/dingdang-robot/wiki/hardware-choices) 。
 
 ## 安装
 
