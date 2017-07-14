@@ -34,7 +34,11 @@ class Brain(object):
         """
 
         logger = logging.getLogger(__name__)
-        locations = [dingdangpath.PLUGIN_PATH, dingdangpath.CONTRIB_PATH]
+        locations = [
+            dingdangpath.PLUGIN_PATH,
+            dingdangpath.CONTRIB_PATH,
+            dingdangpath.CUSTOM_PATH
+        ]
         logger.debug("Looking for plugins in: %s",
                      ', '.join(["'%s'" % location for location in locations]))
         plugins = []
