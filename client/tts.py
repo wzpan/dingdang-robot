@@ -460,8 +460,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
 
     @classmethod
     def is_available(cls):
-        return (super(cls, cls).is_available() and
-                diagnose.check_network_connection())
+        return diagnose.check_network_connection()
 
     def get_token(self):
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
