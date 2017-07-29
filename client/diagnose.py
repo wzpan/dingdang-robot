@@ -22,7 +22,7 @@ def check_network_connection(server="www.baidu.com"):
 
     Arguments:
         server -- (optional) the server to connect with (Default:
-                  "www.dingdangdu.com")
+                  "www.baidu.com")
 
     Returns:
         True or False
