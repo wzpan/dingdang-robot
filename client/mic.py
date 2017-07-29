@@ -2,12 +2,14 @@
 """
     The Mic class handles all interactions with the microphone and speaker.
 """
+import ctypes
 import logging
 import tempfile
 import wave
 import audioop
 import pyaudio
 import dingdangpath
+import mute_alsa
 from app_utils import wechatUser
 
 
@@ -41,6 +43,11 @@ class Mic:
         self._logger.info("Initializing PyAudio. ALSA/Jack error messages " +
                           "that pop up during this process are normal and " +
                           "can usually be safely ignored.")
+        try:
+            asound = ctypes.cdll.LoadLibrary('libasound.so.2')
+            asound.snd_lib_error_set_handler(mute_alsa.c_error_handler)
+        except OSError:
+            pass
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
         self.stop_passive = False
@@ -292,7 +299,7 @@ class Mic:
                 average = sum(lastN) / float(len(lastN))
 
                 # TODO: 0.8 should not be a MAGIC NUMBER!
-                if average < THRESHOLD * 0.8:
+                if average < THRESHOLD * 0.9:
                     break
             except Exception, e:
                 self._logger.warning(e)
