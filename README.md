@@ -91,6 +91,7 @@ git pull
 ## 运行
 
 ``` sh
+cd /home/pi/dingdang
 python dingdang.py
 ```
 
