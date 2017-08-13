@@ -146,7 +146,7 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         conn.select(readonly=(not markRead))
         (retcode, messages) = conn.search(None, '(UNSEEN)')
     except Exception:
-        logger.warning("抱歉，您的邮箱账户验证失败了")
+        logger.warning("抱歉，您的邮箱账户验证失败了，请检查下配置")
         return None
 
     if retcode == 'OK' and messages != ['']:
