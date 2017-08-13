@@ -273,14 +273,14 @@ class Mic:
         if THRESHOLD is None:
             THRESHOLD = self.fetchThreshold()
 
-        self.speaker.play(dingdangpath.data('audio', 'beep_hi.wav'))
-
         # prepare recording stream
         stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=1,
                                   rate=RATE,
                                   input=True,
                                   frames_per_buffer=CHUNK)
+
+        self.speaker.play(dingdangpath.data('audio', 'beep_hi.wav'))
 
         frames = []
         # increasing the range # results in longer pause after command
