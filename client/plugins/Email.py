@@ -3,6 +3,7 @@ import imaplib
 import email
 import time
 import datetime
+import logging
 from dateutil import parser
 
 WORDS = ["EMAIL", "INBOX"]
@@ -134,15 +135,19 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         Returns:
         A list of unread email objects.
     """
-
+    logger = logging.getLogger(__name__)
     conn = imaplib.IMAP4(profile[SLUG]['imap_server'],
                          profile[SLUG]['imap_port'])
     conn.debug = 0
-    conn.login(profile[SLUG]['address'], profile[SLUG]['password'])
-    conn.select(readonly=(not markRead))
 
     msgs = []
-    (retcode, messages) = conn.search(None, '(UNSEEN)')
+    try:
+        conn.login(profile[SLUG]['address'], profile[SLUG]['password'])
+        conn.select(readonly=(not markRead))
+        (retcode, messages) = conn.search(None, '(UNSEEN)')
+    except Exception:
+        logger.warning("抱歉，您的邮箱账户验证失败了")
+        return None
 
     if retcode == 'OK' and messages != ['']:
         numUnread = len(messages[0].split(' '))
@@ -181,19 +186,19 @@ def handle(text, mic, profile, wxbot=None):
                    address)
         wxBot -- wechat robot
     """
-    try:
-        msgs = fetchUnreadEmails(profile, limit=5)
+    msgs = fetchUnreadEmails(profile, limit=5)
 
-        if isinstance(msgs, int):
-            response = "您有 %d 封未读邮件" % msgs
-            mic.say(response)
-            return
-
-        senders = [getSender(e) for e in msgs]
-    except imaplib.IMAP4.error:
+    if msgs is None:
         mic.say(
             u"抱歉，您的邮箱账户验证失败了")
         return
+
+    if isinstance(msgs, int):
+        response = "您有 %d 封未读邮件" % msgs
+        mic.say(response)
+        return
+
+    senders = [getSender(e) for e in msgs]
 
     if not senders:
         mic.say(u"您没有未读邮件，真棒！")

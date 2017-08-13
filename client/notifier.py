@@ -30,7 +30,7 @@ class Notifier(object):
                 self.handleEmailNotifications, None))
         else:
             self._logger.debug('email account not set ' +
-                                 'in profile, email notifier will not be used')
+                               'in profile, email notifier will not be used')
 
         sched = BackgroundScheduler(daemon=True)
         sched.start()
@@ -43,6 +43,8 @@ class Notifier(object):
     def handleEmailNotifications(self, lastDate):
         """Places new email notifications in the Notifier's queue."""
         emails = Email.fetchUnreadEmails(self.profile, since=lastDate)
+        if emails is None:
+            return
         if emails:
             lastDate = Email.getMostRecentDate(emails)
 
