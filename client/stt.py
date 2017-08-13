@@ -179,7 +179,7 @@ class PocketSphinxSTT(AbstractSTTEngine):
             f.truncate()
 
         transcribed = [result[0]]
-        self._logger.info('Transcribed: %r', transcribed)
+        self._logger.info('PocketSphinx 识别到了：%r', transcribed)
         return transcribed
 
     @classmethod
@@ -293,7 +293,7 @@ class BaiduSTT(AbstractSTTEngine):
             transcribed = []
             if text:
                 transcribed.append(text.upper())
-            self._logger.info(u'Transcribed: %s' % text)
+            self._logger.info(u'百度语音识别到了: %s' % text)
             return transcribed
 
     @classmethod
@@ -366,7 +366,7 @@ class SnowboySTT(AbstractSTTEngine):
         data = fp.read()
         ans = self.detector.RunDetection(data)
         if ans > 0:
-            self._logger.info('Transcribed: %r', self.hotword)
+            self._logger.info('snowboy 识别到了: %r', self.hotword)
             return [self.hotword]
         else:
             return []

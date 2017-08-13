@@ -95,14 +95,14 @@ class Mic:
                 average = sum(lastN) / len(lastN)
 
             except Exception, e:
-                self._logger.warning(e)
+                self._logger.debug(e)
                 continue
 
         try:
             stream.stop_stream()
             stream.close()
         except Exception, e:
-            self._logger.warning(e)
+            self._logger.debug(e)
             pass
 
         # this will be the benchmark to cause a disturbance over!
@@ -171,7 +171,7 @@ class Mic:
                 # flag raised when sound disturbance detected
                 didDetect = False
             except Exception, e:
-                self._logger.warning(e)
+                self._logger.debug(e)
                 pass
 
         # start passively listening for disturbance above threshold
@@ -189,18 +189,18 @@ class Mic:
                     didDetect = True
                     break
             except Exception, e:
-                self._logger.warning(e)
+                self._logger.debug(e)
                 continue
 
         # no use continuing if no flag raised
         if not didDetect:
-            print "No disturbance detected"
+            print "没接收到唤醒指令"
             try:
                 self.stop_passive = False
                 stream.stop_stream()
                 stream.close()
             except Exception, e:
-                self._logger.warning(e)
+                self._logger.debug(e)
                 pass
             return (None, None)
 
@@ -217,7 +217,7 @@ class Mic:
                 data = stream.read(CHUNK)
                 frames.append(data)
             except Exception, e:
-                self._logger.warning(e)
+                self._logger.debug(e)
                 continue
 
         # save the audio data
@@ -226,7 +226,7 @@ class Mic:
             stream.stop_stream()
             stream.close()
         except Exception, e:
-            self._logger.warning(e)
+            self._logger.debug(e)
             pass
 
         with tempfile.NamedTemporaryFile(mode='w+b') as f:
@@ -302,7 +302,7 @@ class Mic:
                 if average < THRESHOLD * 0.9:
                     break
             except Exception, e:
-                self._logger.warning(e)
+                self._logger.debug(e)
                 continue
 
         self.speaker.play(dingdangpath.data('audio', 'beep_lo.wav'))
@@ -312,7 +312,7 @@ class Mic:
             stream.stop_stream()
             stream.close()
         except Exception, e:
-            self._logger.warning(e)
+            self._logger.debug(e)
             pass
 
         with tempfile.SpooledTemporaryFile(mode='w+b') as f:

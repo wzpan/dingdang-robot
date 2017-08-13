@@ -127,6 +127,8 @@ class Dingdang(object):
             stt_engine_class.get_active_instance())
 
     def start_wxbot(self):
+        print("请扫描如下二维码登录微信")
+        print("登录成功后，可以与自己的微信账号（不是文件传输助手）交互")
         self.wxBot.run(self.mic)
 
     def run(self):

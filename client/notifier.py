@@ -29,7 +29,7 @@ class Notifier(object):
             self.notifiers.append(self.NotificationClient(
                 self.handleEmailNotifications, None))
         else:
-            self._logger.warning('email account not set ' +
+            self._logger.debug('email account not set ' +
                                  'in profile, email notifier will not be used')
 
         sched = BackgroundScheduler(daemon=True)
