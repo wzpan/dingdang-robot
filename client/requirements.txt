@@ -20,5 +20,6 @@ PyQRCode==1.2.1
 pydub==0.18.0
 pypng==0.0.18
 
-
-
+# respeaker
+spidev
+gpiozero

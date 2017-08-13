@@ -14,6 +14,6 @@ install:
     - "pip install nose --download-cache $HOME/.pip-cache"
     - "pip install flake8 --download-cache $HOME/.pip-cache"
 before_script:
-    - "flake8 --exclude=wxbot.py,snowboydetect.py dingdang.py client"
+    - "flake8 --exclude=wxbot.py,snowboydetect.py,client/drivers dingdang.py client"
 script:
     - "nosetests -s --exe -v --with-coverage --cover-erase"

@@ -3,6 +3,7 @@ import logging
 from notifier import Notifier
 from brain import Brain
 import time
+from drivers.pixels import pixels
 
 
 class Conversation(object):
@@ -68,13 +69,16 @@ class Conversation(object):
                 self._logger.info("Nothing has been said or transcribed.")
                 continue
             self._logger.info("Keyword '%s' has been said!", self.persona)
+            pixels.wakeup()
 
             self._logger.debug("Started to listen actively with threshold: %r",
                                threshold)
             input = self.mic.activeListenToAllOptions(threshold)
             self._logger.debug("Stopped to listen actively with threshold: %r",
                                threshold)
+            pixels.think()
             if input:
                 self.brain.query(input, self.wxbot)
             else:
                 self.mic.say("什么?")
+            pixels.off()

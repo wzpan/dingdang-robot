@@ -11,6 +11,7 @@ import pyaudio
 import dingdangpath
 import mute_alsa
 from app_utils import wechatUser
+from drivers.pixels import pixels
 
 
 class Mic:
@@ -328,6 +329,7 @@ class Mic:
 
     def say(self, phrase,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
+        pixels.speak()
         if self.wxbot is not None:
             wechatUser(self.profile, self.wxbot, "%s: %s" %
                        (self.robot_name, phrase), "")
