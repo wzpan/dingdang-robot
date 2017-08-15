@@ -299,7 +299,7 @@ class Mic:
                 average = sum(lastN) / float(len(lastN))
 
                 # TODO: 0.8 should not be a MAGIC NUMBER!
-                if average < THRESHOLD * 0.9:
+                if average < THRESHOLD * 0.8:
                     break
             except Exception, e:
                 self._logger.debug(e)
