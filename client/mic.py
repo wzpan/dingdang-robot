@@ -51,6 +51,7 @@ class Mic:
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
         self.stop_passive = False
+        self.skip_passive = False
 
     def __del__(self):
         self._audio.terminate()
@@ -285,7 +286,7 @@ class Mic:
         frames = []
         # increasing the range # results in longer pause after command
         # generation
-        lastN = [THRESHOLD * 1.2 for i in range(60)]
+        lastN = [THRESHOLD * 1.2 for i in range(40)]
 
         for i in range(0, RATE / CHUNK * LISTEN_TIME):
             try:
