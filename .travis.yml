@@ -9,10 +9,10 @@ cache:
     - "$HOME/.pip-cache/"
     - "/home/travis/virtualenv/python2.7"
 install: 
-    - "pip install -r client/requirements.txt  --download-cache $HOME/.pip-cache"
-    - "pip install coverage  --download-cache $HOME/.pip-cache"
-    - "pip install nose --download-cache $HOME/.pip-cache"
-    - "pip install flake8 --download-cache $HOME/.pip-cache"
+    - "pip install -r client/requirements.txt --cache-dir $HOME/.pip-cache"
+    - "pip install coverage --cache-dir $HOME/.pip-cache"
+    - "pip install nose --cache-dir $HOME/.pip-cache"
+    - "pip install flake8 --cache-dir $HOME/.pip-cache"
 before_script:
     - "flake8 --exclude=wxbot.py,snowboydetect.py dingdang.py client"
 script:
