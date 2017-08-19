@@ -25,7 +25,8 @@ def handle(text, mic, profile, wxbot=None):
     wxBot -- wechat robot
     """
     if need_robot(profile):
-        robot = get_robot_by_slug("tuling")
+        slug = profile['robot']
+        robot = get_robot_by_slug(slug)
         robot.get_instance(mic, profile, wxbot).chat(text)
     else:
         messages = [u"抱歉，您能再说一遍吗？",
