@@ -95,7 +95,8 @@ class TulingRobot(AbstractRobot):
                     self.mic.say(u'抱歉，%s发送失败了！' % target)
             else:
                 self.mic.say(result)
-            if result.endswith('?') or result.endswith(u'？'):
+            if result.endswith('?') or result.endswith(u'？') or \
+               u'告诉我' in result or u'请回答' in result::
                 self.mic.skip_passive = True
         except Exception:
             self._logger.critical("Tuling robot failed to responsed for %r",
@@ -184,7 +185,8 @@ class Emotibot(AbstractRobot):
                     self.mic.say(u'抱歉，%s发送失败了！' % target)
             else:
                 self.mic.say(result)
-            if result.endswith('?') or result.endswith(u'？'):
+            if result.endswith('?') or result.endswith(u'？') or \
+               u'告诉我' in result or u'请回答' in result:
                 self.mic.skip_passive = True
 
         except Exception:
