@@ -163,7 +163,7 @@ class Emotibot(AbstractRobot):
                     for data in datas:
                         responds.append(data.get('value'))
                 else:
-                    responds.append(jsondata.get('data')[0])
+                    responds.append(jsondata.get('data')[0].get('value'))
                 result = '\n'.join(responds)
             else:
                 result = u"抱歉, 我的大脑短路了，请稍后再试试."
