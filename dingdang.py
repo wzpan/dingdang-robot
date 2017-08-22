@@ -146,7 +146,7 @@ class Dingdang(object):
         # create wechat robot
         if self.config['wechat']:
             self.wxBot = WechatBot(conversation.brain)
-            self.wxBot.DEBUG = True
+            self.wxBot.DEBUG = False
             self.wxBot.conf['qr'] = 'tty'
             conversation.wxbot = self.wxBot
             t = threading.Thread(target=self.start_wxbot)

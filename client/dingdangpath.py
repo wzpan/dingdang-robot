@@ -7,6 +7,7 @@ APP_PATH = os.path.normpath(os.path.join(
 
 DATA_PATH = os.path.join(APP_PATH, "static")
 LIB_PATH = os.path.join(APP_PATH, "client")
+LOGIN_PATH = os.path.join(APP_PATH, "login")
 TEMP_PATH = os.path.join(APP_PATH, "temp")
 PLUGIN_PATH = os.path.join(LIB_PATH, "plugins")
 
