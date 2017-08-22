@@ -84,3 +84,4 @@ wget-log*
 
 # some thirdparty libs
 client/mic_array
+login/wxqr.png

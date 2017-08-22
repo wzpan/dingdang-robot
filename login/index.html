@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<head>
+<title>叮当机器人 微信登陆二维码 DingDang Robot Waiting to be Controlled by Tencent WeiXin</title>
+
+<!-- css files -->
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all">
+<!-- //css files -->
+
+</head>
+
+<body>
+<div class="header">
+	<h1>叮当 - 中文语音对话机器人</h1>
+</div>
+<div class="w3-main">
+	<div class="agile-info">
+		<h3>请使用微信扫描二维码以登陆叮当</h3>
+		<img src="wxqr.png" alt="image">
+		<p>若二维码过期，请让叮当重新启动服务器。</p>
+		
+<script type="text/javascript">
+function CloseWebPage(){
+ if (navigator.userAgent.indexOf("MSIE") > 0) {
+  if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+   window.opener = null;
+   window.close();
+  } else {
+   window.open('', '_top');
+   window.top.close();
+  }
+ }
+ else if (navigator.userAgent.indexOf("Firefox") > 0) {
+  window.location.href = 'about:blank ';
+ } else {
+  window.opener = null;
+  window.open('', '_self', '');
+  window.close();
+ }
+}
+</script>
+		
+		<a href="javascript:CloseWebPage();">关闭窗口</a>
+		
+	</div>
+</div>
+
+<div class="footer-w3l">
+	<p>&copy; 2017 潘伟洲 <m@hahack.com> | <a href="http://dingdang.hahack.com/">View DingDang-Robot</a></p>
+</div>
+
+</body>
+</html>
