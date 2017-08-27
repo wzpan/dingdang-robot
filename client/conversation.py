@@ -71,9 +71,9 @@ class Conversation(object):
                     continue
                 self._logger.info("Keyword '%s' has been said!", self.persona)
             else:
-                self.mic.skip_passive = False
+                if not self.mic.chatting_mode:
+                    self.mic.skip_passive = False
             pixels.wakeup()
-
             self._logger.debug("Started to listen actively with threshold: %r",
                                threshold)
             input = self.mic.activeListenToAllOptions(threshold)

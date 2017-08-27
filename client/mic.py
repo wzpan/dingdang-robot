@@ -53,6 +53,7 @@ class Mic:
         self._logger.info("Initialization of PyAudio completed.")
         self.stop_passive = False
         self.skip_passive = False
+        self.chatting_mode = False
 
     def __del__(self):
         self._audio.terminate()
