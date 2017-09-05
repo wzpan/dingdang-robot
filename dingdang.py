@@ -65,7 +65,7 @@ class WechatBot(WXBot):
                 self.brain.query([msg_data], self, True)
             elif msg['content']['type'] == 4:  # echo voice
                 player = SimpleMp3Player()
-                player.play_mp3('./temp/voice_%s.mp3' % msg['msg_id'])
+                player.play_mp3(os.path.join(dingdangpath.TEMP_PATH, 'voice_%s.mp3' % msg['msg_id']))
 
 
 class Dingdang(object):
@@ -146,7 +146,7 @@ class Dingdang(object):
         # create wechat robot
         if self.config['wechat']:
             self.wxBot = WechatBot(conversation.brain)
-            self.wxBot.DEBUG = False
+            self.wxBot.DEBUG = True
             self.wxBot.conf['qr'] = 'tty'
             conversation.wxbot = self.wxBot
             t = threading.Thread(target=self.start_wxbot)
