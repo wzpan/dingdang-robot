@@ -416,12 +416,10 @@ class PicoTTS(AbstractTTSEngine):
 class BaiduTTS(AbstractMp3TTSEngine):
     """
     使用百度语音合成技术
-
     要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
     之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
     填入 profile.xml 中.
-
-        ...
+    ...
         baidu_yuyin: 'AIzaSyDoHmTEToZUQrltmORWS4Ott0OHVA62tw8'
             api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
             secret_key: '14dbd10057xu7b256e537455698c0e4e'
@@ -506,6 +504,69 @@ class BaiduTTS(AbstractMp3TTSEngine):
                 return None
         except Exception:
             pass
+        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
+            f.write(r.content)
+            tmpfile = f.name
+            return tmpfile
+
+    def say(self, phrase):
+        self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
+        tmpfile = self.get_speech(phrase)
+        if tmpfile is not None:
+            self.play_mp3(tmpfile)
+            os.remove(tmpfile)
+
+
+class IFlyTekTTS(AbstractMp3TTSEngine):
+    """
+    使用讯飞的语音合成技术
+    要使用本模块, 请先在 profile.xml 中启用本模块并选择合适的发音人.
+    """
+
+    SLUG = "iflytek-tts"
+
+    def __init__(self, vid='60170'):
+        self._logger = logging.getLogger(__name__)
+        self.vid = vid
+
+    @classmethod
+    def get_config(cls):
+        # FIXME: Replace this as soon as we have a config module
+        config = {}
+        # Try to get baidu_yuyin config from config
+        profile_path = dingdangpath.config('profile.yml')
+        if os.path.exists(profile_path):
+            with open(profile_path, 'r') as f:
+                profile = yaml.safe_load(f)
+                if 'iflytek_yuyin' in profile:
+                    if 'vid' in profile['iflytek_yuyin']:
+                        config['vid'] = \
+                            profile['iflytek_yuyin']['vid']
+        return config
+
+    @classmethod
+    def is_available(cls):
+        return diagnose.check_network_connection()
+
+    def split_sentences(self, text):
+        punctuations = ['.', '。', ';', '；', '\n']
+        for i in punctuations:
+            text = text.replace(i, '@@@')
+        return text.split('@@@')
+
+    def get_speech(self, phrase):
+        getinfo_url = 'http://www.peiyinge.com/make/getSynthSign'
+        voice_baseurl = 'http://proxy.peiyinge.com:17063/synth?ts='
+        data = {
+            'content': phrase.encode('utf8')
+        }
+        result_info = requests.post(getinfo_url, data=data).json()
+        content = urllib.quote(phrase.encode('utf8'))
+        ts = result_info['ts']
+        sign = result_info['sign']
+        voice_url = voice_baseurl + ts + '&sign=' + sign + \
+            '&vid=' + self.vid + '&volume=&speed=0&content=' + content
+        r = requests.get(voice_url)
         with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
             f.write(r.content)
             tmpfile = f.name

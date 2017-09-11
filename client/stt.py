@@ -14,6 +14,10 @@ import dingdangpath
 import diagnose
 import vocabcompiler
 from uuid import getnode as get_mac
+import time
+import hashlib
+import datetime
+import hmac
 
 import sys
 
@@ -193,8 +197,7 @@ class BaiduSTT(AbstractSTTEngine):
     要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
     之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
     填入 profile.xml 中.
-
-        ...
+    ...
         baidu_yuyin: 'AIzaSyDoHmTEToZUQrltmORWS4Ott0OHVA62tw8'
             api_key: 'LMFYhLdXSSthxCNLR7uxFszQ'
             secret_key: '14dbd10057xu7b256e537455698c0e4e'
@@ -294,6 +297,218 @@ class BaiduSTT(AbstractSTTEngine):
             if text:
                 transcribed.append(text.upper())
             self._logger.info(u'百度语音识别到了: %s' % text)
+            return transcribed
+
+    @classmethod
+    def is_available(cls):
+        return diagnose.check_network_connection()
+
+
+class IFlyTekSTT(AbstractSTTEngine):
+    """
+    科大讯飞的语音识别API.
+    要使用本模块, 首先到 http://aiui.xfyun.cn/default/index 注册一个开发者账号,
+    之后创建一个新应用, 然后在应用管理的那查看 API id 和 API Key
+    填入 profile.xml 中.
+    """
+
+    SLUG = "iflytek-stt"
+
+    def __init__(self, api_id, api_key):
+        self._logger = logging.getLogger(__name__)
+        self.api_id = api_id
+        self.api_key = api_key
+
+    @classmethod
+    def get_config(cls):
+        # FIXME: Replace this as soon as we have a config module
+        config = {}
+        # Try to get iflytek_yuyin config from config
+        profile_path = dingdangpath.config('profile.yml')
+        if os.path.exists(profile_path):
+            with open(profile_path, 'r') as f:
+                profile = yaml.safe_load(f)
+                if 'iflytek_yuyin' in profile:
+                    if 'api_id' in profile['iflytek_yuyin']:
+                        config['api_id'] = \
+                            profile['iflytek_yuyin']['api_id']
+                    if 'api_key' in profile['iflytek_yuyin']:
+                        config['api_key'] = \
+                            profile['iflytek_yuyin']['api_key']
+        return config
+
+    def transcribe(self, fp):
+        try:
+            wav_file = wave.open(fp, 'rb')
+        except IOError:
+            self._logger.critical('wav file not found: %s',
+                                  fp,
+                                  exc_info=True)
+            return []
+        Param = '{"auf":"16k","aue":"raw","scene":"main"}'
+        XParam = base64.b64encode(Param)
+        n_frames = wav_file.getnframes()
+        audio = wav_file.readframes(n_frames)
+        base_data = base64.b64encode(audio)
+        data = {'data': base_data}
+        m = hashlib.md5()
+        m.update(self.api_key + str(int(time.time()))
+                 + XParam + 'data=' + base_data)
+        checksum = m.hexdigest()
+
+        headers = {
+            'X-Appid': self.api_id,
+            'X-CurTime': str(int(time.time())),
+            'X-Param': Param,
+            'X-CheckSum': checksum
+        }
+        r = requests.post('http://api.xfyun.cn/v1/aiui/v1/iat',
+                          data=data,
+                          headers=headers)
+        try:
+            r.raise_for_status()
+            text = ''
+            if r.json()['code'] == '00000':
+                text = r.json()['data']['result'].encode('utf-8')
+        except requests.exceptions.HTTPError:
+            self._logger.critical('Request failed with response: %r',
+                                  r.text,
+                                  exc_info=True)
+            return []
+        except requests.exceptions.RequestException:
+            self._logger.critical('Request failed.', exc_info=True)
+            return []
+        except ValueError as e:
+            self._logger.critical('Cannot parse response: %s',
+                                  e.args[0])
+            return []
+        except KeyError:
+            self._logger.critical('Cannot parse response.',
+                                  exc_info=True)
+            return []
+        else:
+            transcribed = []
+            if text:
+                transcribed.append(text.upper())
+            self._logger.info(u'讯飞语音识别到了: %s' % text)
+            return transcribed
+
+    @classmethod
+    def is_available(cls):
+        return diagnose.check_network_connection()
+
+
+class ALiBaBaSTT(AbstractSTTEngine):
+    """
+    阿里云的语音识别API.
+    要使用本模块, 首先到 https://data.aliyun.com/product/nls 注册一个开发者账号,
+    然后查看自己的AK信息，填入 profile.xml 中.
+    """
+
+    SLUG = "ali-stt"
+
+    def __init__(self, ak_id, ak_secret):
+        self._logger = logging.getLogger(__name__)
+        self.ak_id = ak_id
+        self.ak_secret = ak_secret
+
+    @classmethod
+    def get_config(cls):
+        # FIXME: Replace this as soon as we have a config module
+        config = {}
+        # Try to get iflytek_yuyin config from config
+        profile_path = dingdangpath.config('profile.yml')
+        if os.path.exists(profile_path):
+            with open(profile_path, 'r') as f:
+                profile = yaml.safe_load(f)
+                if 'ali_yuyin' in profile:
+                    if 'ak_id' in profile['ali_yuyin']:
+                        config['ak_id'] = \
+                            profile['ali_yuyin']['ak_id']
+                    if 'ak_secret' in profile['ali_yuyin']:
+                        config['ak_secret'] = \
+                            profile['ali_yuyin']['ak_secret']
+        return config
+
+    def to_md5_base64(self, strBody):
+        hash = hashlib.md5()
+        hash.update(self.body)
+        m = hash.digest().encode('base64').strip()
+        hash = hashlib.md5()
+        hash.update(m)
+        return hash.digest().encode('base64').strip()
+
+    def to_sha1_base64(self, stringToSign, secret):
+        hmacsha1 = hmac.new(secret, stringToSign, hashlib.sha1)
+        return base64.b64encode(hmacsha1.digest())
+
+    def transcribe(self, fp):
+        try:
+            wav_file = wave.open(fp, 'rb')
+        except IOError:
+            self._logger.critical('wav file not found: %s',
+                                  fp,
+                                  exc_info=True)
+            return []
+        n_frames = wav_file.getnframes()
+        audio = wav_file.readframes(n_frames)
+        date = datetime.datetime.strftime(datetime.datetime.utcnow(),
+                                          "%a, %d %b %Y %H:%M:%S GMT")
+        options = {
+            'url': 'https://nlsapi.aliyun.com/recognize?model=chat',
+            'method': 'POST',
+            'body': audio,
+        }
+        headers = {
+            'authorization': '',
+            'content-type': 'audio/wav; samplerate=16000',
+            'accept': 'application/json',
+            'date': date,
+            'Content-Length': str(len(audio))
+        }
+
+        self.body = ''
+        if 'body' in options:
+            self.body = options['body']
+
+        bodymd5 = ''
+        if not self.body == '':
+            bodymd5 = self.to_md5_base64(self.body)
+
+        stringToSign = options['method'] + '\n' + \
+            headers['accept'] + '\n' + bodymd5 + '\n' + \
+            headers['content-type'] + '\n' + headers['date']
+        signature = self.to_sha1_base64(stringToSign, self.ak_secret)
+
+        authHeader = 'Dataplus ' + self.ak_id + ':' + signature
+        headers['authorization'] = authHeader
+        url = options['url']
+        r = requests.post(url, data=self.body, headers=headers, verify=False)
+        try:
+            text = ''
+            if 'result' in r.json():
+                text = r.json()['result'].encode('utf-8')
+        except requests.exceptions.HTTPError:
+            self._logger.critical('Request failed with response: %r',
+                                  r.text,
+                                  exc_info=True)
+            return []
+        except requests.exceptions.RequestException:
+            self._logger.critical('Request failed.', exc_info=True)
+            return []
+        except ValueError as e:
+            self._logger.critical('Cannot parse response: %s',
+                                  e.args[0])
+            return []
+        except KeyError:
+            self._logger.critical('Cannot parse response.',
+                                  exc_info=True)
+            return []
+        else:
+            transcribed = []
+            if text:
+                transcribed.append(text.upper())
+            self._logger.info(u'阿里云语音识别到了: %s' % text)
             return transcribed
 
     @classmethod
