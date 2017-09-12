@@ -16,6 +16,10 @@ import pipes
 import logging
 import urllib
 import requests
+import datetime
+import base64
+import hmac
+import hashlib
 from abc import ABCMeta, abstractmethod
 from uuid import getnode as get_mac
 
@@ -533,7 +537,7 @@ class IFlyTekTTS(AbstractMp3TTSEngine):
     def get_config(cls):
         # FIXME: Replace this as soon as we have a config module
         config = {}
-        # Try to get baidu_yuyin config from config
+        # Try to get iflytek_yuyin config from config
         profile_path = dingdangpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
@@ -567,6 +571,107 @@ class IFlyTekTTS(AbstractMp3TTSEngine):
         voice_url = voice_baseurl + ts + '&sign=' + sign + \
             '&vid=' + self.vid + '&volume=&speed=0&content=' + content
         r = requests.get(voice_url)
+        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
+            f.write(r.content)
+            tmpfile = f.name
+            return tmpfile
+
+    def say(self, phrase):
+        self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
+        tmpfile = self.get_speech(phrase)
+        if tmpfile is not None:
+            self.play_mp3(tmpfile)
+            os.remove(tmpfile)
+
+
+class ALiBaBaTTS(AbstractMp3TTSEngine):
+    """
+    使用阿里云的语音合成技术
+    要使用本模块, 请先在 profile.xml 中启用本模块并选择合适的发音人.
+    """
+
+    SLUG = "ali-tts"
+
+    def __init__(self, ak_id, ak_secret, voice_name='xiaoyun'):
+        self._logger = logging.getLogger(__name__)
+        self.ak_id = ak_id
+        self.ak_secret = ak_secret
+        self.voice_name = voice_name
+
+    @classmethod
+    def get_config(cls):
+        # FIXME: Replace this as soon as we have a config module
+        config = {}
+        # Try to get ali_yuyin config from config
+        profile_path = dingdangpath.config('profile.yml')
+        if os.path.exists(profile_path):
+            with open(profile_path, 'r') as f:
+                profile = yaml.safe_load(f)
+                if 'ali_yuyin' in profile:
+                    if 'ak_id' in profile['ali_yuyin']:
+                        config['ak_id'] = \
+                            profile['ali_yuyin']['ak_id']
+                    if 'ak_secret' in profile['ali_yuyin']:
+                        config['ak_secret'] = \
+                            profile['ali_yuyin']['ak_secret']
+                    if 'voice_name' in profile['ali_yuyin']:
+                        config['voice_name'] = \
+                            profile['ali_yuyin']['voice_name']
+        return config
+
+    @classmethod
+    def is_available(cls):
+        return diagnose.check_network_connection()
+
+    def split_sentences(self, text):
+        punctuations = ['.', '。', ';', '；', '\n']
+        for i in punctuations:
+            text = text.replace(i, '@@@')
+        return text.split('@@@')
+
+    def get_current_date(self):
+        date = datetime.datetime.strftime(datetime.datetime.utcnow(),
+                                          "%a, %d %b %Y %H: %M: %S GMT")
+        return date
+
+    def to_md5_base64(self, strBody):
+        hash = hashlib.md5()
+        hash.update(strBody)
+        return hash.digest().encode('base64').strip()
+
+    def to_sha1_base64(self, stringToSign, secret):
+        hmacsha1 = hmac.new(secret, stringToSign, hashlib.sha1)
+        return base64.b64encode(hmacsha1.digest())
+
+    def get_speech(self, phrase):
+        options = {
+            'url': 'http://nlsapi.aliyun.com/speak?encode_type=' +
+            'mp3&voice_name=' + self.voice_name + '&volume=50',
+            'method': 'POST',
+            'body': phrase.encode('utf8'),
+        }
+        headers = {
+            'date': self.get_current_date(),
+            'content-type': 'text/plain',
+            'authorization': '',
+            'accept': 'audio/wav, application/json'
+        }
+
+        body = ''
+        if 'body' in options:
+            body = options['body']
+
+        bodymd5 = ''
+        if not body == '':
+            bodymd5 = self.to_md5_base64(body)
+
+        stringToSign = options['method'] + '\n' + headers['accept'] + '\n' + \
+            bodymd5 + '\n' + headers['content-type'] + '\n' + headers['date']
+        signature = self.to_sha1_base64(stringToSign, self.ak_secret)
+        authHeader = 'Dataplus ' + self.ak_id + ':' + signature
+        headers['authorization'] = authHeader
+        url = options['url']
+        r = requests.post(url, data=body, headers=headers, verify=False)
         with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
             f.write(r.content)
             tmpfile = f.name
