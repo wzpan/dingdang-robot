@@ -176,7 +176,7 @@ class Emotibot(AbstractRobot):
                     remind_time = remind_info[0].get('remind_time')
 
                     if not create_reminder(remind_event, remind_time):
-                        result = '\n'.join('创建提醒失败了')
+                        result = u'创建提醒失败了'
             else:
                 result = u"抱歉, 我的大脑短路了，请稍后再试试."
             max_length = 200

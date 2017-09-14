@@ -140,15 +140,13 @@ def create_reminder(remind_event, remind_time):
             remind_time[:4] + '-' + remind_time[4:6] + '-' + \
             remind_time[6:8] + 'T' + remind_time[8:10] + ':' + \
             remind_time[10:12] + ':' + remind_time[12:]
+        print cmd
         try:
-            p = subprocess.Popen(
-                cmd,
+            res = subprocess.call(
+                [cmd],
                 stdout=subprocess.PIPE, shell=True)
-            p.wait()
-            line = p.stdout.readline()
-
-            if 'Created task' in line:
-                return True
+            print res
+            return(res == 0)
         except Exception, e:
             _logger.error(e)
             return False
