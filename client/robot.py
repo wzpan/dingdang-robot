@@ -3,10 +3,12 @@ import requests
 import json
 import logging
 from uuid import getnode as get_mac
-from app_utils import sendToUser
+from app_utils import sendToUser, create_reminder
 from abc import ABCMeta, abstractmethod
 
 import sys
+
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -166,6 +168,15 @@ class Emotibot(AbstractRobot):
                 else:
                     responds.append(jsondata.get('data')[0].get('value'))
                 result = '\n'.join(responds)
+
+                if jsondata.get('data')[0]['cmd'] == 'reminder':
+                    data = jsondata.get('data')[0]
+                    remind_info = data.get('data').get('remind_info')
+                    remind_event = remind_info[0].get('remind_event')
+                    remind_time = remind_info[0].get('remind_time')
+
+                    if not create_reminder(remind_event, remind_time):
+                        result = '\n'.join('创建提醒失败了')
             else:
                 result = u"抱歉, 我的大脑短路了，请稍后再试试."
             max_length = 200
