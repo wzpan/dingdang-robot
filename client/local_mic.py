@@ -10,6 +10,9 @@ class Mic:
     prev = None
 
     def __init__(self, config, speaker, passive_stt_engine, active_stt_engine):
+        self.stop_passive = False
+        self.skip_passive = False
+        self.chatting_mode = False
         return
 
     def passiveListen(self, PERSONA):
@@ -30,6 +33,3 @@ class Mic:
 
     def say(self, phrase, OPTIONS=None):
         print("DINGDANG: %s" % phrase)
-
-    def stop_passive(self):
-        pass
