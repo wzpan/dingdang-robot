@@ -110,16 +110,12 @@ python dingdang.py
 * 提 bug 请到 [issue 页面](https://github.com/wzpan/dingdang-robot/issues)；
 * 要贡献代码，欢迎 fork 之后再提 pull request；
 * 插件请提交到 [dingdang-contrib](https://github.com/dingdang-robot/dingdang-contrib) ；
-* 您的捐赠将鼓励我继续完善叮当，支持支付宝、微信、比特币、莱特币、以太坊等捐赠形式：
+* 您的捐赠将鼓励我继续完善叮当，支持支付宝、微信等捐赠形式：
 
 | 支付宝 | 微信支付 |
 | ------ | --------- |
 | <img src="http://7xj89i.com1.z0.glb.clouddn.com/ali_pay_01.jpg" height="248px" width="164px" title="支付宝" style="display:inherit;"/> | <img src="http://7xj89i.com1.z0.glb.clouddn.com/wechat_pay_02.png" height="248px" width="164px" title="微信支付" style="display:inherit;"/> |
 
-  * BTC: 39Es9K6EYfnDeCj6hQ1rN9wX1Y5fxZ8CZA
-  * LTC: LYkWaXB7Ndu8s37zt1tjEu6goVYck1GxNr
-  * ETH: 0x792ec91956a4976203804105d4e4d71954048d4e
-   
 
 ## 联系
 
