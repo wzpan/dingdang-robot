@@ -18,8 +18,10 @@ import time
 import hashlib
 import datetime
 import hmac
-
 import sys
+
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 reload(sys)
 sys.setdefaultencoding('utf8')
