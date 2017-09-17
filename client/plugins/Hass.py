@@ -46,6 +46,7 @@ def hass(text, mic, profile):
         name = device["attributes"]["friendly_name"]
         state = device["state"]
         attributes = device["attributes"]
+        domain = device["entity_id"].split(".")[0]
         if 'dingdang' in attributes.keys():
             dingdang = attributes["dingdang"]
             if isinstance(dingdang, list):
@@ -66,7 +67,7 @@ def hass(text, mic, profile):
                     try:
                         act = dingdang[text]
                         p = json.dumps({"entity_id": device["entity_id"]})
-                        s = "/api/services/switch/"
+                        s = "/api/services/" + domain + "/"
                         url_s = url + ":" + port + s + act
                         request = requests.post(url_s, headers=headers, data=p)
                         if format(request.status_code) == "200" or \
