@@ -2,6 +2,7 @@
 import apa102
 import time
 import threading
+from gpiozero import LED
 try:
     import queue as Queue
 except ImportError:
@@ -9,7 +10,7 @@ except ImportError:
 
 
 class Pixels:
-    PIXELS_N = 3
+    PIXELS_N = 12
 
     def __init__(self):
         self.basis = [0] * 3 * self.PIXELS_N
@@ -25,6 +26,8 @@ class Pixels:
         self.thread = threading.Thread(target=self._run)
         self.thread.daemon = True
         self.thread.start()
+        self.power = LED(5)
+        self.power.on()
 
     def wakeup(self, direction=0):
         def f():
