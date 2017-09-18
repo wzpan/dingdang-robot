@@ -11,6 +11,10 @@
 
 叮当是一款可以工作在 Raspberry Pi 上的开源中文语音对话机器人/智能音箱项目，目的是让中国的Hacker们也能快速打造个性化的智能音箱。
 
+<h1 align="center">
+<img width="250" src="http://onmw7y6f4.bkt.clouddn.com/dingdang-logo.png" alt="Awesome">
+</h1>
+
 <div class="video">
    <div class="MIAOPAI_player" style='width:600px;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;' >
    </div>
