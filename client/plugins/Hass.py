@@ -22,6 +22,8 @@ def handle(text, mic, profile, wxbot=None):
 
 
 def hass(text, mic, profile):
+    if isinstance(text, bytes):
+        text = text.decode('utf8')
     logger = logging.getLogger(__name__)
     if not profile[SLUG] or 'url' not in profile[SLUG] or \
        'port' not in profile[SLUG] or \
@@ -64,6 +66,8 @@ def hass(text, mic, profile):
                     break
             elif isinstance(dingdang, dict):
                 if text in dingdang.keys():
+                    if isinstance(text, bytes):
+                        text = text.decode('utf8')
                     try:
                         act = dingdang[text]
                         p = json.dumps({"entity_id": device["entity_id"]})
