@@ -361,7 +361,7 @@ class IFlyTekSTT(AbstractSTTEngine):
         headers = {
             'X-Appid': self.api_id,
             'X-CurTime': str(int(time.time())),
-            'X-Param': Param,
+            'X-Param': XParam,
             'X-CheckSum': checksum
         }
         r = requests.post('http://api.xfyun.cn/v1/aiui/v1/iat',
