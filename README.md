@@ -127,6 +127,7 @@ python dingdang.py
 * 叮当的前身是 [jasper-client](https://github.com/jasperproject/jasper-client)。感谢 [Shubhro Saha](http://www.shubhro.com/), [Charles Marsh](http://www.crmarsh.com/) and [Jan Holthuis](http://homepage.ruhr-uni-bochum.de/Jan.Holthuis/) 在 Jasper 项目上做出的优秀贡献；
 * 微信机器人使用的是 [liuwons](http://lwons.com/) 的 [wxBot](https://github.com/liuwons/wxBot)。
 * 感谢果果 [@qwedc001](http://github.com/qwedc001) 帮忙搭建维护 [论坛](http://bbs.hahack.com) 。
+* 感谢 [@GoldJohnKing](https://github.com/GoldJohnKing) 设计了叮当的 [logo](https://github.com/wzpan/dingdang-robot/issues/39) 。
 
 ## FAQ
 
