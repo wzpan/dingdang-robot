@@ -11,6 +11,10 @@
 
 叮当是一款可以工作在 Raspberry Pi 上的开源中文语音对话机器人/智能音箱项目，目的是让中国的Hacker们也能快速打造个性化的智能音箱。
 
+<h1 align="center">
+<img width="250" src="http://onmw7y6f4.bkt.clouddn.com/dingdang-logo.png" alt="dingdang">
+</h1>
+
 <div class="video">
    <div class="MIAOPAI_player" style='width:600px;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;' >
    </div>
@@ -109,7 +113,7 @@ python dingdang.py
 * 提 bug 请到 [issue 页面](https://github.com/wzpan/dingdang-robot/issues)；
 * 要贡献代码，欢迎 fork 之后再提 pull request；
 * 插件请提交到 [dingdang-contrib](https://github.com/dingdang-robot/dingdang-contrib) ；
-* 您的捐赠将鼓励我继续完善叮当，支持支付宝、微信等捐赠形式：
+* 您的捐赠将鼓励我继续完善叮当，支持支付宝、微信等捐赠形式。捐赠的时候，请备注下您的昵称或姓名，我将会把您备注的信息添加到 [捐赠者名单](https://github.com/wzpan/dingdang-robot/wiki/donate-list) 中：
 
 | 支付宝 | 微信支付 |
 | ------ | --------- |
