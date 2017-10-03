@@ -315,10 +315,11 @@ class IFlyTekSTT(AbstractSTTEngine):
 
     SLUG = "iflytek-stt"
 
-    def __init__(self, api_id, api_key):
+    def __init__(self, api_id, api_key, url):
         self._logger = logging.getLogger(__name__)
         self.api_id = api_id
         self.api_key = api_key
+        self.url = url
 
     @classmethod
     def get_config(cls):
@@ -336,6 +337,9 @@ class IFlyTekSTT(AbstractSTTEngine):
                     if 'api_key' in profile['iflytek_yuyin']:
                         config['api_key'] = \
                             profile['iflytek_yuyin']['api_key']
+                    if 'url' in profile['iflytek_yuyin']:
+                        config['url'] = \
+                            profile['iflytek_yuyin']['url']
         return config
 
     def transcribe(self, fp):
@@ -357,7 +361,7 @@ class IFlyTekSTT(AbstractSTTEngine):
             'api_key': self.api_key,
             'XParam': XParam
         }
-        r = requests.post('http://api.musiiot.top/stt.php', data=data)
+        r = requests.post(self.url, data=data)
         try:
             r.raise_for_status()
             text = ''
