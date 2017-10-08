@@ -384,7 +384,8 @@ class IFlyTekSTT(AbstractSTTEngine):
                                   exc_info=True)
             return []
         else:
-            self._logger.warning('Cannot parse response.(code: %s)' % r.json()['code'])
+            self._logger.warning('Cannot parse response.(code: %s)' %
+                                 r.json()['code'])
             transcribed = []
             if text:
                 transcribed.append(text.upper())
