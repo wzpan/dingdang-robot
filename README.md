@@ -51,6 +51,14 @@
 * 灵活可配置。支持定制机器人名字，支持选择语音识别和合成的插件。
 * 智能家居。集成 HomeAssistant 插件，支持语音控制智能家电。
 
+叮当的工作模式：
+
+![叮当的工作模式](http://onmw7y6f4.bkt.clouddn.com/dingdang-workflow.png)
+
+叮当被唤醒后，用户的语音指令先经过在线 STT 引擎进行 ASR 识别成文本，然后对识别到的文本进行技能匹配，交给适合处理该指令的技能插件去处理。插件处理完成后，得到的结果再交给 TTS 引擎合成成语音，播放给用户。
+
+虽然一次交互可能包含多次网络请求，不过带来的好处是：每一个环节都可以被修改和定制。
+
 ## Demo
 
 详见 [Demo](https://github.com/wzpan/dingdang-robot/wiki/demo) 
