@@ -41,6 +41,8 @@
 
 ## 特性
 
+![dingdang-robot features](http://onmw7y6f4.bkt.clouddn.com/dingdang-robot.png)
+
 叮当包括以下诸多特性：
 
 * 模块化。功能插件、语音识别、语音合成、对话机器人都做到了高度模块化，第三方插件单独维护，方便继承和开发自己的插件。
