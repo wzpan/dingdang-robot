@@ -41,7 +41,7 @@
 
 ## 特性
 
-![dingdang-robot features](http://onmw7y6f4.bkt.clouddn.com/dingdang-robot.png)
+![叮当的特性](http://onmw7y6f4.bkt.clouddn.com/dingdang-robot2.png)
 
 叮当包括以下诸多特性：
 
