@@ -305,7 +305,7 @@ class Mic:
                 if average < THRESHOLD * 0.8:
                     break
             except Exception, e:
-                self._logger.debug(e)
+                self._logger.error(e)
                 continue
 
         self.speaker.play(dingdangpath.data('audio', 'beep_lo.wav'))
