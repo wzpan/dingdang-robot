@@ -730,7 +730,7 @@ class GoogleTTS(AbstractMp3TTSEngine):
                  'da', 'nl', 'en', 'eo', 'fi', 'fr', 'de', 'el', 'ht', 'hi',
                  'hu', 'is', 'id', 'it', 'ja', 'ko', 'la', 'lv', 'mk', 'no',
                  'pl', 'pt', 'ro', 'ru', 'sr', 'sk', 'es', 'sw', 'sv', 'ta',
-                 'th', 'tr', 'vi', 'cy']
+                 'th', 'tr', 'vi', 'cy', 'zh-yue']
         return langs
 
     def say(self, phrase):
