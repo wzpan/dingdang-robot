@@ -350,15 +350,22 @@ class IFlyTekSTT(AbstractSTTEngine):
                                   fp,
                                   exc_info=True)
             return []
-        Param = '{"auf":"16k","aue":"raw","scene":"main"}'
-        XParam = base64.b64encode(Param)
         n_frames = wav_file.getnframes()
+        frame_rate = wav_file.getframerate()
+        Param = str({
+            "auf": "16k",
+            "aue": "raw",
+            "scene": "main",
+            "sample_rate": "%s" % str(frame_rate)
+        })
+        XParam = base64.b64encode(Param)
         audio = wav_file.readframes(n_frames)
         base_data = base64.b64encode(audio)
         data = {
             'voice_data': base_data,
             'api_id': self.api_id,
             'api_key': self.api_key,
+            'sample_rate': frame_rate,
             'XParam': XParam
         }
         r = requests.post(self.url, data=data)
@@ -415,7 +422,7 @@ class ALiBaBaSTT(AbstractSTTEngine):
     def get_config(cls):
         # FIXME: Replace this as soon as we have a config module
         config = {}
-        # Try to get iflytek_yuyin config from config
+        # Try to get ali_yuyin config from config
         profile_path = dingdangpath.config('profile.yml')
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
@@ -450,6 +457,7 @@ class ALiBaBaSTT(AbstractSTTEngine):
                                   exc_info=True)
             return []
         n_frames = wav_file.getnframes()
+        frame_rate = wav_file.getframerate()
         audio = wav_file.readframes(n_frames)
         date = datetime.datetime.strftime(datetime.datetime.utcnow(),
                                           "%a, %d %b %Y %H:%M:%S GMT")
@@ -460,7 +468,7 @@ class ALiBaBaSTT(AbstractSTTEngine):
         }
         headers = {
             'authorization': '',
-            'content-type': 'audio/wav; samplerate=16000',
+            'content-type': 'audio/wav; samplerate=%s' % str(frame_rate),
             'accept': 'application/json',
             'date': date,
             'Content-Length': str(len(audio))
