@@ -269,7 +269,7 @@ class Mic:
         """
 
         RATE = 16000
-        CHUNK = 1024
+        CHUNK = 8192
         LISTEN_TIME = 12
 
         # check if no threshold provided
@@ -292,7 +292,7 @@ class Mic:
 
         for i in range(0, RATE / CHUNK * LISTEN_TIME):
             try:
-                data = stream.read(CHUNK, exception_on_overflow=False)
+                data = stream.read(CHUNK)
                 frames.append(data)
                 score = self.getScore(data)
 

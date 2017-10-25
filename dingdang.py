@@ -15,6 +15,9 @@ from client import diagnose
 from client.wxbot import WXBot
 from client.conversation import Conversation
 from client.tts import SimpleMp3Player
+
+from client.audio_utils import mp3_to_wav
+
 # Add dingdangpath.LIB_PATH to sys.path
 sys.path.append(dingdangpath.LIB_PATH)
 
@@ -42,31 +45,50 @@ class WechatBot(WXBot):
         self.music_mode = None
         self.last = time.time()
 
+    def handle_music_mode(self, msg_data):
+        # avoid repeating command
+        now = time.time()
+        if (now - self.last) > 0.5:
+            # stop passive listening
+            self.brain.mic.stopPassiveListen()
+            self.last = now
+            if not self.music_mode.delegating:
+                self.music_mode.delegating = True
+                self.music_mode.delegateInput(msg_data, True)
+                if self.music_mode is not None:
+                    self.music_mode.delegating = False
+
     def handle_msg_all(self, msg):
         # ignore the msg when handling plugins
         if msg['msg_type_id'] == 1 and \
-           msg['to_user_id'] == self.my_account['UserName']:  # reply to self
-
+           msg['to_user_id'] == self.my_account['UserName']:
+            # reply to self
             if msg['content']['type'] == 0:
                 msg_data = msg['content']['data']
                 if self.music_mode is not None:
-                    # avoid repeating command
-                    now = time.time()
-                    if (now - self.last) > 0.5:
-                        # stop passive listening
-                        self.brain.mic.stopPassiveListen()
-                        self.last = now
-                        if not self.music_mode.delegating:
-                            self.music_mode.delegating = True
-                            self.music_mode.delegateInput(msg_data, True)
-                            if self.music_mode is not None:
-                                self.music_mode.delegating = False
-                    return
+                    return self.handle_music_mode(msg_data)
                 self.brain.query([msg_data], self, True)
-            elif msg['content']['type'] == 4:  # echo voice
-                player = SimpleMp3Player()
-                player.play_mp3(os.path.join(dingdangpath.TEMP_PATH,
-                                             'voice_%s.mp3' % msg['msg_id']))
+            elif msg['content']['type'] == 4:
+                mp3_file = os.path.join(dingdangpath.TEMP_PATH,
+                                        'voice_%s.mp3' % msg['msg_id'])
+                profile = self.brain.profile
+                # echo or command?
+                if 'wechat_echo' in profile and not profile['wechat_echo']:
+                    # 执行命令
+                    mic = self.brain.mic
+                    wav_file = mp3_to_wav(mp3_file)
+                    with open(wav_file) as f:
+                        command = mic.active_stt_engine.transcribe(f)
+                        if command:
+                            if self.music_mode is not None:
+                                return self.handle_music_mode(msg_data)
+                            self.brain.query(command, self, True)
+                        else:
+                            mic.say("什么？")
+                else:
+                    # 播放语音
+                    player = SimpleMp3Player()
+                    player.play_mp3(mp3_file)
 
 
 class Dingdang(object):
