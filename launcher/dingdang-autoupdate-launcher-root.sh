@@ -1,9 +1,11 @@
 #!/bin/bash
 sleep 1
 
+# tmux session name
+session_name="dingdang"
+
 #Delete Cache
 sudo rm -r /root/.cache
-sudo rm -r /root/.config
 sudo rm -r /root/.netease-musicbox
 sudo rm -r /root/userInfo
 sleep 1
@@ -21,12 +23,16 @@ sudo pip install --upgrade -r requirements.txt
 sleep 1
 
 #Restore Configuration of AlsaMixer
-alsactl --file=/home/pi/asound.state restore
-sleep 1
+if [ -f /home/pi/asound.state ]; then
+    alsactl --file=/home/pi/asound.state restore
+    sleep 1
+fi
 
-#Launch Dingdang in LxTerminal
-sudo lxterminal -e "python /home/pi/dingdang/dingdang.py"
+#Launch Dingdang in tmux
+sudo tmux new-session -d -s $session_name $HOME/dingdang/dingdang.py
 sleep 1
 
 #Start Respeaker-Switcher in Background
-sudo python /home/pi/ReSpeaker-Switcher/switcher.py &
+if [ -d /home/pi/ReSpeaker-Switcher]; then
+    sudo python /home/pi/ReSpeaker-Switcher/switcher.py &
+fi
