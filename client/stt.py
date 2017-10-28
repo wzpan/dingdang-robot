@@ -100,7 +100,7 @@ class PocketSphinxSTT(AbstractSTTEngine):
         # quirky bug where first import doesn't work
         try:
             import pocketsphinx as ps
-        except Exception, e:
+        except Exception:
             import pocketsphinx as ps
 
         with tempfile.NamedTemporaryFile(prefix='psdecoder_',
