@@ -49,7 +49,7 @@ class Brain(object):
             try:
                 loader = finder.find_module(name)
                 mod = loader.load_module(name)
-            except:
+            except Exception:
                 logger.warning("Skipped plugin '%s' due to an error.", name,
                                exc_info=True)
             else:

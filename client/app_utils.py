@@ -129,7 +129,7 @@ def getTimezone(profile):
     """
     try:
         return timezone(profile['timezone'])
-    except:
+    except Exception, e:
         return None
 
 
