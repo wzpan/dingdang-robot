@@ -187,7 +187,7 @@ if __name__ == "__main__":
     print("*   https://github.com/wzpan/dingdang-robot.git       *")
     print("*******************************************************")
 
-    logging.basicConfig(filename="dingdang.log", filemode="w",
+    logging.basicConfig(filename="/tmp/dingdang.log", filemode="w",
                         format='%(asctime)s %(filename)s[line:%(lineno)d] \
                         %(levelname)s %(message)s',
                         level=logging.INFO)
