@@ -187,7 +187,10 @@ if __name__ == "__main__":
     print("*   https://github.com/wzpan/dingdang-robot.git       *")
     print("*******************************************************")
 
-    logging.basicConfig()
+    logging.basicConfig(filename="dingdang.log", filemode="w",
+                        format='%(asctime)s %(filename)s[line:%(lineno)d] \
+                        %(levelname)s %(message)s',
+                        level=logging.INFO)
     logger = logging.getLogger()
     logger.getChild("client.stt").setLevel(logging.INFO)
 
