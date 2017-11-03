@@ -14,6 +14,10 @@ sleep 1
 cd /home/pi/dingdang
 git pull
 
+#Update dingdang Requirements
+sudo pip install --upgrade -r client/requirements.txt
+sleep 1
+
 #Update dingdang-contrib
 cd /home/pi/.dingdang/contrib
 git pull
