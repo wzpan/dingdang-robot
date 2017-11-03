@@ -181,13 +181,26 @@ class Dingdang(object):
 
 if __name__ == "__main__":
 
-    print("*******************************************************")
-    print("*             叮当 - 中文语音对话机器人               *")
-    print("*          (c) 2017 潘伟洲 <m@hahack.com>             *")
-    print("*   https://github.com/wzpan/dingdang-robot.git       *")
-    print("*******************************************************")
+    print('''
+*******************************************************"
+*             叮当 - 中文语音对话机器人               *
+*          (c) 2017 潘伟洲 <m@hahack.com>             *
+*   https://github.com/wzpan/dingdang-robot.git       *
+*******************************************************
 
-    logging.basicConfig()
+如需查看log，可以执行 `tail -f 叮当所在目录/temp/dingdang.log`
+
+''')
+
+    logging.basicConfig(
+        filename=os.path.join(
+            dingdangpath.TEMP_PATH, "dingdang.log"
+        ),
+        filemode="w",
+        format='%(asctime)s %(filename)s[line:%(lineno)d] \
+        %(levelname)s %(message)s',
+        level=logging.INFO)
+
     logger = logging.getLogger()
     logger.getChild("client.stt").setLevel(logging.INFO)
 
