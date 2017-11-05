@@ -37,6 +37,6 @@ sudo tmux new-session -d -s $session_name $HOME/dingdang/dingdang.py
 sleep 1
 
 #Start Respeaker-Switcher in Background
-if [ -d /home/pi/ReSpeaker-Switcher]; then
+if [ -d /home/pi/ReSpeaker-Switcher ]; then
     sudo python /home/pi/ReSpeaker-Switcher/switcher.py &
 fi
