@@ -62,16 +62,19 @@ class WechatBot(WXBot):
         # ignore the msg when handling plugins
         if msg['msg_type_id'] == 1 and \
            msg['to_user_id'] == self.my_account['UserName']:
+            profile = self.brain.profile
             # reply to self
             if msg['content']['type'] == 0:
                 msg_data = msg['content']['data']
+                print msg_data
+                if msg_data.startswith(profile['robot_name_cn']+": "):
+                    return
                 if self.music_mode is not None:
                     return self.handle_music_mode(msg_data)
                 self.brain.query([msg_data], self, True)
             elif msg['content']['type'] == 4:
                 mp3_file = os.path.join(dingdangpath.TEMP_PATH,
                                         'voice_%s.mp3' % msg['msg_id'])
-                profile = self.brain.profile
                 # echo or command?
                 if 'wechat_echo' in profile and not profile['wechat_echo']:
                     # 执行命令
