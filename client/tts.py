@@ -93,7 +93,8 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
         self._logger.debug('Executing %s', ' '.join([pipes.quote(arg)
                                                      for arg in cmd]))
         with tempfile.TemporaryFile() as f:
-            subprocess.call(cmd, stdout=f, stderr=f)
+            p = subprocess.Popen(cmd, stdout=f, stderr=f)
+            p.wait()
             f.seek(0)
             output = f.read()
             if output:
