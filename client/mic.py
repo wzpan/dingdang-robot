@@ -7,6 +7,7 @@ import logging
 import tempfile
 import wave
 import audioop
+import time
 import pyaudio
 import dingdangpath
 import mute_alsa
@@ -333,11 +334,14 @@ class Mic:
     def say(self, phrase,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
         pixels.speak()
+        self.stop_passive = True
         self._logger.info("机器人说：%s" % phrase)
         if self.wxbot is not None:
             wechatUser(self.profile, self.wxbot, "%s: %s" %
                        (self.robot_name, phrase), "")
         self.speaker.say(phrase)
+        time.sleep(1)  # 避免叮当说话时误唤醒
+        self.stop_passive = False
 
     def play(self, src):
         # play a voice
