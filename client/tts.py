@@ -719,9 +719,9 @@ class GoogleTTS(AbstractMp3TTSEngine):
         if os.path.exists(profile_path):
             with open(profile_path, 'r') as f:
                 profile = yaml.safe_load(f)
-                if ('google-tts' in profile and
-                   'language' in profile['google-tts']):
-                    config['language'] = profile['google-tts']['language']
+                if ('google_yuyin' in profile and
+                   'language' in profile['google_yuyin']):
+                    config['language'] = profile['google_yuyin']['language']
 
         return config
 
