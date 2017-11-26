@@ -41,3 +41,5 @@ sleep 1
 if [ -d $HOME/ReSpeaker-Switcher ]; then
     sudo python $HOME/ReSpeaker-Switcher/switcher.py &
 fi
+
+cd $HOME/dingdang

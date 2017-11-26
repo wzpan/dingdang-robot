@@ -113,6 +113,7 @@ def sendToUser(profile, wxbot, SUBJECT="", BODY="",
        and ('prefers_email' not in profile or not profile['prefers_email']):
         send_type = 1
     if send_type == 0:
+        ATTACH_LIST.extend(IMAGE_LIST)
         return emailUser(profile, SUBJECT, BODY, ATTACH_LIST)
     else:
         return wechatUser(profile, wxbot, SUBJECT, BODY,
