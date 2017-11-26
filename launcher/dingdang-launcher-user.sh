@@ -21,3 +21,5 @@ sleep 1
 if [ -d $HOME/ReSpeaker-Switcher ]; then
     python $HOME/ReSpeaker-Switcher/switcher.py &
 fi
+
+cd $HOME/dingdang

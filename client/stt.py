@@ -19,6 +19,7 @@ import hashlib
 import datetime
 import hmac
 import sys
+from dateutil import parser as dparser
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -233,6 +234,20 @@ class BaiduSTT(AbstractSTTEngine):
         return config
 
     def get_token(self):
+        cache = open(os.path.join(dingdangpath.TEMP_PATH, 'baidustt.ini'),
+                     'a+')
+        try:
+            pms = cache.readlines()
+            if len(pms) > 0:
+                time = pms[0]
+                tk = pms[1]
+                # 计算token是否过期 官方说明一个月，这里保守29天
+                time = dparser.parse(time)
+                endtime = datetime.datetime.now()
+                if (endtime - time).days <= 29:
+                    return tk
+        finally:
+            cache.close()
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
         params = urllib.urlencode({'grant_type': 'client_credentials',
                                    'client_id': self.api_key,
