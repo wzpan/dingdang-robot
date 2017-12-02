@@ -169,3 +169,5 @@ python dingdang.py
 
 * 叮当只用作个人学习研究，如因使用叮当导致任何损失，本人概不负责。
 * 本开源项目与腾讯叮当助手没有任何关系。
+
+![](http://onmw7y6f4.bkt.clouddn.com/post.jpg)
