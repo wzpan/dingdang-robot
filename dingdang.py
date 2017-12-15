@@ -120,7 +120,7 @@ class Dingdang(object):
             t = threading.Thread(target=self.start_wxbot)
             t.start()
 
-        self.mic.say(salutation)
+        self.mic.say(salutation, cache=True)
         conversation.handleForever()
 
 

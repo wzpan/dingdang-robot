@@ -84,6 +84,8 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
     """
     Generic class that implements the 'play' method for mp3 files
     """
+    SLUG = ''
+
     @classmethod
     def is_available(cls):
         return (super(AbstractMp3TTSEngine, cls).is_available() and
@@ -100,6 +102,32 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
             output = f.read()
             if output:
                 self._logger.debug("Output was: '%s'", output)
+
+    @abstractmethod
+    def get_speech(self, phrase):
+        pass
+
+    def say(self, phrase, cache=False):
+        self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
+        cache_file_path = dingdangpath.data(
+            'audio',
+            self.SLUG + phrase + '.mp3'
+        )
+        if cache and os.path.exists(cache_file_path):
+            self._logger.info(
+                "found speech in cache, playing...[%s]" % cache_file_path)
+            self.play_mp3(cache_file_path)
+        else:
+            tmpfile = self.get_speech(phrase)
+            if tmpfile is not None:
+                self.play_mp3(tmpfile)
+                if cache:
+                    self._logger.info(
+                        "not found speech in cache," +
+                        " caching...[%s]" % cache_file_path)
+                    os.rename(tmpfile, cache_file_path)
+                else:
+                    os.remove(tmpfile)
 
 
 class SimpleMp3Player(AbstractMp3TTSEngine):
@@ -534,13 +562,6 @@ class BaiduTTS(AbstractMp3TTSEngine):
             tmpfile = f.name
             return tmpfile
 
-    def say(self, phrase):
-        self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
-        tmpfile = self.get_speech(phrase)
-        if tmpfile is not None:
-            self.play_mp3(tmpfile)
-            os.remove(tmpfile)
-
 
 class IFlyTekTTS(AbstractMp3TTSEngine):
     """
@@ -596,13 +617,6 @@ class IFlyTekTTS(AbstractMp3TTSEngine):
             f.write(r.content)
             tmpfile = f.name
             return tmpfile
-
-    def say(self, phrase):
-        self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
-        tmpfile = self.get_speech(phrase)
-        if tmpfile is not None:
-            self.play_mp3(tmpfile)
-            os.remove(tmpfile)
 
 
 class ALiBaBaTTS(AbstractMp3TTSEngine):
@@ -698,13 +712,6 @@ class ALiBaBaTTS(AbstractMp3TTSEngine):
             tmpfile = f.name
             return tmpfile
 
-    def say(self, phrase):
-        self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
-        tmpfile = self.get_speech(phrase)
-        if tmpfile is not None:
-            self.play_mp3(tmpfile)
-            os.remove(tmpfile)
-
 
 class GoogleTTS(AbstractMp3TTSEngine):
     """
@@ -749,8 +756,7 @@ class GoogleTTS(AbstractMp3TTSEngine):
                  'th', 'tr', 'vi', 'cy', 'zh-yue']
         return langs
 
-    def say(self, phrase):
-        self._logger.debug("Saying '%s' with '%s'", phrase, self.SLUG)
+    def get_speech(self, phrase):
         if self.language not in self.languages:
             raise ValueError("Language '%s' not supported by '%s'",
                              self.language, self.SLUG)
@@ -758,8 +764,7 @@ class GoogleTTS(AbstractMp3TTSEngine):
         with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as f:
             tmpfile = f.name
         tts.save(tmpfile)
-        self.play_mp3(tmpfile)
-        os.remove(tmpfile)
+        return tmpfile
 
 
 def get_default_engine_slug():
