@@ -331,13 +331,20 @@ class Mic:
             return self.active_stt_engine.transcribe(f)
 
     def say(self, phrase,
-            OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
+            OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav",
+            cache=False):
         self._logger.info(u"机器人说：%s" % phrase)
         self.stop_passive = True
         if self.wxbot is not None:
             wechatUser(self.profile, self.wxbot, "%s: %s" %
                        (self.robot_name, phrase), "")
-        self.speaker.say(phrase)
+        # incase calling say() method which
+        # have not implement cache feature yet.
+        # the count of args should be 3.
+        if self.speaker.say.func_code.co_argcount > 2:
+            self.speaker.say(phrase, cache)
+        else:
+            self.speaker.say(phrase)
         time.sleep(1)  # 避免叮当说话时误唤醒
         self.stop_passive = False
 

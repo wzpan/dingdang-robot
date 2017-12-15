@@ -87,7 +87,7 @@ class WechatBot(WXBot):
                                 return self.handle_music_mode(msg_data)
                             self.brain.query(command, self, True)
                         else:
-                            mic.say("什么？")
+                            mic.say("什么？", cache=True)
                 else:
                     # 播放语音
                     player = SimpleMp3Player()
@@ -178,7 +178,7 @@ class Dingdang(object):
             t = threading.Thread(target=self.start_wxbot)
             t.start()
 
-        self.mic.say(salutation)
+        self.mic.say(salutation, cache=True)
         conversation.handleForever()
 
 
