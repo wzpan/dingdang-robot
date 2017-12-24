@@ -33,7 +33,7 @@ def handle(text, mic, profile, wxbot=None):
                     u"听不清楚呢，可以再为我说一次吗？",
                     u"再说一遍好吗？"]
         message = random.choice(messages)
-        mic.say(message)
+        mic.say(message, cache=True)
 
 
 def isValid(text):
