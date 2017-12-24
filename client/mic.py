@@ -200,7 +200,7 @@ class Mic:
         if not didDetect:
             print "没接收到唤醒指令"
             try:
-                self.stop_passive = False
+                #self.stop_passive = False
                 stream.stop_stream()
                 stream.close()
             except Exception, e:
@@ -226,7 +226,7 @@ class Mic:
 
         # save the audio data
         try:
-            self.stop_passive = False
+            #self.stop_passive = False
             stream.stop_stream()
             stream.close()
         except Exception, e:
@@ -303,7 +303,7 @@ class Mic:
 
                 average = sum(lastN) / float(len(lastN))
 
-                # TODO: 0.8 should not be a MAGIC NUMBER!
+                # TODO: 0.9 should not be a MAGIC NUMBER!
                 if average < THRESHOLD * 0.9:
                     break
             except Exception, e:
