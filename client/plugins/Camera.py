@@ -64,7 +64,7 @@ def handle(text, mic, profile, wxbot=None):
             if not os.path.exists(dest_path):
                 os.makedirs(dest_path)
         except Exception:
-            mic.say(u"抱歉，照片目录创建失败")
+            mic.say(u"抱歉，照片目录创建失败", cache=True)
             return
         dest_file = os.path.join(dest_path, "%s.jpg" % time.time())
         if usb_camera:
@@ -83,7 +83,7 @@ def handle(text, mic, profile, wxbot=None):
             if horizontal_flip:
                 command.append('-hf')
         if sound and count_down > 0:
-            mic.say(u"收到，%d秒后启动拍照" % (count_down))
+            mic.say(u"收到，%d秒后启动拍照" % (count_down), cache=True)
             if usb_camera:
                 time.sleep(count_down)
 
@@ -91,7 +91,7 @@ def handle(text, mic, profile, wxbot=None):
         res = process.wait()
         if res != 0:
             if sound:
-                mic.say(u"拍照失败，请检查相机是否连接正确")
+                mic.say(u"拍照失败，请检查相机是否连接正确", cache=True)
             return
         if sound:
             mic.play(mic.dingdangpath.data('audio', 'camera.wav'))
@@ -103,15 +103,15 @@ def handle(text, mic, profile, wxbot=None):
                not profile['prefers_email']):
                 target = '微信'
             if sound:
-                mic.say(u'拍照成功！正在发送照片到您的%s' % target)
+                mic.say(u'拍照成功！正在发送照片到您的%s' % target, cache=True)
             if sendToUser(profile, wxbot, u"这是刚刚为您拍摄的照片", "", [], [dest_file]):
                 if sound:
-                    mic.say(u'发送成功')
+                    mic.say(u'发送成功', cache=True)
             else:
                 if sound:
-                    mic.say(u'发送失败了')
+                    mic.say(u'发送失败了', cache=True)
     else:
-        mic.say(u"请先在配置文件中开启相机拍照功能")
+        mic.say(u"请先在配置文件中开启相机拍照功能", cache=True)
 
 
 def isValid(text):
