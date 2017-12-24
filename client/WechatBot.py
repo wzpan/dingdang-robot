@@ -22,7 +22,7 @@ class WechatBot(WXBot):
         now = time.time()
         if (now - self.last) > 0.5:
             # stop passive listening
-            #self.brain.mic.stopPassiveListen()
+            # self.brain.mic.stopPassiveListen()
             self.last = now
             if not self.music_mode.delegating:
                 self.music_mode.delegating = True
