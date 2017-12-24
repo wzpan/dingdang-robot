@@ -40,7 +40,7 @@ class Notifier(object):
 
         sched = BackgroundScheduler(daemon=True)
         sched.start()
-        sched.add_job(self.gather, 'interval', seconds=30)
+        sched.add_job(self.gather, 'interval', seconds=120)
         atexit.register(lambda: sched.shutdown(wait=False))
 
     def gather(self):
