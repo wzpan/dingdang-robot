@@ -103,8 +103,10 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
                 self._logger.debug("Output was: '%s'", output)
 
     def removePunctuation(self, phrase):
-        to_remove = [',', '/', ':', '\\', '@', '!', '%', '&', '*', '(',
-        ')', '{', '}']
+        to_remove = [
+            ',', '/', ':', '\\', '@', '!', '%', '&', '*', '(',
+            ')', '{', '}'
+        ]
         for note in to_remove:
             phrase = phrase.replace(note, '')
         return phrase
