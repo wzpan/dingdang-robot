@@ -30,6 +30,8 @@ parser.add_argument('--diagnose', action='store_true',
                     help='Run diagnose and exit')
 parser.add_argument('--debug', action='store_true', help='Show debug messages')
 parser.add_argument('--info', action='store_true', help='Show info messages')
+parser.add_argument('--verbose', action='store_true',
+                    help='Directly print logs rather than writing to log file')
 args = parser.parse_args()
 
 if args.local:
@@ -195,14 +197,21 @@ if __name__ == "__main__":
 
 ''')
 
-    logging.basicConfig(
-        filename=os.path.join(
-            dingdangpath.TEMP_PATH, "dingdang.log"
-        ),
-        filemode="w",
-        format='%(asctime)s %(filename)s[line:%(lineno)d] \
+    if args.verbose:
+        logging.basicConfig(
+            format='%(asctime)s %(filename)s[line:%(lineno)d] \
         %(levelname)s %(message)s',
-        level=logging.INFO)
+            level=logging.INFO)
+    else:
+        logging.basicConfig(
+            filename=os.path.join(
+                dingdangpath.TEMP_PATH, "dingdang.log"
+            ),
+            filemode="w",
+            format='%(asctime)s %(filename)s[line:%(lineno)d] \
+            %(levelname)s %(message)s',
+            level=logging.INFO)
+
     logger = logging.getLogger()
     logger.getChild("client.stt").setLevel(logging.INFO)
 
