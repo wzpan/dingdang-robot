@@ -199,7 +199,7 @@ class Mic:
         if not didDetect:
             print "没接收到唤醒指令"
             try:
-                #self.stop_passive = False
+                # self.stop_passive = False
                 stream.stop_stream()
                 stream.close()
             except Exception, e:
@@ -225,7 +225,7 @@ class Mic:
 
         # save the audio data
         try:
-            #self.stop_passive = False
+            # self.stop_passive = False
             stream.stop_stream()
             stream.close()
         except Exception, e:

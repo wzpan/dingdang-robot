@@ -57,7 +57,7 @@ class Conversation(object):
 
             if self.mic.stop_passive:
                 self._logger.info("skip conversation for now.")
-                time.sleep(1)                
+                time.sleep(1)
                 continue
 
             if not self.mic.skip_passive:
