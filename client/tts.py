@@ -102,11 +102,18 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
             if output:
                 self._logger.debug("Output was: '%s'", output)
 
+    def removePunctuation(self, phrase):
+        to_remove = [',', '/', ':', '\\', '@', '!', '%', '&', '*', '(',
+        ')', '{', '}']
+        for note in to_remove:
+            phrase = phrase.replace(note, '')
+        return phrase
+
     def say(self, phrase, cache=False):
         self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
         cache_file_path = os.path.join(
             dingdangpath.TEMP_PATH,
-            self.SLUG + phrase.replace(' ', '') + '.mp3'
+            self.SLUG + self.removePunctuation(phrase) + '.mp3'
         )
         if cache and os.path.exists(cache_file_path):
             self._logger.info(

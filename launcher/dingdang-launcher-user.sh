@@ -4,9 +4,9 @@ sleep 1
 session_name=dingdang
 
 #Delete Cache
-sudo rm -r /root/.cache
-sudo rm -r /root/.netease-musicbox
-sudo rm -r /root/userInfo
+sudo rm -r $HOME/.cache
+sudo rm -r $HOME/.netease-musicbox
+sudo rm -r $HOME/userInfo
 
 #Restore Configuration of AlsaMixer
 if [ -f $HOME/asound.state ]; then
