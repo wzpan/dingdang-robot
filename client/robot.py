@@ -90,13 +90,13 @@ class TulingRobot(AbstractRobot):
                 if self.wxbot is not None and self.wxbot.my_account != {} \
                    and not self.profile['prefers_email']:
                     target = '微信'
-                self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
+                self.mic.say(u'一言难尽啊，我给您发%s吧' % target, cache=True)
                 if sendToUser(self.profile, self.wxbot, u'回答%s' % msg, result):
-                    self.mic.say(u'%s发送成功！' % target)
+                    self.mic.say(u'%s发送成功！' % target, cache=True)
                 else:
-                    self.mic.say(u'抱歉，%s发送失败了！' % target)
+                    self.mic.say(u'抱歉，%s发送失败了！' % target, cache=True)
             else:
-                self.mic.say(result)
+                self.mic.say(result, cache=True)
             if result.endswith('?') or result.endswith(u'？') or \
                u'告诉我' in result or u'请回答' in result:
                 self.mic.skip_passive = True
@@ -104,7 +104,7 @@ class TulingRobot(AbstractRobot):
             self._logger.critical("Tuling robot failed to responsed for %r",
                                   msg, exc_info=True)
             self.mic.say("抱歉, 我的大脑短路了 " +
-                         "请稍后再试试.")
+                         "请稍后再试试.", cache=True)
 
 
 class Emotibot(AbstractRobot):
@@ -189,13 +189,13 @@ class Emotibot(AbstractRobot):
                 if self.wxbot is not None and self.wxbot.my_account != {} \
                    and not self.profile['prefers_email']:
                     target = '微信'
-                self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
+                self.mic.say(u'一言难尽啊，我给您发%s吧' % target, cache=True)
                 if sendToUser(self.profile, self.wxbot, u'回答%s' % msg, result):
-                    self.mic.say(u'%s发送成功！' % target)
+                    self.mic.say(u'%s发送成功！' % target, cache=True)
                 else:
-                    self.mic.say(u'抱歉，%s发送失败了！' % target)
+                    self.mic.say(u'抱歉，%s发送失败了！' % target, cache=True)
             else:
-                self.mic.say(result)
+                self.mic.say(result, cache=True)
             if result.endswith('?') or result.endswith(u'？') or \
                u'告诉我' in result or u'请回答' in result:
                 self.mic.skip_passive = True
@@ -204,7 +204,7 @@ class Emotibot(AbstractRobot):
             self._logger.critical("Emotibot failed to responsed for %r",
                                   msg, exc_info=True)
             self.mic.say("抱歉, 我的大脑短路了 " +
-                         "请稍后再试试.")
+                         "请稍后再试试.", cache=True)
 
 
 def get_robot_by_slug(slug):

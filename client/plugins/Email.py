@@ -190,18 +190,18 @@ def handle(text, mic, profile, wxbot=None):
 
     if msgs is None:
         mic.say(
-            u"抱歉，您的邮箱账户验证失败了")
+            u"抱歉，您的邮箱账户验证失败了", cache=True)
         return
 
     if isinstance(msgs, int):
         response = "您有 %d 封未读邮件" % msgs
-        mic.say(response)
+        mic.say(response, cache=True)
         return
 
     senders = [getSender(e) for e in msgs]
 
     if not senders:
-        mic.say(u"您没有未读邮件，真棒！")
+        mic.say(u"您没有未读邮件，真棒！", cache=True)
     elif len(senders) == 1:
         mic.say(u"您有来自 " + senders[0] + " 的未读邮件")
     else:
