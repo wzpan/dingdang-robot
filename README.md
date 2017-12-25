@@ -134,7 +134,7 @@ python dingdang.py
 ## 联系
 
 * 叮当的主要开发者是 [潘伟洲](http://hahack.com) 。
-* QQ 群：580447290（为控制人数，需付费1元入群）
+* QQ 群：580447290（人数将满，为控制人数，需付费20元入群）
 * 论坛：[bbs.hahack.com](http://bbs.hahack.com)
 
 ## 感谢
