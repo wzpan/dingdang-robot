@@ -183,7 +183,7 @@ class Mic:
 
             try:
                 if self.stop_passive:
-                    self._logger.debug('stop passive')                    
+                    self._logger.debug('stop passive')
                     break
 
                 data = stream.read(CHUNK)
