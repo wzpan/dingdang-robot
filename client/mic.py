@@ -156,6 +156,7 @@ class Mic:
 
             try:
                 if self.stop_passive:
+                    self._logger.debug('stop passive')
                     break
 
                 data = stream.read(CHUNK)
@@ -183,6 +184,7 @@ class Mic:
 
             try:
                 if self.stop_passive:
+                    self._logger.debug('stop passive')                    
                     break
 
                 data = stream.read(CHUNK)
@@ -198,7 +200,7 @@ class Mic:
 
         # no use continuing if no flag raised
         if not didDetect:
-            print "没接收到唤醒指令"
+            self._logger.debug("没接收到唤醒指令")
             try:
                 # self.stop_passive = False
                 stream.stop_stream()

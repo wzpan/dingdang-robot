@@ -64,13 +64,21 @@ class WechatBot(WXBot):
                     player = SimpleMp3Player()
                     player.play_mp3(mp3_file)
         elif msg['msg_type_id'] == 4:
-            if msg['user']['name'] in profile['wechat_echo_text_friends'] and \
-               msg['content']['type'] == 0:
+            if 'wechat_echo_text_friends' in profile and \
+               (
+                   msg['user']['name'] in profile['wechat_echo_text_friends']
+                   or
+                   'ALL' in profile['wechat_echo_text_friends']
+               ) and msg['content']['type'] == 0:
                 from_user = msg['user']['name'] + '说：'
                 msg_data = from_user + msg['content']['data']
                 self.brain.query([msg_data], self, True)
-            elif msg['user']['name'] in profile['wechat_echo_voice_friends'] \
-                    and msg['content']['type'] == 4:
+            elif 'wechat_echo_voice_friends' in profile and \
+                 (
+                    msg['user']['name'] in profile['wechat_echo_voice_friends']
+                    or
+                    'ALL' in profile['wechat_echo_voice_friends']
+                 ) and msg['content']['type'] == 4:
                 mp3_file = os.path.join(dingdangpath.TEMP_PATH,
                                         'voice_%s.mp3' % msg['msg_id'])
                 player = SimpleMp3Player()
