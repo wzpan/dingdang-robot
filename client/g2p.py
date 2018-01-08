@@ -1,4 +1,5 @@
 # -*- coding: utf-8-*-
+from __future__ import absolute_import
 import os
 import re
 import subprocess
@@ -7,8 +8,8 @@ import logging
 
 import yaml
 
-import diagnose
-import dingdangpath
+from . import diagnose
+from . import dingdangpath
 
 
 class PhonetisaurusG2P(object):

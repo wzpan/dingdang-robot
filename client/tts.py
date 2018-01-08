@@ -7,6 +7,8 @@ Speaker methods:
     play - play the audio in 'filename'
     is_available - returns True if the platform supports this implementation
 """
+from __future__ import print_function
+from __future__ import absolute_import
 import os
 import platform
 import tempfile
@@ -26,13 +28,18 @@ from uuid import getnode as get_mac
 import argparse
 import yaml
 
-import diagnose
-import dingdangpath
+from . import diagnose
+from . import dingdangpath
 
 try:
     import gtts
 except ImportError:
     pass
+
+try:
+    reload         # Python 2
+except NameError:  # Python 3
+    from importlib import reload
 
 import sys
 reload(sys)

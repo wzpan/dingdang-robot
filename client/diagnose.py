@@ -1,4 +1,5 @@
 # -*- coding: utf-8-*-
+from __future__ import absolute_import
 import os
 import sys
 import time
@@ -7,7 +8,7 @@ import subprocess
 import pkgutil
 import logging
 import pip.req
-import dingdangpath
+from . import dingdangpath
 if sys.version_info < (3, 3):
     from distutils.spawn import find_executable
 else:
