@@ -1,8 +1,9 @@
 # -*- coding: utf-8-*-
 
+from __future__ import absolute_import
 import os
 import subprocess
-import time
+from . import time
 import sys
 
 WORDS = [u"PAIZHAO", u"ZHAOPIAN"]

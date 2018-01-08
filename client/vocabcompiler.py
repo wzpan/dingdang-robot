@@ -3,6 +3,8 @@
 Iterates over all the WORDS variables in the plugins and creates a
 vocabulary for the respective stt_engine if needed.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import tempfile
@@ -16,10 +18,10 @@ import shutil
 from abc import ABCMeta, abstractmethod, abstractproperty
 import yaml
 
-import brain
-import dingdangpath
+from . import brain
+from . import dingdangpath
 
-from g2p import PhonetisaurusG2P
+from .g2p import PhonetisaurusG2P
 try:
     import cmuclmtk
 except ImportError:

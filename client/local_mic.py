@@ -4,6 +4,12 @@ A drop-in replacement for the Mic class that allows for all I/O to occur
 over the terminal. Useful for debugging. Unlike with the typical Mic
 implementation, Dingdang is always active listening with local_mic.
 """
+from __future__ import print_function
+
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
 
 
 class Mic:

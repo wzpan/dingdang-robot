@@ -1,7 +1,8 @@
 # -*- coding: utf-8-*-
+from __future__ import absolute_import
 import logging
 import pkgutil
-import dingdangpath
+from . import dingdangpath
 
 
 class Brain(object):

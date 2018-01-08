@@ -2,6 +2,7 @@
 """
     The Mic class handles all interactions with the microphone and speaker.
 """
+from __future__ import absolute_import
 import ctypes
 import logging
 import tempfile
@@ -9,11 +10,10 @@ import wave
 import audioop
 import time
 import pyaudio
-import dingdangpath
-import mute_alsa
-from app_utils import wechatUser
-from drivers.pixels import pixels
-
+from . import dingdangpath
+from . import mute_alsa
+from .app_utils import wechatUser
+from .drivers.pixels import pixels
 
 class Mic:
     speechRec = None
@@ -98,14 +98,14 @@ class Mic:
                 lastN.append(self.getScore(data))
                 average = sum(lastN) / len(lastN)
 
-            except Exception, e:
+            except Exception as e:
                 self._logger.debug(e)
                 continue
 
         try:
             stream.stop_stream()
             stream.close()
-        except Exception, e:
+        except Exception as e:
             self._logger.debug(e)
             pass
 
@@ -175,7 +175,7 @@ class Mic:
 
                 # flag raised when sound disturbance detected
                 didDetect = False
-            except Exception, e:
+            except Exception as e:
                 self._logger.debug(e)
                 pass
 
@@ -194,7 +194,7 @@ class Mic:
                 if score > THRESHOLD:
                     didDetect = True
                     break
-            except Exception, e:
+            except Exception as e:
                 self._logger.debug(e)
                 continue
 
@@ -205,7 +205,7 @@ class Mic:
                 # self.stop_passive = False
                 stream.stop_stream()
                 stream.close()
-            except Exception, e:
+            except Exception as e:
                 self._logger.debug(e)
                 pass
             return (None, None)
@@ -222,7 +222,7 @@ class Mic:
                     break
                 data = stream.read(CHUNK)
                 frames.append(data)
-            except Exception, e:
+            except Exception as e:
                 self._logger.debug(e)
                 continue
 
@@ -231,7 +231,7 @@ class Mic:
             # self.stop_passive = False
             stream.stop_stream()
             stream.close()
-        except Exception, e:
+        except Exception as e:
             self._logger.debug(e)
             pass
 
@@ -308,7 +308,7 @@ class Mic:
                 # TODO: 0.9 should not be a MAGIC NUMBER!
                 if average < THRESHOLD * 0.9:
                     break
-            except Exception, e:
+            except Exception as e:
                 self._logger.error(e)
                 continue
 
@@ -318,7 +318,7 @@ class Mic:
         try:
             stream.stop_stream()
             stream.close()
-        except Exception, e:
+        except Exception as e:
             self._logger.debug(e)
             pass
 
@@ -346,7 +346,7 @@ class Mic:
         # incase calling say() method which
         # have not implement cache feature yet.
         # the count of args should be 3.
-        if self.speaker.say.func_code.co_argcount > 2:
+        if self.speaker.say.__code__.co_argcount > 2:
             self.speaker.say(phrase, cache)
         else:
             self.speaker.say(phrase)

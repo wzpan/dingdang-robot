@@ -1,4 +1,5 @@
 # -*- coding: utf-8-*-
+from __future__ import print_function
 import smtplib
 from email.MIMEText import MIMEText
 from email.MIMEMultipart import MIMEMultipart
@@ -40,7 +41,7 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
         session.sendmail(SENDER, TO, msg.as_string())
         session.close()
         return True
-    except Exception, e:
+    except Exception as e:
         _logger.error(e)
         return False
 
@@ -78,7 +79,7 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
                   recipient, password, server, port)
 
         return True
-    except Exception, e:
+    except Exception as e:
         _logger.error(e)
         return False
 
@@ -100,7 +101,7 @@ def wechatUser(profile, wxbot, SUBJECT="", BODY="",
                 wxbot.send_img_msg_by_uid(fpath, user_id)
             return True
             return True
-        except Exception, e:
+        except Exception as e:
             _logger.error(e)
             return False
     return False
@@ -141,14 +142,14 @@ def create_reminder(remind_event, remind_time):
             remind_time[:4] + '-' + remind_time[4:6] + '-' + \
             remind_time[6:8] + 'T' + remind_time[8:10] + ':' + \
             remind_time[10:12] + ':' + remind_time[12:]
-        print cmd
+        print(cmd)
         try:
             res = subprocess.call(
                 [cmd],
                 stdout=subprocess.PIPE, shell=True)
-            print res
+            print(res)
             return(res == 0)
-        except Exception, e:
+        except Exception as e:
             _logger.error(e)
             return False
     else:
@@ -200,7 +201,7 @@ def get_due_reminders():
                     stdin=subprocess.PIPE)
                 p.stdin.write('yes\n')
 
-    except Exception, e:
+    except Exception as e:
         _logger.error(e)
 
     return due_tasks
