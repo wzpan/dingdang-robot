@@ -15,6 +15,7 @@ from . import mute_alsa
 from .app_utils import wechatUser
 from .drivers.pixels import pixels
 
+
 class Mic:
     speechRec = None
     speechRec_persona = None
