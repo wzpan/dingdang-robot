@@ -4,6 +4,10 @@ language: python
 sudo: false
 python:
     - "2.7"
+    - "3.6"
+matrix:
+    allow_failures:
+        - python: "3.6"
 cache:
   directories:
     - "$HOME/.pip-cache/"
@@ -14,6 +18,6 @@ install:
     - "pip install nose --cache-dir $HOME/.pip-cache"
     - "pip install flake8 --cache-dir $HOME/.pip-cache"
 before_script:
-    - "flake8 --exclude=wxbot.py,snowboydetect.py dingdang.py client"
+    - "flake8 --exclude=wxbot.py,snowboydetect.py dingdang.py client --show-source"
 script:
     - "nosetests -s --exe -v --with-coverage --cover-erase"
