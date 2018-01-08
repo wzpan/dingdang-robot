@@ -1,7 +1,14 @@
 # -*- coding:utf-8 -*-
+from __future__ import print_function
 import requests
 import json
 import logging
+
+try:
+    reload         # Python 2
+except NameError:  # Python 3
+    from importlib import reload
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -54,7 +61,7 @@ def hass(text, mic, profile):
                 if text in dingdang:
                     try:
                         measurement = attributes["unit_of_measurement"]
-                    except Exception, e:
+                    except Exception as e:
                         pass
                     if 'measurement' in locals().keys():
                         text = text + "状态是" + state + measurement
@@ -79,7 +86,7 @@ def hass(text, mic, profile):
                         else:
                             mic.say(u"对不起,执行失败", cache=True)
                             print(format(request.status_code))
-                    except Exception, e:
+                    except Exception as e:
                         pass
                     break
     else:

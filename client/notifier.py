@@ -1,10 +1,11 @@
 # -*- coding: utf-8-*-
+from __future__ import absolute_import
 import Queue
 import atexit
-from plugins import Email
+from .plugins import Email
 from apscheduler.schedulers.background import BackgroundScheduler
 import logging
-import app_utils
+from . import app_utils
 import time
 
 

@@ -1,14 +1,19 @@
 # -*- coding: utf-8-*-
+from __future__ import print_function
+from __future__ import absolute_import
 import requests
 import json
 import logging
 from uuid import getnode as get_mac
-from app_utils import sendToUser, create_reminder
+from .app_utils import sendToUser, create_reminder
 from abc import ABCMeta, abstractmethod
 
+try:
+    reload         # Python 2
+except NameError:  # Python 3
+    from importlib import reload
+
 import sys
-
-
 reload(sys)
 sys.setdefaultencoding('utf-8')
 

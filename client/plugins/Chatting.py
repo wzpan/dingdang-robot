@@ -1,5 +1,11 @@
 # -*- coding: utf-8-*-
 # 闲聊插件
+
+try:
+    reload         # Python 2
+except NameError:  # Python 3
+    from importlib import reload
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')

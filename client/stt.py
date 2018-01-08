@@ -1,5 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8-*-
+from __future__ import print_function
+from __future__ import absolute_import
 import os
 import base64
 import wave
@@ -11,9 +13,9 @@ import urllib
 from abc import ABCMeta, abstractmethod
 import requests
 import yaml
-import dingdangpath
-import diagnose
-import vocabcompiler
+from . import dingdangpath
+from . import diagnose
+from . import vocabcompiler
 from uuid import getnode as get_mac
 import hashlib
 import datetime
@@ -23,6 +25,11 @@ from dateutil import parser as dparser
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+try:
+    reload         # Python 2
+except NameError:  # Python 3
+    from importlib import reload
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -559,8 +566,8 @@ class SnowboySTT(AbstractSTTEngine):
         self.resource_file = os.path.join(dingdangpath.LIB_PATH,
                                           'snowboy/common.res')
         try:
-            from snowboy import snowboydetect
-        except Exception, e:
+            from .snowboy import snowboydetect
+        except Exception as e:
             self._logger.critical(e)
             if 'libf77blas.so' in e.message:
                 self._logger.critical("您可能需要安装一个so包加载库：" +
