@@ -4,7 +4,7 @@ import logging
 from .notifier import Notifier
 from .brain import Brain
 import time
-from drivers.pixels import pixels
+from .drivers.pixels import pixels
 
 
 class Conversation(object):

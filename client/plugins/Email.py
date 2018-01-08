@@ -1,8 +1,8 @@
 # -*- coding: utf-8-*-
 from __future__ import absolute_import
 import imaplib
-from . import email
-from . import time
+import email
+import time
 import datetime
 import logging
 from dateutil import parser
