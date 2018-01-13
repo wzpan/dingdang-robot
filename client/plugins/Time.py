@@ -23,6 +23,10 @@ def handle(text, mic, profile, wxbot=None):
     now = datetime.datetime.now(tz=tz)
     service = DateService()
     response = service.convertTime(now)
+    if "AM" in response:
+        response = u"上午" + response.replace("AM", "")
+    elif "PM" in response:
+        response = u"下午" + response.replace("PM", "")
     mic.say(u"现在时间是 %s " % response)
 
 
