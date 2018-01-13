@@ -111,6 +111,8 @@ cd /home/pi/dingdang
 python dingdang.py
 ```
 
+建议在 [tmux](http://blog.jobbole.com/87278/) 或 supervisor 中执行。
+
 运行过程中的 log 可以在启动后使用如下命令查阅：
 
 ``` sh
@@ -122,8 +124,6 @@ tail -f temp/dingdang.log
 ``` sh
 python dingdang.py --verbose
 ```
-
-建议在 tmux 或 supervisor 中执行。
 
 ## 退出
 

@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 import os
 import subprocess
-from . import time
+import time
 import sys
 
 WORDS = [u"PAIZHAO", u"ZHAOPIAN"]
