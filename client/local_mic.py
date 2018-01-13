@@ -37,5 +37,5 @@ class Mic:
         self.prev = input
         return input
 
-    def say(self, phrase, OPTIONS=None):
+    def say(self, phrase, OPTIONS=None, cache=False):
         print("DINGDANG: %s" % phrase)
