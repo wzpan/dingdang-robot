@@ -32,6 +32,7 @@
 * [升级](#升级)
 * [配置](#配置)
 * [运行](#运行)
+* [退出](#退出)
 * [插件](#插件)
 * [贡献](#贡献)
 * [联系](#联系)
@@ -110,7 +111,28 @@ cd /home/pi/dingdang
 python dingdang.py
 ```
 
+运行过程中的 log 可以在启动后使用如下命令查阅：
+
+``` sh
+tail -f temp/dingdang.log
+```
+
+如果希望运行过程中直接在屏幕中打印 log ，可以使用如下命令：
+
+``` sh
+python dingdang.py --verbose
+```
+
 建议在 tmux 或 supervisor 中执行。
+
+## 退出
+
+先使用 `Ctrl-Z` 退出当前会话，然后执行如下命令：
+
+``` sh
+ps auwx | grep dingdang  # 查看dingdang的PID号
+kill -9 PID号
+```
 
 ## 插件
 

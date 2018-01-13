@@ -21,6 +21,7 @@ import datetime
 import base64
 import hmac
 import hashlib
+import md5
 from dateutil import parser as dparser
 from abc import ABCMeta, abstractmethod
 from uuid import getnode as get_mac
@@ -122,7 +123,7 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
         self._logger.debug(u"Saying '%s' with '%s'", phrase, self.SLUG)
         cache_file_path = os.path.join(
             dingdangpath.TEMP_PATH,
-            self.SLUG + self.removePunctuation(phrase) + '.mp3'
+            self.SLUG + md5.new(phrase).hexdigest() + '.mp3'
         )
         if cache and os.path.exists(cache_file_path):
             self._logger.info(
