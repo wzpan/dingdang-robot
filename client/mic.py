@@ -160,7 +160,6 @@ class Mic:
                     break
 
                 data = stream.read(CHUNK)
-                frames.append(data)
 
                 # save this data point as a score
                 lastN.pop(0)
@@ -169,9 +168,6 @@ class Mic:
 
                 # this will be the benchmark to cause a disturbance over!
                 THRESHOLD = average * THRESHOLD_MULTIPLIER
-
-                # save some memory for sound data
-                frames = []
 
                 # flag raised when sound disturbance detected
                 didDetect = False
@@ -235,17 +231,8 @@ class Mic:
             self._logger.debug(e)
             pass
 
-        with tempfile.NamedTemporaryFile(mode='w+b') as f:
-            wav_fp = wave.open(f, 'wb')
-            wav_fp.setnchannels(1)
-            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
-            wav_fp.setframerate(RATE)
-            wav_fp.writeframes(''.join(frames))
-            wav_fp.close()
-            f.seek(0)
-            frames = []
-            # check if PERSONA was said
-            transcribed = self.passive_stt_engine.transcribe(f)
+        transcribed = self.passive_stt_engine.transcribe_keyword(
+            ''.join(frames))
 
         if transcribed is not None and \
            any(PERSONA in phrase for phrase in transcribed):
