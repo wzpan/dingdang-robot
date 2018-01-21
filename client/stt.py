@@ -84,6 +84,10 @@ class AbstractSTTEngine(object):
     def transcribe(self, fp):
         pass
 
+    @classmethod
+    def transcribe_keyword(self, fp):
+        pass
+
 
 class PocketSphinxSTT(AbstractSTTEngine):
     """
@@ -95,7 +99,6 @@ class PocketSphinxSTT(AbstractSTTEngine):
 
     def __init__(self, vocabulary, hmm_dir="/usr/local/share/" +
                  "pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k"):
-
         """
         Initiates the pocketsphinx instance.
 
@@ -191,6 +194,27 @@ class PocketSphinxSTT(AbstractSTTEngine):
             for line in f:
                 self._logger.debug(line.strip())
             f.truncate()
+
+        transcribed = [result[0]]
+        self._logger.info('PocketSphinx 识别到了：%r', transcribed)
+        return transcribed
+
+    def transcribe_keyword(self, data):
+        """
+        Performs STT, transcribing the keyword audio file
+        and returning the result.
+
+        Arguments:
+            data -- a stream object containing audio data
+        """
+
+        # FIXME: Can't use the Decoder.decode_raw() here, because
+        # pocketsphinx segfaults with tempfile.SpooledTemporaryFile()
+        self._decoder.start_utt()
+        self._decoder.process_raw(data, False, True)
+        self._decoder.end_utt()
+
+        result = self._decoder.get_hyp()
 
         transcribed = [result[0]]
         self._logger.info('PocketSphinx 识别到了：%r', transcribed)
@@ -609,6 +633,22 @@ class SnowboySTT(AbstractSTTEngine):
     def transcribe(self, fp):
         fp.seek(44)
         data = fp.read()
+        ans = self.detector.RunDetection(data)
+        if ans > 0:
+            self._logger.info('snowboy 识别到了: %r', self.hotword)
+            return [self.hotword]
+        else:
+            return []
+
+    def transcribe_keyword(self, data):
+        """
+        Performs STT, transcribing the keyword audio file
+        and returning the result.
+
+        Arguments:
+            data -- a stream object containing audio data
+        """
+
         ans = self.detector.RunDetection(data)
         if ans > 0:
             self._logger.info('snowboy 识别到了: %r', self.hotword)
