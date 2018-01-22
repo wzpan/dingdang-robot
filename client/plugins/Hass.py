@@ -18,9 +18,12 @@ SLUG = "homeassistant"
 
 
 def handle(text, mic, profile, wxbot=None):
-    mic.say(u"开始家庭助手控制", cache=True)
-    mic.say(u'请在滴一声后说明内容', cache=True)
-    input = mic.activeListen(MUSIC=True)
+    if u"帮我" in text:
+        input = text.replace(u"帮我", "")
+    else:
+        mic.say(u"开始家庭助手控制", cache=True)
+        mic.say(u'请在滴一声后说明内容', cache=True)
+        input = mic.activeListen(MUSIC=True)
     while not input:
         mic.say(u"请重新说", cache=True)
         input = mic.activeListen(MUSIC=True)
@@ -41,7 +44,7 @@ def hass(text, mic, profile):
     port = profile[SLUG]['port']
     password = profile[SLUG]['password']
     headers = {'x-ha-access': password, 'content-type': 'application/json'}
-    r = requests.get(url+":"+port+"/api/states", headers=headers)
+    r = requests.get(url + ":" + port + "/api/states", headers=headers)
     r_jsons = r.json()
     devices = []
     for r_json in r_jsons:
@@ -96,4 +99,4 @@ def hass(text, mic, profile):
 def isValid(text):
     return any(word in text for word in [u"开启家庭助手",
                                          u"开启助手", u"打开家庭助手", u"打开助手",
-                                         u"家庭助手"])
+                                         u"家庭助手", u"帮我"])
