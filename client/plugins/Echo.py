@@ -7,7 +7,7 @@ PRIORITY = 0
 
 def handle(text, mic, profile, wxbot=None):
     """
-        Reports the current time based on the user's timezone.
+        Reports the user input.
 
         Arguments:
         text -- user-input, typically transcribed speech
