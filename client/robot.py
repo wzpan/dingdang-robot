@@ -141,7 +141,7 @@ class Emotibot(AbstractRobot):
                         self.profile['emotibot']['active_mode']
             else:
                 more = False
-        return (appid, more, location)
+        return (appid, location, more)
 
     def chat(self, texts):
         """
