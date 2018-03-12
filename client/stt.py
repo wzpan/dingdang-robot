@@ -148,8 +148,14 @@ class PocketSphinxSTT(AbstractSTTEngine):
                                  "hmm_dir in your profile.",
                                  hmm_dir, ', '.join(missing_hmm_files))
 
-        self._decoder = ps.Decoder(hmm=hmm_dir, logfn=self._logfile,
-                                   **vocabulary.decoder_kwargs)
+        from pocketsphinx import DefaultConfig
+        ps_config = DefaultConfig()
+        ps_config.set_string('-hmm', hmm_dir)
+        ps_config.set_string('-logfn', self._logfile)
+        ps_config.set_string('-lm', vocabulary.decoder_kwargs['lm'])
+        ps_config.set_string('-dict', vocabulary.decoder_kwargs['dict'])
+
+        self._decoder = ps.Decoder(ps_config)
 
     def __del__(self):
         os.remove(self._logfile)
@@ -189,14 +195,23 @@ class PocketSphinxSTT(AbstractSTTEngine):
         self._decoder.process_raw(data, False, True)
         self._decoder.end_utt()
 
-        result = self._decoder.get_hyp()
+        result = []
+        transcribed = []
+        hyp = self._decoder.hyp()
+
         with open(self._logfile, 'r+') as f:
             for line in f:
                 self._logger.debug(line.strip())
             f.truncate()
 
-        transcribed = [result[0]]
-        self._logger.info('PocketSphinx 识别到了：%r', transcribed)
+        if hyp and len(hyp.hypstr) > 1:
+            result = hyp.hypstr.split(' ')
+            transcribed = [result[0]]
+            self._logger.info('PocketSphinx 识别到了：%r', transcribed)
+        else:
+            transcribed = result = ['']
+            self._logger.info('PocketSphinx 未识别到关键字，识别结果：%r', transcribed)
+
         return transcribed
 
     def transcribe_keyword(self, data):
@@ -214,10 +229,17 @@ class PocketSphinxSTT(AbstractSTTEngine):
         self._decoder.process_raw(data, False, True)
         self._decoder.end_utt()
 
-        result = self._decoder.get_hyp()
+        result = []
+        transcribed = []
+        hyp = self._decoder.hyp()
+        if hyp and len(hyp.hypstr) > 1:
+            result = hyp.hypstr.split(' ')
+            transcribed = [result[0]]
+            self._logger.info('PocketSphinx 识别到了：%r', transcribed)
+        else:
+            transcribed = result = ['']
+            self._logger.info('PocketSphinx 未识别到关键字，识别结果：%r', transcribed)
 
-        transcribed = [result[0]]
-        self._logger.info('PocketSphinx 识别到了：%r', transcribed)
         return transcribed
 
     @classmethod
@@ -344,7 +366,11 @@ class BaiduSTT(AbstractSTTEngine):
             transcribed = []
             if text:
                 transcribed.append(text.upper())
-            self._logger.info(u'百度语音识别到了: %s' % text)
+                self._logger.info(u'百度语音识别到了: %s' % text)
+            else:
+                self._logger.info(u'百度语音识别错误: code: %s, msg: %s',
+                                  r.json()['err_no'], r.json()['err_msg'])
+
             return transcribed
 
     @classmethod
@@ -825,7 +851,7 @@ def get_engine_by_slug(slug=None):
         ValueError if no speaker implementation is supported on this platform
     """
 
-    if not slug or type(slug) is not str:
+    if not slug or not isinstance(slug, str):
         raise TypeError("Invalid slug '%s'", slug)
 
     selected_engines = filter(lambda engine: hasattr(engine, "SLUG") and

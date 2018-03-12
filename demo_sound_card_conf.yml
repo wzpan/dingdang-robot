@@ -1,0 +1,6 @@
+#声卡配置（PulseAudio支持,推荐Centos7 on Raspberry PI）
+sound_card:
+    input: "alsa_input.usb-0c76_Thanks_your_choice_INVONS_-00-INVONS.analog-mono" #声卡输入（麦克风名称，查看日志读取设备列表）
+    input_volume: 1 #麦克风音量配置
+    output: "alsa_output.platform-soc_audio.analog-stereo" #声卡输出（音响名称，查看日志读取设备列表）
+    output_volume: 0.8 #音箱输出音量配置
