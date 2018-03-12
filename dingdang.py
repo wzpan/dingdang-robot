@@ -65,7 +65,6 @@ class Dingdang(object):
         except OSError:
             self._logger.error("Can't open config file: '%s'", config_file)
             raise
-
         try:
             stt_engine_slug = self.config['stt_engine']
         except KeyError:

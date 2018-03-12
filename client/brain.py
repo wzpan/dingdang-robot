@@ -71,7 +71,7 @@ class Brain(object):
         """
         whether a plugin is enabled.
         """
-        if plugin is None:
+        if plugin is None or self.profile is None:
             return False
         if not hasattr(plugin, 'SLUG'):
             return True
