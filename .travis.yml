@@ -19,7 +19,5 @@ install:
     - "pip install flake8 --cache-dir $HOME/.pip-cache"
 before_script:
     - "flake8 --exclude=wxbot.py,snowboydetect.py client/drivers dingdang.py client --show-source"
-before_install:
-    - sudo apt-get install -y swig libpulse-dev libavahi-client-dev libavahi-common-dev libpulse-mainloop-glib0 libpulse0
 script:
     - "nosetests -s --exe -v --with-coverage --cover-erase"
