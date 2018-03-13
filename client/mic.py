@@ -13,7 +13,6 @@ import pyaudio
 from . import dingdangpath
 from . import mute_alsa
 from .app_utils import wechatUser
-import pulsectl
 
 
 class Mic:
@@ -51,90 +50,6 @@ class Mic:
             asound.snd_lib_error_set_handler(mute_alsa.c_error_handler)
         except OSError:
             pass
-
-        if 'sound_card' in profile:
-            sound_card = {'input': "", 'output': "",
-                          'input_volume': 0.5, 'output_volume': 0.5}
-            sound_card['input'] = profile['sound_card']['input']
-            sound_card['input_volume'] = profile['sound_card']['input_volume']
-            sound_card['output'] = profile['sound_card']['output']
-            sound_card['output_volume'] = \
-                profile['sound_card']['output_volume']
-            self._logger.info("Setting Sound Input Device : %s, Volume: %s",
-                              sound_card['input'], sound_card['input_volume'])
-            self._logger.info(
-                "Setting Sound Output Device : %s Volume: %s",
-                sound_card['output'],
-                sound_card['output_volume'])
-            self._pulse = pulsectl.Pulse('my-dingdang-robot-audio-pulse')
-            card_list = self._pulse.card_list()
-            sink_list = self._pulse.sink_list()
-            source_list = self._pulse.source_list()
-            index_input = 0
-            index_output = 0
-
-            for k, v in enumerate(card_list):
-                self._logger.info("Loading Sound Card %s : %s", k, v)
-            for k, v in enumerate(source_list):
-                if sound_card['input'] == v.name:
-                    index_input = k
-                    self._logger.info(
-                        "Loading Sound Input List" +
-                        " %s <Current>: name:%s , description: %s ",
-                        k,
-                        v.name,
-                        v.description)
-                else:
-                    self._logger.info("Loading Sound Input List" +
-                                      " %s : name: %s , description: %s ",
-                                      k, v.name, v.description)
-
-            for k, v in enumerate(sink_list):
-                if sound_card['output'] == v.name:
-                    index_output = k
-                    self._logger.info(
-                        "Loading Sound Output List" +
-                        " %s <Current Config Set> : name:%s , " +
-                        "description: %s ",
-                        k,
-                        v.name,
-                        v.description)
-                else:
-                    self._logger.info("Loading Sound Output List" +
-                                      " %s : name: %s , description: %s ",
-                                      k, v.name, v.description)
-
-            default_sink_name = self._pulse.server_info().default_sink_name
-            default_source_name = self._pulse.server_info().default_source_name
-            self._logger.info("User Default Sound Output Device : %s",
-                              default_sink_name)
-            self._logger.info("User Default Sound Input Device : %s",
-                              default_source_name)
-            self._pulse.default_set(sink_list[index_output])
-            self._pulse.default_set(source_list[index_input])
-            input_volume = source_list[index_input].volume
-            output_volume = sink_list[index_output].volume
-            input_volume.value_flat = sound_card['input_volume']
-            output_volume.value_flat = sound_card['output_volume']
-            self._pulse.volume_set(source_list[index_input], input_volume)
-            self._pulse.volume_set(sink_list[index_output], output_volume)
-            default_sink_name = self._pulse.server_info().default_sink_name
-            default_source_name = self._pulse.server_info().default_source_name
-            sink_list = self._pulse.sink_list()
-            source_list = self._pulse.source_list()
-            input_volume = source_list[index_input].volume
-            output_volume = sink_list[index_output].volume
-            self._logger.info(
-                "Robot Current Sound Input Device:" +
-                " %s ,Volume: %s",
-                default_source_name,
-                input_volume)
-            self._logger.info(
-                "Robot Current Sound Output Device:" +
-                " %s ,Volume: %s",
-                default_sink_name,
-                output_volume)
-
         self._audio = pyaudio.PyAudio()
         self._logger.info("Initialization of PyAudio completed.")
         self.stop_passive = False
@@ -143,7 +58,6 @@ class Mic:
 
     def __del__(self):
         self._audio.terminate()
-        self._pulse.close()
 
     def getScore(self, data):
         rms = audioop.rms(data, 2)
