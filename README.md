@@ -8,5 +8,5 @@
 ``` sh
 cd $HOME/dingdang
 git remote remove origin
-git remote add origin https://github.com/dingdang-robot/dingdang-robot
+git remote add origin https://github.com/dingdang-robot/dingdang-robot.git
 ```
